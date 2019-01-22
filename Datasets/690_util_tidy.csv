@@ -1,0 +1,137 @@
+trade,total_m,total_f,min_goal,min_actual,fem_goal,fem_actual,total_emp_m,total_emp_f,total_min_m,total_min_f,race,race_hours,sex
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Black,0,Male
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Black,0,Male
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Black,0,Male
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Black,0,Male
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Black,0,Male
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Black,392,Male
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Black,724,Male
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Black,0,Male
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Black,18,Male
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Black,10488,Male
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Black,0,Male
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Black,0,Male
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Black,0,Male
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Black,0,Male
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Black,11,Male
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Black,87,Male
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Black,89,Male
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Black,0,Female
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Black,0,Female
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Black,0,Female
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Black,0,Female
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Black,0,Female
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Black,0,Female
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Black,0,Female
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Black,0,Female
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Black,0,Female
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Black,0,Female
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Black,0,Female
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Black,0,Female
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Black,0,Female
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Black,0,Female
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Black,0,Female
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Black,0,Female
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Black,0,Female
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Hispanic,0,Male
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Hispanic,0,Male
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Hispanic,0,Male
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Hispanic,0,Male
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Hispanic,0,Male
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Hispanic,0,Male
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Hispanic,0,Male
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Hispanic,0,Male
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Hispanic,0,Male
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Hispanic,3598,Male
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Hispanic,0,Male
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Hispanic,0,Male
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Hispanic,0,Male
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Hispanic,437,Male
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Hispanic,0,Male
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Hispanic,0,Male
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Hispanic,0,Male
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Hispanic,0,Female
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Hispanic,0,Female
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Hispanic,0,Female
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Hispanic,0,Female
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Hispanic,0,Female
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Hispanic,0,Female
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Hispanic,0,Female
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Hispanic,0,Female
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Hispanic,0,Female
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Hispanic,0,Female
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Hispanic,0,Female
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Hispanic,0,Female
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Hispanic,0,Female
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Hispanic,0,Female
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Hispanic,0,Female
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Hispanic,0,Female
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Hispanic,0,Female
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Asian,0,Male
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Asian,0,Male
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Asian,0,Male
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Asian,0,Male
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Asian,0,Male
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Asian,0,Male
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Asian,0,Male
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Asian,0,Male
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Asian,0,Male
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Asian,0,Male
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Asian,0,Male
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Asian,0,Male
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Asian,0,Male
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Asian,0,Male
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Asian,0,Male
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Asian,0,Male
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Asian,0,Male
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Asian,0,Female
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Asian,0,Female
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Asian,0,Female
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Asian,0,Female
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Asian,0,Female
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Asian,0,Female
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Asian,0,Female
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Asian,0,Female
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Asian,0,Female
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Asian,0,Female
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Asian,0,Female
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Asian,0,Female
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Asian,0,Female
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Asian,0,Female
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Asian,0,Female
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Asian,0,Female
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Asian,0,Female
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Native,10,Male
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Native,27,Male
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Native,0,Male
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Native,0,Male
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Native,0,Male
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Native,678,Male
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Native,0,Male
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Native,0,Male
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Native,0,Male
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Native,32,Male
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Native,0,Male
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Native,0,Male
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Native,0,Male
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Native,0,Male
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Native,2651,Male
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Native,0,Male
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Native,0,Male
+Supervisor,189,0,3.8,5.31,6.9,0,4,0,1,0,Native,0,Female
+Foreman,316,0,3.8,3.8,6.9,0,8,0,2,0,Native,0,Female
+Clerical,0,11,3.8,0,6.9,100,0,1,0,0,Native,0,Female
+Mechanic,61,0,3.8,0,6.9,0,1,0,0,0,Native,0,Female
+Truck Driver,200,0,3.8,0,6.9,0,6,0,0,0,Native,0,Female
+Iron Workers,6110,24,3.8,20.01,6.9,0.39,70,1,14,1,Native,24,Female
+Carpenters,25025,192,3.8,2.87,6.9,0.76,25,1,1,0,Native,0,Female
+Electricians,5479,0,3.8,0,6.9,0,22,0,0,0,Native,0,Female
+Laborers Unskilled,631,0,3.8,2.78,6.9,0,9,0,1,0,Native,0,Female
+Laborers Semiskilled,78764,7361,3.8,18.82,6.9,8.55,109,4,25,1,Native,2087,Female
+Other,27,0,3.8,0,6.9,0,1,0,0,0,Native,0,Female
+Surveyors,2585,0,3.8,0,6.9,0,3,0,0,0,Native,0,Female
+Asbestos Workers,226,0,3.8,0,6.9,0,4,0,0,0,Native,0,Female
+Cement Masons,3778,0,3.8,11.57,6.9,0,23,0,1,0,Native,0,Female
+Equipment Operator,35392,4424,3.8,6.69,6.9,11.11,92,2,4,0,Native,0,Female
+Piledriver,2345,0,3.8,3.69,6.9,0,19,0,1,0,Native,0,Female
+Welders & Citters,242,0,3.8,36.78,6.9,0,4,0,1,0,Native,0,Female
