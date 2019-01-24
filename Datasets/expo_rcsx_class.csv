@@ -1,0 +1,62 @@
+sex,race,title,count,total,percent,name
+Female,Black,Construction Laborers,1,334,0.0029940119760479044,Expo Center
+Female,Hispanic,Drywall and Ceiling Tile Installers,5,334,0.014970059880239521,Expo Center
+Female,White,"Bookkeeping, Accounting, and Auditing Clerks",1,334,0.0029940119760479044,Expo Center
+Female,White,Carpenters,1,334,0.0029940119760479044,Expo Center
+Female,White,Construction Laborers,2,334,0.005988023952095809,Expo Center
+Female,White,Drywall and Ceiling Tile Installers,5,334,0.014970059880239521,Expo Center
+Female,White,Electricians,7,334,0.020958083832335328,Expo Center
+Female,White,Operating Engineers and Other Construction Equipment Operators,3,334,0.008982035928143712,Expo Center
+Female,White,Payroll and Timekeeping Clerks,1,334,0.0029940119760479044,Expo Center
+Female,White,"Plumbers, Pipefitters, and Steamfitters",5,334,0.014970059880239521,Expo Center
+Male,Black,Brickmasons and Blockmasons,4,334,0.011976047904191617,Expo Center
+Male,Black,Carpenters,8,334,0.023952095808383235,Expo Center
+Male,Black,Construction Laborers,13,334,0.038922155688622756,Expo Center
+Male,Black,Drywall and Ceiling Tile Installers,8,334,0.023952095808383235,Expo Center
+Male,Black,Electricians,1,334,0.0029940119760479044,Expo Center
+Male,Black,Helpers--Roofers,1,334,0.0029940119760479044,Expo Center
+Male,Black,Roofers,2,334,0.005988023952095809,Expo Center
+Male,Black,Structural Iron and Steel Workers,8,334,0.023952095808383235,Expo Center
+Male,Hispanic,Carpenters,5,334,0.014970059880239521,Expo Center
+Male,Hispanic,Cement Masons and Concrete Finishers,1,334,0.0029940119760479044,Expo Center
+Male,Hispanic,Construction Laborers,3,334,0.008982035928143712,Expo Center
+Male,Hispanic,Drywall and Ceiling Tile Installers,5,334,0.014970059880239521,Expo Center
+Male,Hispanic,Operating Engineers and Other Construction Equipment Operators,1,334,0.0029940119760479044,Expo Center
+Male,Hispanic,Structural Iron and Steel Workers,2,334,0.005988023952095809,Expo Center
+Male,Native,Carpenters,1,334,0.0029940119760479044,Expo Center
+Male,Native,Drywall and Ceiling Tile Installers,2,334,0.005988023952095809,Expo Center
+Male,Native,Electricians,8,334,0.023952095808383235,Expo Center
+Male,Native,Glaziers,2,334,0.005988023952095809,Expo Center
+Male,Native,"Painters, Construction and Maintenance",2,334,0.005988023952095809,Expo Center
+Male,Native,Pile-Driver Operators,2,334,0.005988023952095809,Expo Center
+Male,Native,"Plumbers, Pipefitters, and Steamfitters",2,334,0.005988023952095809,Expo Center
+Male,Native,Reinforcing Iron and Rebar Workers,4,334,0.011976047904191617,Expo Center
+Male,Native,Sheet Metal Workers,2,334,0.005988023952095809,Expo Center
+Male,Native,Structural Iron and Steel Workers,6,334,0.017964071856287425,Expo Center
+Male,White,Brickmasons and Blockmasons,7,334,0.020958083832335328,Expo Center
+Male,White,Cabinetmakers and Bench Carpenters,2,334,0.005988023952095809,Expo Center
+Male,White,Carpenters,21,334,0.06287425149700598,Expo Center
+Male,White,Cement Masons and Concrete Finishers,7,334,0.020958083832335328,Expo Center
+Male,White,Chief Executives,2,334,0.005988023952095809,Expo Center
+Male,White,"Construction and Related Workers, All Other",6,334,0.017964071856287425,Expo Center
+Male,White,Construction Laborers,29,334,0.08682634730538923,Expo Center
+Male,White,Crane and Tower Operators,4,334,0.011976047904191617,Expo Center
+Male,White,Drywall and Ceiling Tile Installers,9,334,0.02694610778443114,Expo Center
+Male,White,Electricians,11,334,0.03293413173652695,Expo Center
+Male,White,Excavating and Loading Machine and Dragline Operators,2,334,0.005988023952095809,Expo Center
+Male,White,First-Line Supervisors of Construction Trades and Extraction Workers,16,334,0.04790419161676647,Expo Center
+Male,White,"First-Line Supervisors of Helpers, Laborers, and Material Movers, Hand",1,334,0.0029940119760479044,Expo Center
+Male,White,Glaziers,7,334,0.020958083832335328,Expo Center
+Male,White,Helpers--Roofers,1,334,0.0029940119760479044,Expo Center
+Male,White,"Helpers, Construction Trades, All Other",6,334,0.017964071856287425,Expo Center
+Male,White,"Insulation Workers, Mechanical",3,334,0.008982035928143712,Expo Center
+Male,White,"Office and Administrative Support Workers, All Other",1,334,0.0029940119760479044,Expo Center
+Male,White,Operating Engineers and Other Construction Equipment Operators,20,334,0.059880239520958084,Expo Center
+Male,White,"Painters, Construction and Maintenance",8,334,0.023952095808383235,Expo Center
+Male,White,Pile-Driver Operators,2,334,0.005988023952095809,Expo Center
+Male,White,"Plumbers, Pipefitters, and Steamfitters",12,334,0.03592814371257485,Expo Center
+Male,White,Reinforcing Iron and Rebar Workers,8,334,0.023952095808383235,Expo Center
+Male,White,Roofers,4,334,0.011976047904191617,Expo Center
+Male,White,Sheet Metal Workers,4,334,0.011976047904191617,Expo Center
+Male,White,Structural Iron and Steel Workers,14,334,0.041916167664670656,Expo Center
+Male,White,Surveyors,3,334,0.008982035928143712,Expo Center

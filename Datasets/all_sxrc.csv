@@ -1,0 +1,27 @@
+sex,race,count,total,percent,project
+Male,Black,9,122,0.07377049180327869,Hancock
+Male,Hispanic,1,122,0.00819672131147541,Hancock
+Male,Multiracial,3,122,0.02459016393442623,Hancock
+Male,Native,4,122,0.03278688524590164,Hancock
+Male,White,105,122,0.860655737704918,Hancock
+Female,Black,3,380,0.007894736842105263,Lakeview
+Female,Hispanic,1,380,0.002631578947368421,Lakeview
+Female,White,14,380,0.03684210526315789,Lakeview
+Male,Asian,2,380,0.005263157894736842,Lakeview
+Male,Black,14,380,0.03684210526315789,Lakeview
+Male,Hispanic,5,380,0.013157894736842105,Lakeview
+Male,Native,16,380,0.042105263157894736,Lakeview
+Male,White,325,380,0.8552631578947368,Lakeview
+Female,Black,1,0,5.241090146750524e-4,Expo Center
+Female,Hispanic,5,0,0.002620545073375262,Expo Center
+Female,White,46,0,0.02410901467505241,Expo Center
+Male,Black,71,0,0.037211740041928724,Expo Center
+Male,Hispanic,45,0,0.02358490566037736,Expo Center
+Male,Native,63,0,0.0330188679245283,Expo Center
+Male,White,1677,0,0.8789308176100629,Expo Center
+Female,Native,2,400,0.005,I-690
+Female,White,7,400,0.0175,I-690
+Male,Black,21,400,0.0525,I-690
+Male,Hispanic,10,400,0.025,I-690
+Male,Native,19,400,0.0475,I-690
+Male,White,341,400,0.8525,I-690
