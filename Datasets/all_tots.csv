@@ -1,0 +1,1091 @@
+project,name,ssn,sex,race,hours,gross
+I-690,A&K Slipforming,1,Male,Black,17.5,515.75
+I-690,A&K Slipforming,2,Male,White,69.5,2281.74
+I-690,A&K Slipforming,3,Male,White,73,2794.67
+I-690,A&K Slipforming,4,Male,White,72.5,2390.77
+I-690,A&K Slipforming,5,Male,White,76.5,3986.91
+I-690,A&K Slipforming,6,Male,White,73,2794.67
+I-690,A&K Slipforming,7,Male,White,76.5,3490.41
+I-690,A&K Slipforming,8,Male,White,17.5,594.78
+I-690,A&K Slipforming,9,Male,White,73,2794.67
+I-690,A&K Slipforming,10,Male,White,10,529.98
+I-690,A&K Slipforming,11,Male,White,10,353.65
+I-690,A&K Slipforming,12,Male,White,75,2507.59
+I-690,A&K Slipforming,13,Male,White,72.5,2767.63
+I-690,A&K Slipforming,14,Male,White,25,720.64
+I-690,A&K Slipforming,15,Male,White,17.5,915.2
+I-690,BVR Construction,16,Male,Native,77,2751.63
+I-690,BVR Construction,17,Male,Native,25.5,410.63
+I-690,BVR Construction,18,Male,Native,32.5,1033.13
+I-690,BVR Construction,19,Male,Black,80.5,3094.39
+I-690,BVR Construction,20,Male,White,10,362.5
+I-690,BVR Construction,21,Male,White,69.5,2287.38
+I-690,BVR Construction,22,Male,White,143.5,4636.63
+I-690,BVR Construction,23,Male,White,18,594.5
+I-690,BVR Construction,24,Male,White,10,362.5
+I-690,BVR Construction,25,Male,White,9,297.25
+I-690,BVR Construction,26,Male,White,104,2184
+I-690,CFR Paving,27,Male,Native,11,337
+I-690,CFR Paving,28,Male,Native,21,633.56
+I-690,CFR Paving,29,Male,Black,11,476.13
+I-690,CFR Paving,30,Male,Hispanic,47.5,1665.63
+I-690,CFR Paving,31,Male,White,36.3,1054.67
+I-690,CFR Paving,32,Male,White,164,5294
+I-690,CFR Paving,33,Male,White,114.5,5792.21
+I-690,CFR Paving,34,Male,White,97,4640.98
+I-690,CFR Paving,35,Male,White,8.5,246.4
+I-690,CFR Paving,36,Male,White,44,2192
+I-690,CFR Paving,37,Male,White,220,7258.43
+I-690,CFR Paving,38,Male,White,234.5,10888.91
+I-690,CFR Paving,39,Male,White,39.5,986.8
+I-690,CFR Paving,40,Male,White,198.5,9212.65
+I-690,CFR Paving,41,Male,White,141.5,4599.69
+I-690,CFR Paving,42,Male,White,237,11195.01
+I-690,CFR Paving,43,Male,White,212,7088.27
+I-690,CFR Paving,44,Male,White,216,10368.33
+I-690,Concrete Cutting & Breaking,45,Male,White,26.8,726.81
+I-690,Concrete Cutting & Breaking,46,Male,White,38.5,1806.71
+I-690,Concrete Cutting & Breaking,47,Male,White,81.5,2661.75
+I-690,Crane-Hogan,48,Female,Native,2087,66811.03
+I-690,Crane-Hogan,49,Male,Native,24,1005.76
+I-690,Crane-Hogan,50,Male,Native,2627,116222.63
+I-690,Crane-Hogan,51,Male,Black,367.5,10906.76
+I-690,Crane-Hogan,52,Male,Black,723.5,12597.88
+I-690,Crane-Hogan,53,Male,Black,477,14569.04
+I-690,Crane-Hogan,54,Male,Black,940,28840.99
+I-690,Crane-Hogan,55,Male,Black,1639,60017.67
+I-690,Crane-Hogan,56,Male,Black,1211,38045.62
+I-690,Crane-Hogan,57,Male,Black,1424.5,43277.89
+I-690,Crane-Hogan,58,Male,Black,1236.5,38307.06
+I-690,Crane-Hogan,59,Male,Black,18.5,567.01
+I-690,Crane-Hogan,60,Male,Black,235.5,7758.86
+I-690,Crane-Hogan,61,Male,Black,34,941.84
+I-690,Crane-Hogan,62,Male,Black,2673.5,82562.19
+I-690,Crane-Hogan,63,Male,Hispanic,437,13679.93
+I-690,Crane-Hogan,64,Male,Hispanic,1061,32253.55
+I-690,Crane-Hogan,65,Male,Hispanic,1532,48911.53
+I-690,Crane-Hogan,66,Male,Hispanic,225.5,6512.28
+I-690,Crane-Hogan,67,Male,Hispanic,271,8055.98
+I-690,Crane-Hogan,68,Male,Hispanic,28,861.41
+I-690,Crane-Hogan,69,Male,White,181.5,8548.52
+I-690,Crane-Hogan,70,Female,White,1341,41117.51
+I-690,Crane-Hogan,71,Male,White,551,23756.58
+I-690,Crane-Hogan,72,Male,White,59,1887.27
+I-690,Crane-Hogan,73,Male,White,3876,137590.63
+I-690,Crane-Hogan,74,Male,White,80.5,2720.31
+I-690,Crane-Hogan,75,Male,White,99.5,3286.8
+I-690,Crane-Hogan,76,Female,White,2186.5,99452.73
+I-690,Crane-Hogan,77,Male,White,2758.5,84169.66
+I-690,Crane-Hogan,78,Male,White,2626,80785.16
+I-690,Crane-Hogan,79,Male,White,1098,17876.13
+I-690,Crane-Hogan,80,Male,White,1651,45293.2
+I-690,Crane-Hogan,81,Male,White,1926.5,69053.06
+I-690,Crane-Hogan,82,Male,White,2210.5,100514.35
+I-690,Crane-Hogan,83,Female,White,191.5,4251.89
+I-690,Crane-Hogan,84,Male,White,178,5550.96
+I-690,Crane-Hogan,85,Male,White,2,56.68
+I-690,Crane-Hogan,86,Male,White,105.5,3362.31
+I-690,Crane-Hogan,87,Male,White,265,8771.34
+I-690,Crane-Hogan,88,Male,White,3361,114124.93
+I-690,Crane-Hogan,89,Male,White,359.5,11789.82
+I-690,Crane-Hogan,90,Male,White,924,29584.33
+I-690,Crane-Hogan,91,Male,White,2034,65057.55
+I-690,Crane-Hogan,92,Male,White,8,246.16
+I-690,Crane-Hogan,93,Male,White,1589.5,70737.4
+I-690,Crane-Hogan,94,Male,White,1522,48948.94
+I-690,Crane-Hogan,95,Male,White,17.5,570.35
+I-690,Crane-Hogan,96,Male,White,214.5,9140.84
+I-690,Crane-Hogan,97,Male,White,131.5,4287.03
+I-690,Crane-Hogan,98,Female,White,1706,53571.86
+I-690,Crane-Hogan,99,Male,White,3061.5,140147.65
+I-690,Crane-Hogan,100,Male,White,992,29006.85
+I-690,Crane-Hogan,101,Male,White,2691.5,87243.7
+I-690,Crane-Hogan,102,Male,White,10,343.49
+I-690,Crane-Hogan,103,Male,White,211,6895.35
+I-690,Crane-Hogan,104,Male,White,1028,31271.11
+I-690,Crane-Hogan,105,Male,White,104,3330.24
+I-690,Crane-Hogan,106,Male,White,2034,64169.13
+I-690,Crane-Hogan,107,Male,White,2765,97654.57
+I-690,Crane-Hogan,108,Female,White,2226.5,57700.22
+I-690,Crane-Hogan,109,Male,White,2443.5,85398.4
+I-690,Crane-Hogan,110,Male,White,1426.5,62459.24
+I-690,Crane-Hogan,111,Male,White,1765.5,52630.07
+I-690,Crane-Hogan,112,Male,White,1602.5,49871.09
+I-690,Crane-Hogan,113,Male,White,61.5,2007.9
+I-690,Crane-Hogan,114,Male,White,18,592.97
+I-690,Crane-Hogan,115,Male,White,2574.5,82880.88
+I-690,Crane-Hogan,116,Male,White,1070,34765.01
+I-690,Crane-Hogan,117,Male,White,1544.5,47593.39
+I-690,Crane-Hogan,118,Male,White,457,14776.36
+I-690,Crane-Hogan,119,Male,White,153.5,6629.37
+I-690,Crane-Hogan,120,Male,White,3062,103026.25
+I-690,Crane-Hogan,121,Male,White,1215.5,55408.37
+I-690,Crane-Hogan,122,Male,White,2041.5,66272.36
+I-690,Crane-Hogan,123,Male,White,209,9517.78
+I-690,Crane-Hogan,124,Male,White,8,246.16
+I-690,Crane-Hogan,125,Male,White,485,15716.88
+I-690,Crane-Hogan,126,Male,White,1438.5,43561
+I-690,Crane-Hogan,127,Male,White,86,3694.62
+I-690,Crane-Hogan,128,Male,White,1398,44937.21
+I-690,Crane-Hogan,129,Male,White,1741.5,80206.66
+I-690,Crane-Hogan,130,Male,White,372,12004.88
+I-690,Crane-Hogan,131,Male,White,8,246.16
+I-690,Crane-Hogan,132,Male,White,1611.5,52081.55
+I-690,Crane-Hogan,133,Male,White,142,4721.04
+I-690,Crane-Hogan,134,Male,White,241.5,11368.77
+I-690,Crane-Hogan,135,Male,White,190.5,5695.3
+I-690,Crane-Hogan,136,Male,White,3031,92273.01
+I-690,Crane-Hogan,137,Male,White,1293.5,58825.16
+I-690,Crane-Hogan,138,Male,White,235,7861.86
+I-690,Crane-Hogan,139,Male,White,1908.5,85658.85
+I-690,Crane-Hogan,140,Male,White,612,18345.81
+I-690,Crane-Hogan,141,Male,White,3303,108787.82
+I-690,Crane-Hogan,142,Male,White,98,3252.8
+I-690,Crane-Hogan,143,Male,White,290.5,12908.99
+I-690,Crane-Hogan,144,Male,White,1346,43310.35
+I-690,Crane-Hogan,145,Male,White,979,43877.38
+I-690,Crane-Hogan,146,Male,White,61,1816.78
+I-690,Crane-Hogan,147,Male,White,292.5,13419.7
+I-690,Crane-Hogan,148,Male,White,735,23374.38
+I-690,Crane-Hogan,149,Male,White,2701,83443.01
+I-690,Crane-Hogan,150,Male,White,2861,90142.68
+I-690,Crane-Hogan,151,Male,White,49,1526.31
+I-690,Crane-Hogan,152,Male,White,809,25062.22
+I-690,Crane-Hogan,153,Male,White,1566,68763.81
+I-690,Crane-Hogan,154,Male,White,1512.5,47413.99
+I-690,Crane-Hogan,155,Male,White,108.5,5141.36
+I-690,Crane-Hogan,156,Male,White,522,16775.49
+I-690,Crane-Hogan,157,Male,White,160,2881.11
+I-690,Crane-Hogan,158,Male,White,1238.5,36408.62
+I-690,Crane-Hogan,159,Male,White,143,4681.41
+I-690,Crane-Hogan,160,Male,White,750.5,25663.48
+I-690,Crane-Hogan,161,Male,White,243.5,11368.19
+I-690,Crane-Hogan,162,Male,White,9.5,320.24
+I-690,Crane-Hogan,163,Male,White,1072,32949.11
+I-690,Crane-Hogan,164,Male,White,856.5,38412.3
+I-690,Crane-Hogan,165,Male,White,1555.5,50414.47
+I-690,Crane-Hogan,166,Male,White,612.5,28123.18
+I-690,Crane-Hogan,167,Male,White,2216.5,103758.89
+I-690,Crane-Hogan,168,Male,White,369,12407.67
+I-690,Crane-Hogan,169,Male,White,1585.5,57783.93
+I-690,Crane-Hogan,170,Male,White,2656.5,125679.2
+I-690,Crane-Hogan,171,Male,White,178.5,5643.45
+I-690,Crane-Hogan,172,Male,White,110,5165
+I-690,Crane-Hogan,173,Male,White,3119,100839.39
+I-690,Crane-Hogan,174,Female,White,2237.5,96932.31
+I-690,Crane-Hogan,175,Male,White,144,4917.29
+I-690,Crane-Hogan,176,Male,White,1504,49626.64
+I-690,Crane-Hogan,177,Male,White,333.5,10114.43
+I-690,Crane-Hogan,178,Male,White,791.5,26010.54
+I-690,Crane-Hogan,179,Male,White,1778.5,80222.43
+I-690,Dardrill,180,Male,White,26.5,1233.21
+I-690,Dardrill,181,Male,White,26.5,1501.83
+I-690,Dardrill,182,Male,White,26.5,926.57
+I-690,DGI-Menard,183,Male,White,248.5,10400.66
+I-690,DGI-Menard,184,Male,White,264.5,12333.28
+I-690,DGI-Menard,185,Male,White,17,261.45
+I-690,DGI-Menard,186,Male,White,208.5,8381.49
+I-690,DGI-Menard,187,Male,White,86,3751.72
+I-690,DGI-Menard,188,Male,White,52.5,2234.85
+I-690,DGI-Menard,189,Male,White,302,10955.7
+I-690,DGI-Menard,190,Male,White,422.5,17065.08
+I-690,DGI-Menard,191,Male,White,227.5,8118.08
+I-690,DGI-Menard,192,Male,White,419,15040.51
+I-690,DGI-Menard,193,Male,White,61,3094.68
+I-690,DGI-Menard,194,Male,White,738.5,30388.33
+I-690,DGI-Menard,195,Male,White,358.5,12879.15
+I-690,DGI-Menard,196,Male,White,665,29847
+I-690,DGI-Menard,197,Male,White,314,14011.92
+I-690,DGI-Menard,198,Male,White,252,10332.48
+I-690,DGI-Menard,199,Male,White,249.5,10457.35
+I-690,Donegal Construction,200,Male,White,27,1120.16
+I-690,Donegal Construction,201,Male,White,16,638.16
+I-690,Donegal Construction,202,Male,White,8,293.12
+I-690,Donegal Construction,203,Male,White,9,370.22
+I-690,Donegal Construction,204,Male,White,17.5,711.32
+I-690,Donegal Construction,205,Male,White,9.5,399.44
+I-690,Donegal Construction,206,Male,White,17,609.18
+I-690,Eastwood Industries,207,Male,White,56.5,1658.04
+I-690,Eastwood Industries,208,Male,White,56.5,2419.21
+I-690,Eastwood Industries,209,Male,White,58,1698.48
+I-690,Eastwood Industries,210,Male,White,56.5,1998.75
+I-690,Elderlee,211,Male,Native,17,589.75
+I-690,Elderlee,212,Male,Native,4,174
+I-690,Elderlee,213,Male,Native,8,232
+I-690,Elderlee,214,Male,Native,9.5,480.23
+I-690,Elderlee,215,Male,Black,6,248.94
+I-690,Elderlee,216,Male,Hispanic,20,696.5
+I-690,Elderlee,217,Male,White,9,388.26
+I-690,Elderlee,218,Male,White,15,519.11
+I-690,Elderlee,219,Male,White,21,876.2
+I-690,Elderlee,220,Male,White,5.5,329.34
+I-690,Elderlee,221,Male,White,8,269.6
+I-690,Elderlee,222,Male,White,8,319.36
+I-690,Elderlee,223,Male,White,19.5,661.68
+I-690,Elderlee,224,Male,White,7.5,379.13
+I-690,Elderlee,225,Male,White,8.5,369.75
+I-690,Elderlee,226,Male,White,20,490.98
+I-690,Elderlee,227,Male,White,19,842.72
+I-690,Elderlee,228,Male,White,15.5,538.56
+I-690,Elderlee,229,Male,White,7,290.43
+I-690,Elderlee,230,Male,White,3,84.18
+I-690,Elderlee,231,Male,White,8.5,352.67
+I-690,Elderlee,232,Male,White,21,964.68
+I-690,Elderlee,233,Male,White,15,727.12
+I-690,Elderlee,234,Male,White,7.5,315.68
+I-690,Elderlee,235,Male,White,6.5,182.39
+I-690,Elderlee,236,Male,White,6,248.94
+I-690,Elderlee,237,Male,White,7.5,315.68
+I-690,Elderlee,238,Male,White,6.5,186.94
+I-690,Hayward Baker,239,Male,White,34.5,1456.44
+I-690,Hayward Baker,240,Male,White,34.5,1586.82
+I-690,Hayward Baker,241,Male,White,60,2418.24
+I-690,Hayward Baker,242,Male,White,58,2407.2
+I-690,Hayward Baker,243,Male,White,42,1575.52
+I-690,Hayward Baker,244,Male,White,3,173.4
+I-690,Hayward Baker,245,Male,White,42,1575.52
+I-690,Herbert Darling,246,Male,Black,89,2845.95
+I-690,Herbert Darling,247,Male,Black,86.5,1367.01
+I-690,Herbert Darling,248,Male,White,116.5,4855.99
+I-690,Herbert Darling,249,Male,White,36,1268.82
+I-690,Herbert Darling,250,Male,White,240.5,10475.4
+I-690,Herbert Darling,251,Male,White,90,3646.27
+I-690,Herbert Darling,252,Male,White,36,1664.4
+I-690,Herbert Darling,253,Male,White,114,4262.97
+I-690,Herbert Darling,254,Male,White,229,8104.87
+I-690,Herbert Darling,255,Male,White,91,3879
+I-690,Herbert Darling,256,Male,White,16,567.04
+I-690,Herbert Darling,257,Male,White,36,1503.28
+I-690,Herbert Darling,258,Male,White,71,2537.64
+I-690,Herbert Darling,259,Male,White,81,2761.71
+I-690,Herbert Darling,260,Male,White,155,6566.96
+I-690,Herbert Darling,261,Male,White,210,9762.9
+I-690,Herbert Darling,262,Male,White,90,2757.3
+I-690,Joseph Lane Construction,263,Male,White,167,7105.76
+I-690,Joseph Lane Construction,264,Male,White,169,7323.6
+I-690,Joseph Lane Construction,265,Female,White,11,297
+I-690,Joseph Lane Construction,266,Male,White,56,3164
+I-690,Joseph Lane Construction,267,Male,White,168,4959.08
+I-690,Joseph Lane Construction,268,Male,White,168.5,4979.98
+I-690,Joseph Lane Construction,269,Male,White,24.5,1154.01
+I-690,Joseph Lane Construction,270,Male,White,89,4104.77
+I-690,Joseph Lane Construction,271,Male,White,12,499
+I-690,Joseph Lane Construction,272,Male,Black,151.5,4429.74
+I-690,Joseph Lane Construction,273,Male,Hispanic,199.5,9147.07
+I-690,Kocher-O'Brien Construction,274,Male,Native,10,600
+I-690,Kocher-O'Brien Construction,275,Male,White,8,480
+I-690,Kocher-O'Brien Construction,276,Male,White,16,471.84
+I-690,Kocher-O'Brien Construction,277,Male,White,8,232.8
+I-690,Kocher-O'Brien Construction,278,Male,White,16,471.84
+I-690,LM Sessler Excavating,279,Male,Black,73.5,2615.33
+I-690,LM Sessler Excavating,280,Male,Hispanic,213.5,6654.6
+I-690,LM Sessler Excavating,281,Male,White,55.5,1826.45
+I-690,LM Sessler Excavating,282,Male,White,131.5,4300.9
+I-690,LM Sessler Excavating,283,Male,White,42,1917.6
+I-690,LM Sessler Excavating,284,Male,White,140.5,6313.8
+I-690,LM Sessler Excavating,285,Male,White,427,19151.78
+I-690,LM Sessler Excavating,286,Male,White,180.5,8411.06
+I-690,LM Sessler Excavating,287,Male,White,22,689.76
+I-690,LM Sessler Excavating,288,Male,White,193,8384.4
+I-690,LM Sessler Excavating,289,Male,White,18,801.42
+I-690,LM Sessler Excavating,290,Male,White,78.5,3417
+I-690,LM Sessler Excavating,291,Male,White,4.5,165.26
+I-690,LM Sessler Excavating,292,Male,White,139.5,6415.8
+I-690,LM Sessler Excavating,293,Male,White,140.5,6133.2
+I-690,LM Sessler Excavating,294,Male,White,148,4481.23
+I-690,LM Sessler Excavating,295,Male,White,237,7074.94
+I-690,LM Sessler Excavating,296,Male,White,10.3,237.03
+I-690,LM Sessler Excavating,297,Male,White,32,1305.6
+I-690,LM Sessler Excavating,298,Male,White,251.5,7396.47
+I-690,LM Sessler Excavating,299,Male,White,94.5,2796.78
+I-690,LM Sessler Excavating,300,Male,White,74,3148.17
+I-690,LM Sessler Excavating,301,Male,White,151,6774.4
+I-690,LM Sessler Excavating,302,Male,White,210.5,6653.15
+I-690,LM Sessler Excavating,303,Male,White,46,1446.46
+I-690,LM Sessler Excavating,304,Male,White,153.5,5072.93
+I-690,LM Sessler Excavating,305,Male,White,72,3277.23
+I-690,LM Sessler Excavating,306,Male,White,66,2636.05
+I-690,LM Sessler Excavating,307,Male,White,486.5,22033.48
+I-690,Longhouse Construction,308,Male,Native,54,1728
+I-690,Longhouse Construction,309,Male,Native,40,600
+I-690,Longhouse Construction,310,Male,Native,48,1408
+I-690,Longhouse Construction,311,Female,Native,24,696
+I-690,Longhouse Construction,312,Male,Native,44,714
+I-690,Longhouse Construction,313,Male,Native,23,398.5
+I-690,Longhouse Construction,314,Male,Native,200,5945
+I-690,Longhouse Construction,315,Male,Native,254,7929.5
+I-690,Longhouse Construction,316,Male,Black,311,9150.5
+I-690,Longhouse Construction,317,Male,White,24,696
+I-690,Longhouse Construction,318,Male,White,24,696
+I-690,Longhouse Construction,319,Male,White,18,725
+I-690,Longhouse Construction,320,Male,White,38,1121
+I-690,Longhouse Construction,321,Male,White,130,3037
+I-690,Longhouse Construction,322,Male,White,192.5,3445
+I-690,Longhouse Construction,323,Male,White,110,3206
+I-690,Longhouse Construction,324,Male,White,28,736
+I-690,Longhouse Construction,325,Male,White,198,7057
+I-690,Longhouse Construction,326,Male,White,185.5,6109
+I-690,Longhouse Construction,327,Male,White,165,5830
+I-690,Longhouse Construction,328,Male,White,8,244
+I-690,Longhouse Construction,329,Male,White,102,2495.5
+I-690,Longhouse Construction,330,Male,White,464,15478
+I-690,Longhouse Construction,331,Male,White,69.5,1233.5
+I-690,Longhouse Construction,332,Male,White,403,12519
+I-690,Longhouse Construction,333,Male,White,37,1184
+I-690,Longhouse Construction,334,Male,White,8,232
+I-690,Longhouse Construction,335,Male,White,72,2096
+I-690,Longhouse Construction,336,Male,White,906,30267
+I-690,Longhouse Construction,337,Male,White,34,1239
+I-690,Longhouse Construction,338,Male,White,8,120
+I-690,Longhouse Construction,339,Male,White,251.5,9425
+I-690,Longhouse Construction,340,Male,White,13,377
+I-690,Longhouse Construction,341,Male,White,72,2352
+I-690,Longhouse Construction,342,Male,White,61,1879.75
+I-690,Longhouse Construction,343,Male,White,116,3724
+I-690,Longhouse Construction,344,Male,White,8,348
+I-690,Longhouse Construction,345,Male,White,11,231
+I-690,Longhouse Construction,346,Male,White,45,2023
+I-690,Longhouse Construction,347,Male,White,58.5,961.5
+I-690,Longhouse Construction,348,Male,White,91,2639
+I-690,Longhouse Construction,349,Male,White,41,1782
+I-690,Longhouse Construction,350,Male,White,61,1841.5
+I-690,Longhouse Construction,351,Male,White,77,2864.25
+I-690,Longhouse Construction,352,Male,White,78,2293
+I-690,Longhouse Construction,353,Male,White,13,391.5
+I-690,Longhouse Construction,354,Male,White,32,938
+I-690,Longhouse Construction,355,Male,White,40,1360
+I-690,Longhouse Construction,356,Male,White,32,1024
+I-690,Longhouse Construction,357,Male,White,16,464
+I-690,Longhouse Construction,358,Male,White,32,544
+I-690,Longhouse Construction,359,Male,White,8,180
+I-690,Longhouse Construction,360,Male,White,93,2121
+I-690,Longhouse Construction,361,Male,White,32,736
+I-690,Longhouse Construction,362,Male,White,27,783
+I-690,O'Connell Electric,363,Male,White,123,5576.8
+I-690,O'Connell Electric,364,Male,White,10,611.6
+I-690,O'Connell Electric,365,Male,White,33,1217.7
+I-690,O'Connell Electric,366,Male,White,1064,52792.84
+I-690,O'Connell Electric,367,Male,White,8,315.36
+I-690,O'Connell Electric,368,Male,White,8,197.2
+I-690,O'Connell Electric,369,Male,White,2,86.02
+I-690,O'Connell Electric,370,Male,White,41,1272.39
+I-690,O'Connell Electric,371,Male,White,1270,56934.64
+I-690,O'Connell Electric,372,Male,White,5,91.25
+I-690,O'Connell Electric,373,Male,White,18,811.8
+I-690,O'Connell Electric,374,Male,White,8,525.6
+I-690,O'Connell Electric,375,Male,White,160,4449.06
+I-690,O'Connell Electric,376,Male,White,174,4554.98
+I-690,O'Connell Electric,377,Male,White,2142,104763.07
+I-690,O'Connell Electric,378,Male,White,5,50
+I-690,O'Connell Electric,379,Male,White,27,690.93
+I-690,O'Connell Electric,380,Male,White,265,11443.52
+I-690,O'Connell Electric,381,Male,White,8,88
+I-690,O'Connell Electric,382,Male,White,18,974.16
+I-690,O'Connell Electric,383,Male,White,65,2355.1
+I-690,O'Connell Electric,384,Male,White,10,541.2
+I-690,O'Connell Electric,385,Male,White,42,2206.84
+I-690,Ravi Engineering,386,Male,White,581.5,33070.92
+I-690,Ravi Engineering,387,Male,White,14,790.58
+I-690,Ravi Engineering,388,Male,White,1989,73694.36
+I-690,Sessler Environmental,389,Male,White,54,1563.84
+I-690,Sessler Environmental,390,Male,White,27,865.94
+I-690,Sessler Environmental,391,Male,White,26.5,820.79
+I-690,Sessler Environmental,392,Male,White,21,660.66
+I-690,Sessler Environmental,393,Male,White,48,1390.08
+I-690,Sessler Environmental,394,Male,White,62,1795.52
+I-690,Sessler Environmental,395,Male,White,25,776.36
+I-690,Sessler Environmental,396,Male,White,62,1795.52
+I-690,Sessler Environmental,397,Male,White,5,140
+I-690,Sessler Environmental,398,Male,White,16,503.36
+I-690,Syrstone,399,Male,White,16,692.32
+I-690,Syrstone,400,Male,White,17,520.63
+Hancock,Danforth,0060,NA,NA,24,449.04
+Hancock,Danforth,1160,NA,NA,32,1088.32
+Hancock,Danforth,1671,NA,NA,40,1098.4
+Hancock,Danforth,1841,NA,NA,40,1098.4
+Hancock,Danforth,2202,NA,NA,7,182
+Hancock,Danforth,3090,NA,NA,165.5,2819.41
+Hancock,Danforth,3431,NA,NA,363,14343.7
+Hancock,Danforth,3666,NA,NA,225.5,6219.71
+Hancock,Danforth,401,NA,NA,364.5,13765.09
+Hancock,Danforth,402,NA,NA,96,2993.28
+Hancock,Danforth,4277,NA,NA,110.5,1934.8600000000001
+Hancock,Danforth,4382,NA,NA,168,5713.68
+Hancock,Danforth,4725,NA,NA,197,4690.57
+Hancock,Danforth,5589,NA,NA,15.5,503.13
+Hancock,Danforth,6000,NA,NA,3,82.38
+Hancock,Danforth,6357,NA,NA,379,10995.68
+Hancock,Danforth,6589,NA,NA,44,1734.44
+Hancock,Danforth,7343,NA,NA,189,5258.62
+Hancock,Danforth,7509,NA,NA,88,3393.08
+Hancock,Danforth,9052,NA,NA,40,1360.4
+Hancock,Danforth,9466,NA,NA,190,2869
+Hancock,Danforth,9922,NA,NA,275,6045.92
+Hancock,Environmental,0249,NA,NA,49,2205.07
+Hancock,Environmental,0285,NA,NA,8,1154.39
+Hancock,Environmental,0298,NA,NA,31,1511.72
+Hancock,Environmental,0878,NA,NA,104,3717.51
+Hancock,Environmental,0900,NA,NA,157,4882.45
+Hancock,Environmental,1001,NA,NA,122.3,3806.81
+Hancock,Environmental,1479,NA,NA,120,3957.8100000000004
+Hancock,Environmental,1712,NA,NA,138.5,4323.96
+Hancock,Environmental,3169,NA,NA,112,3901.26
+Hancock,Environmental,3333,NA,NA,127.5,4290.95
+Hancock,Environmental,3846,NA,NA,149.5,7726.87
+Hancock,Environmental,4136,NA,NA,103,4523.9400000000005
+Hancock,Environmental,4151,NA,NA,9.3,1284.57
+Hancock,Environmental,4956,NA,NA,184,5710.97
+Hancock,Environmental,5384,NA,NA,352.5,15712.83
+Hancock,Environmental,5589,NA,NA,178.5,8637.59
+Hancock,Environmental,5625,NA,NA,108,3135.4
+Hancock,Environmental,5774,NA,NA,154,4770.01
+Hancock,Environmental,6019,NA,NA,133,4943.42
+Hancock,Environmental,6626,NA,NA,27.5,733.85
+Hancock,Environmental,6669,NA,NA,107.5,5424.01
+Hancock,Environmental,6916,NA,NA,127.5,4381.860000000001
+Hancock,Environmental,7070,NA,NA,28.5,773.03
+Hancock,Environmental,7495,NA,NA,85.5,3465.65
+Hancock,Environmental,7603,NA,NA,67.5,4921.68
+Hancock,Environmental,9016,NA,NA,116,4000.21
+Hancock,Environmental,9034,NA,NA,97,4482.2
+Hancock,Environmental,9368,NA,NA,8,226.16
+Hancock,Environmental,9545,NA,NA,182.5,8708.16
+Hancock,Environmental,9577,NA,NA,184.5,10016.130000000001
+Hancock,Environmental,9782,NA,NA,145,4392.7
+Hancock,Environmental,9884,NA,NA,9,1442.08
+Hancock,Longhouse,1960,Male,White,4.5,144
+Hancock,Longhouse,2336,Male,White,120,2040
+Hancock,Longhouse,3328,Male,Black,59,1711
+Hancock,Longhouse,3451,Male,White,112,3584
+Hancock,Longhouse,4117,Male,White,27,864
+Hancock,Longhouse,4397,Male,White,8,256
+Hancock,Longhouse,5982,Male,White,136,4624
+Hancock,M&S Fire Protection,403,NA,NA,287.5,10496.62
+Hancock,Niagara Erecting,0388,NA,NA,16,464
+Hancock,Niagara Erecting,2029,NA,NA,33,1583.51
+Hancock,Niagara Erecting,2345,NA,NA,4,146.56
+Hancock,Niagara Erecting,2576,NA,NA,135,4828.5
+Hancock,Niagara Erecting,4123,NA,NA,112,3480
+Hancock,Niagara Erecting,5395,NA,NA,152,6887.4
+Hancock,Niagara Erecting,8090,NA,NA,128,3944
+Hancock,Niagara Erecting,8248,NA,NA,136,4336
+Hancock,Patricia Electric,0030,Male,White,364,14766.17
+Hancock,Patricia Electric,0315,Male,White,151,5971.89
+Hancock,Patricia Electric,2381,Male,White,3,154.4
+Hancock,Patricia Electric,2532,Male,White,7.5,318.45
+Hancock,Patricia Electric,2572,Male,White,322.5,6376.9800000000005
+Hancock,Patricia Electric,3050,Male,White,331.5,7860.83
+Hancock,Patricia Electric,3972,Male,White,460.5,20223
+Hancock,Patricia Electric,7636,Male,White,393,15223.7
+Hancock,Patricia Electric,9037,Male,White,232,8904.53
+Hancock,Quality Structures,0079,Male,White,242.5,9421.83
+Hancock,Quality Structures,0095,Male,White,334.5,8342.95
+Hancock,Quality Structures,0497,Male,White,680,27697.11
+Hancock,Quality Structures,0966,Male,White,52,1397.5500000000002
+Hancock,Quality Structures,1017,Male,White,150,3993
+Hancock,Quality Structures,1390,Male,Black,395,11130.83
+Hancock,Quality Structures,1468,Male,White,452,11761.2
+Hancock,Quality Structures,1700,Male,White,346.5,9548.11
+Hancock,Quality Structures,1793,Male,White,372,10222.4
+Hancock,Quality Structures,1806,Male,Black,266,6763.91
+Hancock,Quality Structures,1817,Male,White,121,3133.9
+Hancock,Quality Structures,1829,Male,Black,498.5,13812.15
+Hancock,Quality Structures,2002,Male,White,533.5,15524.300000000001
+Hancock,Quality Structures,2078,Male,White,407,6446.3
+Hancock,Quality Structures,2085,Male,White,423.5,12034.05
+Hancock,Quality Structures,2133,Male,White,581,17284.39
+Hancock,Quality Structures,2237,Male,Black,59,1610.5100000000002
+Hancock,Quality Structures,2495,Male,White,452.5,14322.11
+Hancock,Quality Structures,3082,Male,White,666,30956.64
+Hancock,Quality Structures,3131,Male,White,494,18786.48
+Hancock,Quality Structures,3423,Male,White,117.5,3332.95
+Hancock,Quality Structures,3555,Male,White,483,15728.94
+Hancock,Quality Structures,3712,Male,White,512,16487.8
+Hancock,Quality Structures,3877,Male,White,376,9994.6
+Hancock,Quality Structures,3906,Male,White,42,1113.28
+Hancock,Quality Structures,4000,Male,Multiracial,334.5,8518.4
+Hancock,Quality Structures,4034,Male,White,298.5,7780
+Hancock,Quality Structures,4074,Male,White,381,15528.06
+Hancock,Quality Structures,4128,Male,White,435.5,15570.11
+Hancock,Quality Structures,4341,Male,White,350,9941.93
+Hancock,Quality Structures,4373,Male,White,55,1449.8400000000001
+Hancock,Quality Structures,4674,Male,White,161,4802.6
+Hancock,Quality Structures,4707,Male,White,426,11470.8
+Hancock,Quality Structures,4859,Male,Black,149.5,3989.98
+Hancock,Quality Structures,4944,Male,White,76,2325.3999999999996
+Hancock,Quality Structures,5113,Male,White,323.5,9243.84
+Hancock,Quality Structures,5362,Male,White,762,32491.82
+Hancock,Quality Structures,5496,Male,White,75,2234.64
+Hancock,Quality Structures,5681,Male,White,58,1473.78
+Hancock,Quality Structures,5782,Male,Native,347,8651.5
+Hancock,Quality Structures,6019,Male,White,49,1317.69
+Hancock,Quality Structures,6155,Male,White,143.5,2041.91
+Hancock,Quality Structures,6195,Male,White,209,5970.39
+Hancock,Quality Structures,6286,Male,White,362,9977.74
+Hancock,Quality Structures,6366,Male,Multiracial,44.5,641.88
+Hancock,Quality Structures,6977,Male,White,278,7477.8
+Hancock,Quality Structures,7025,Male,Multiracial,111,1736.8600000000001
+Hancock,Quality Structures,7338,Male,White,457,16758.53
+Hancock,Quality Structures,7718,Male,White,222,7875.5
+Hancock,Quality Structures,7738,Male,White,256,6437.2
+Hancock,Quality Structures,7881,Male,White,240,6495.3
+Hancock,Quality Structures,7981,Male,White,396.5,15795.150000000001
+Hancock,Quality Structures,8015,Male,White,454,12063.7
+Hancock,Quality Structures,8018,Male,White,169,2874.02
+Hancock,Quality Structures,8025,Male,White,10,405.24
+Hancock,Quality Structures,8035,Male,White,475,16432.72
+Hancock,Quality Structures,8107,Male,White,282,11309.880000000001
+Hancock,Quality Structures,8186,Male,White,63,1655.28
+Hancock,Quality Structures,8243,Male,White,373,10458.46
+Hancock,Quality Structures,8396,Male,White,287,5311.63
+Hancock,Quality Structures,8607,Male,White,536,16346.63
+Hancock,Quality Structures,8714,Male,Black,231.5,6262.37
+Hancock,Quality Structures,8773,Male,White,296,6765.47
+Hancock,Quality Structures,8778,Male,White,316.5,7737.95
+Hancock,Quality Structures,8996,Male,White,186,5133.15
+Hancock,Quality Structures,9145,Male,White,56,1628.48
+Hancock,Quality Structures,9167,Male,White,151,6261.9
+Hancock,Quality Structures,9585,Male,White,372.5,10174.72
+Hancock,Quality Structures,9751,Male,White,338.5,9163.64
+Hancock,Quality Structures,9784,Male,White,357,12484.74
+Hancock,Quality Structures,9976,Male,White,432,17895.03
+Hancock,Schalk and Son,1021,Male,White,8,329.4
+Hancock,Schalk and Son,1170,Male,White,46,1345.05
+Hancock,Schalk and Son,1178,Male,White,47,1386.23
+Hancock,Schalk and Son,1626,Male,White,103,2200.7
+Hancock,Schalk and Son,1790,Male,Black,48.5,724.26
+Hancock,Schalk and Son,2063,Male,White,54,1735.45
+Hancock,Schalk and Son,2770,Male,White,178.5,5592.9400000000005
+Hancock,Schalk and Son,2813,Male,White,14,576.45
+Hancock,Schalk and Son,2863,Male,White,162,5590.43
+Hancock,Schalk and Son,3060,Male,White,71.5,1950.99
+Hancock,Schalk and Son,3302,Male,White,520,16550.82
+Hancock,Schalk and Son,4159,Male,White,53,1633.28
+Hancock,Schalk and Son,5846,Male,White,64.5,1887.19
+Hancock,Schalk and Son,6213,Male,White,8,230.64
+Hancock,Schalk and Son,6590,Male,White,95,2813.65
+Hancock,Schalk and Son,7072,Male,White,222.5,5812.54
+Hancock,Schalk and Son,7209,Male,White,27,782.33
+Hancock,Schalk and Son,7211,Male,White,31.5,580.57
+Hancock,Schalk and Son,7393,Male,White,365,11336.86
+Hancock,Schalk and Son,7702,Male,Black,234,5054.87
+Hancock,Schalk and Son,8205,Male,White,8,329.4
+Hancock,Schalk and Son,8611,Male,White,17,631.36
+Hancock,Schalk and Son,9487,Male,White,522,16017.119999999999
+Hancock,Stone Bridge,0452,Male,White,40,1160
+Hancock,Stone Bridge,0740,Male,Native,40,1160
+Hancock,Stone Bridge,2210,Male,White,44,1276
+Hancock,Stone Bridge,2989,Male,White,12,348
+Hancock,Stone Bridge,4582,Male,White,40,1160
+Hancock,Stone Bridge,5456,Male,White,104,3016
+Hancock,Stone Bridge,6056,Male,White,132,3988
+Hancock,Stone Bridge,6942,Male,Hispanic,80,2320
+Hancock,Stone Bridge,7019,Male,White,80,2404
+Hancock,Stone Bridge,7020,Male,White,80,2320
+Hancock,Stone Bridge,7646,Male,White,8,232
+Hancock,Stone Bridge,7832,Male,Native,76,1254
+Hancock,Stone Bridge,9027,Male,Native,176,5031.6
+Lakeview,Ajay Glass,0879,NA,NA,68,2009
+Lakeview,Ajay Glass,2807,NA,NA,32,918.4
+Lakeview,Ajay Glass,2838,NA,NA,118.5,3508.59
+Lakeview,Ajay Glass,3395,NA,NA,8,344.4
+Lakeview,Ajay Glass,3888,NA,NA,152,2900.75
+Lakeview,Ajay Glass,5632,NA,NA,88,1496
+Lakeview,Ajay Glass,6684,NA,NA,14,707.7
+Lakeview,Ajay Glass,7762,NA,NA,179,6217.65
+Lakeview,Ajay Glass,7891,NA,NA,101.5,2605.62
+Lakeview,Ajay Glass,9759,NA,NA,26,876.2
+Lakeview,Allied Electric,0542,NA,NA,174,6335.5
+Lakeview,Allied Electric,6470,NA,NA,33,1155
+Lakeview,Allied Electric,8642,NA,NA,42,1470
+Lakeview,Allied Electric,9260,NA,NA,81.5,1509.38
+Lakeview,Allied Electric,9485,NA,NA,164.5,5976.25
+Lakeview,AM Electric,1501,NA,NA,20,700
+Lakeview,AM Electric,2121,NA,NA,48,1680
+Lakeview,AM Electric,4905,NA,NA,72,2520
+Lakeview,AM Electric,5094,NA,NA,80,2800
+Lakeview,AM Electric,7127,NA,NA,138.1,4833.5
+Lakeview,AM Electric,7519,Male,White,221.5,3488.63
+Lakeview,AM Electric,9486,Male,White,307,12221.65
+Lakeview,Atlas Fence,0127,Male,White,254.5,8765.36
+Lakeview,Atlas Fence,0368,Male,White,105,3372.26
+Lakeview,Atlas Fence,0675,Male,Black,58.8,1658.94
+Lakeview,Atlas Fence,0895,Male,White,271.8,6813.7300000000005
+Lakeview,Atlas Fence,3829,NA,NA,62,2329.54
+Lakeview,Atlas Fence,4068,Male,White,104,1740
+Lakeview,Atlas Fence,4747,Male,White,8.3,394.93
+Lakeview,Atlas Fence,4804,Male,White,271,8150.8099999999995
+Lakeview,Atlas Fence,4935,Male,White,271.8,8165.32
+Lakeview,Atlas Fence,8186,Male,White,88.8,2365.08
+Lakeview,Benedict Floor,1061,NA,NA,67.5,NA
+Lakeview,Benedict Floor,1348,NA,NA,78.5,1890.88
+Lakeview,Benedict Floor,1392,NA,NA,77.5,1856.6000000000001
+Lakeview,Benedict Floor,1436,NA,NA,70.5,2013.77
+Lakeview,Benedict Floor,1961,NA,NA,70.5,2013.77
+Lakeview,Benedict Floor,2759,NA,NA,77.5,1856.6000000000001
+Lakeview,Benedict Floor,3263,NA,NA,66.5,1628.11
+Lakeview,Benedict Floor,4146,NA,NA,96,2264.62
+Lakeview,Benedict Floor,5974,NA,NA,64.5,1852.13
+Lakeview,Benedict Floor,6022,NA,NA,44.5,NA
+Lakeview,Benedict Floor,7110,NA,NA,62.5,1717.43
+Lakeview,Benedict Floor,7376,NA,NA,68.5,1906.01
+Lakeview,Benedict Floor,8208,NA,NA,73,1828.06
+Lakeview,Benedict Floor,9591,NA,NA,54.5,NA
+Lakeview,Benedict Floor,9830,NA,NA,67.5,1852.13
+Lakeview,BH Piping,2445,NA,NA,421,14847.36
+Lakeview,BH Piping,7870,NA,NA,467,16442.8
+Lakeview,Burn Bros,0012,Male,White,31,1139.6
+Lakeview,Burn Bros,0385,Male,Black,514.5,9429.62
+Lakeview,Burn Bros,0534,Male,White,192,6251.52
+Lakeview,Burn Bros,0840,Male,White,189,6349.200000000001
+Lakeview,Burn Bros,0848,Male,White,8,138.24
+Lakeview,Burn Bros,1160,Male,White,459.5,15655.640000000001
+Lakeview,Burn Bros,1771,Male,White,24,781.44
+Lakeview,Burn Bros,2605,Male,Hispanic,493.5,17637.4
+Lakeview,Burn Bros,2664,Male,White,87,2832.7200000000003
+Lakeview,Burn Bros,2959,Male,White,3,110.88
+Lakeview,Burn Bros,3094,Male,White,8,130.24
+Lakeview,Burn Bros,3560,Male,White,142,2311.76
+Lakeview,Burn Bros,3899,Male,White,59,1921.04
+Lakeview,Burn Bros,4340,Male,White,141,4590.96
+Lakeview,Burn Bros,4645,Male,White,152,4903.110000000001
+Lakeview,Burn Bros,5146,Male,White,64,2214.08
+Lakeview,Burn Bros,5186,Male,White,32,1041.92
+Lakeview,Burn Bros,5540,Male,White,102,3321.12
+Lakeview,Burn Bros,5633,Male,White,563.5,14719.57
+Lakeview,Burn Bros,5648,Male,White,3,107.58
+Lakeview,Burn Bros,5744,Male,White,312,7110.4800000000005
+Lakeview,Burn Bros,6361,Male,White,4,110.72
+Lakeview,Burn Bros,6395,Male,White,376,12372.800000000001
+Lakeview,Burn Bros,6835,Male,White,843,31936.170000000002
+Lakeview,Burn Bros,7069,Male,White,298.5,9719.16
+Lakeview,Burn Bros,7516,Male,White,64,1771.52
+Lakeview,Burn Bros,8014,Male,White,213,3814.83
+Lakeview,Burn Bros,8391,Male,White,38.5,625.6400000000001
+Lakeview,Burn Bros,8487,Male,White,24,807.84
+Lakeview,Burn Bros,9353,Male,White,310.5,10240.12
+Lakeview,Burn Bros,9887,Female,Black,329,5356.12
+Lakeview,CNY Sheet Metal,1141,NA,NA,125.3,3639.77
+Lakeview,CNY Sheet Metal,1950,NA,NA,118,3193.08
+Lakeview,CNY Sheet Metal,4064,NA,NA,18.5,521.9
+Lakeview,CNY Sheet Metal,5094,NA,NA,166.3,2699.9
+Lakeview,CNY Sheet Metal,5472,NA,NA,113,3057.7799999999997
+Lakeview,CNY Sheet Metal,5724,NA,NA,110,3103.1
+Lakeview,CNY Sheet Metal,6250,NA,NA,142,3423.4
+Lakeview,CNY Sheet Metal,6816,NA,NA,102,2877.42
+Lakeview,CNY Sheet Metal,7055,NA,NA,138,4010.28
+Lakeview,CVP,1879,NA,NA,16,459.2
+Lakeview,CVP,1990,NA,NA,19,545.3
+Lakeview,CVP,6746,NA,NA,16,459.2
+Lakeview,CVP,7515,NA,NA,20,634
+Lakeview,Davis Ulmer,0016,Male,White,83,1670.81
+Lakeview,Davis Ulmer,2081,Male,White,91,3721.85
+Lakeview,Davis Ulmer,2286,Male,White,64,2517.92
+Lakeview,Davis Ulmer,2486,Male,White,36,1329.72
+Lakeview,Davis Ulmer,3499,Male,White,61,1776.06
+Lakeview,Davis Ulmer,5141,Female,White,16,380
+Lakeview,Davis Ulmer,5444,Male,Black,329,6393.5
+Lakeview,Davis Ulmer,6189,Male,White,417.7,13807.4
+Lakeview,Davis Ulmer,6302,Male,White,61,1052.7
+Lakeview,Davis Ulmer,7877,Male,White,2,50.66
+Lakeview,Davis Ulmer,8181,Male,White,71,2485.31
+Lakeview,Davis Ulmer,9738,male,White,40,760
+Lakeview,Davis Ulmer,9738,Male,White,18,646
+Lakeview,EJ Construction,0359,Male,White,355.5,13245.98
+Lakeview,EJ Construction,0368,Male,White,8,229.6
+Lakeview,EJ Construction,0862,Male,White,231,6959.75
+Lakeview,EJ Construction,1786,Male,Native,54,1933.7
+Lakeview,EJ Construction,1788,Male,Native,486,17450.85
+Lakeview,EJ Construction,1803,Male,White,108.5,1904
+Lakeview,EJ Construction,1833,Male,White,13,612.9
+Lakeview,EJ Construction,1960,Male,White,12,344.4
+Lakeview,EJ Construction,2210,Male,White,16,459.2
+Lakeview,EJ Construction,2568,Male,White,31.5,1091.67
+Lakeview,EJ Construction,2851,Male,White,64,1140
+Lakeview,EJ Construction,2861,Male,White,342,5775
+Lakeview,EJ Construction,2953,Female,White,495.5,15254.89
+Lakeview,EJ Construction,2988,Male,White,159,5747.18
+Lakeview,EJ Construction,3451,Male,White,391,12650.75
+Lakeview,EJ Construction,3512,Male,White,137.5,3171
+Lakeview,EJ Construction,3861,Male,White,65,1368.9499999999998
+Lakeview,EJ Construction,3978,Female,White,351.5,8179.5
+Lakeview,EJ Construction,4068,Male,White,132,2070
+Lakeview,EJ Construction,4117,Male,White,201,4425.75
+Lakeview,EJ Construction,4123,Male,White,157.5,5071.3099999999995
+Lakeview,EJ Construction,4232,Male,White,94.5,3510.7799999999997
+Lakeview,EJ Construction,4377,Male,White,102,3491.85
+Lakeview,EJ Construction,4397,Male,White,214.5,7208.4800000000005
+Lakeview,EJ Construction,4935,Male,White,19,545.3
+Lakeview,EJ Construction,5075,Male,White,45,1730.82
+Lakeview,EJ Construction,5387,Male,Asian,235,7505.0599999999995
+Lakeview,EJ Construction,5387,Male,White,194,5963.860000000001
+Lakeview,EJ Construction,5403,Male,White,68,2339.46
+Lakeview,EJ Construction,5962,Male,White,11,396.25
+Lakeview,EJ Construction,5982,Male,White,185.5,5984.7
+Lakeview,EJ Construction,6061,Male,White,290.5,11664.26
+Lakeview,EJ Construction,6536,Male,White,17,552.48
+Lakeview,EJ Construction,6540,Male,White,8,136
+Lakeview,EJ Construction,6568,Male,White,18,516.6
+Lakeview,EJ Construction,6569,Male,White,101.5,3185.7
+Lakeview,EJ Construction,6625,Male,White,42,1288.63
+Lakeview,EJ Construction,6962,Male,White,78,1170
+Lakeview,EJ Construction,7102,Male,White,29,1578.5
+Lakeview,EJ Construction,7730,Male,White,452,18400.29
+Lakeview,EJ Construction,7798,Male,Native,474,9231
+Lakeview,EJ Construction,7888,Male,White,299,9938.28
+Lakeview,EJ Construction,7892,Male,White,515,17181.9
+Lakeview,EJ Construction,9147,Male,White,115.5,2469.25
+Lakeview,EJ Construction,9233,Male,White,24,1262.8
+Lakeview,EJ Construction,9540,Male,White,226,8079.58
+Lakeview,EJ Construction,9937,Male,White,87,2399.7
+Lakeview,EJ Construction,9974,Male,White,177,5604.4
+Lakeview,Eugene Sackett,0284,Male,White,92,3068.8500000000004
+Lakeview,Eugene Sackett,1024,Male,White,95,1471.4
+Lakeview,Eugene Sackett,1111,Male,White,139,4461.0599999999995
+Lakeview,Eugene Sackett,1215,Male,White,16,479.04
+Lakeview,Eugene Sackett,3419,Male,White,59,1811.37
+Lakeview,Eugene Sackett,3765,Male,White,74,2499.99
+Lakeview,Eugene Sackett,4862,Male,Asian,178,4551.89
+Lakeview,Eugene Sackett,4931,Male,White,159,3352.27
+Lakeview,Eugene Sackett,5889,Male,White,101,3034.73
+Lakeview,Eugene Sackett,6091,Male,White,27,973.05
+Lakeview,Eugene Sackett,6095,Male,White,90,2964.06
+Lakeview,Eugene Sackett,7455,Male,White,114,3535.02
+Lakeview,Eugene Sackett,9383,Male,Hispanic,27,836.23
+Lakeview,Evan Corporation,1074,NA,White,34,1530
+Lakeview,Evan Corporation,2988,NA,White,32,918.4
+Lakeview,Evan Corporation,5395,NA,White,34,975.8
+Lakeview,Evan Corporation,6942,NA,Hispanic,32,918.4
+Lakeview,Herbert Darling,0681,Male,White,176,5743.21
+Lakeview,Herbert Darling,0818,Male,White,32,1066
+Lakeview,Herbert Darling,1243,Male,White,208.5,6670.57
+Lakeview,Herbert Darling,1450,Female,Hispanic,475,14650.84
+Lakeview,Herbert Darling,2450,Male,White,449,14031.18
+Lakeview,Herbert Darling,3701,Male,White,589.5,21805.96
+Lakeview,Herbert Darling,3984,Male,White,530,NA
+Lakeview,Herbert Darling,4210,Male,White,54.5,2033.43
+Lakeview,Herbert Darling,4550,Male,White,296.5,9294.2
+Lakeview,Herbert Darling,4840,Male,White,488,22033.65
+Lakeview,Herbert Darling,7504,Male,White,468.5,18385.399999999998
+Lakeview,Herbert Darling,8006,Male,White,572,25612.08
+Lakeview,Herbert Darling,8621,Male,White,473.5,19747.16
+Lakeview,Herbert Darling,8637,Male,White,573,18004.68
+Lakeview,Herbert Darling,8896,Male,Hispanic,616.5,23917.22
+Lakeview,Herbert Darling,9497,Male,Native,616,23122.54
+Lakeview,Herbert Darling,9540,Male,White,539,17271.09
+Lakeview,Herbert Darling,9590,Female,White,176.5,5563.1900000000005
+Lakeview,Herbert Darling,9686,Male,White,343,13646.47
+Lakeview,Herbert Darling,9804,Male,White,65.5,3152.21
+Lakeview,John Lowery,0206,Male,White,274,8701.42
+Lakeview,John Lowery,0261,Male,White,636.5,20271.44
+Lakeview,John Lowery,0376,Male,White,24,655.68
+Lakeview,John Lowery,0421,Male,White,220,6273.81
+Lakeview,John Lowery,0549,Male,White,18,846.92
+Lakeview,John Lowery,0588,Male,White,254.5,7608.62
+Lakeview,John Lowery,0674,Male,White,252.5,7526.660000000001
+Lakeview,John Lowery,0702,Male,White,144,6303.96
+Lakeview,John Lowery,0989,Male,White,24,592.8
+Lakeview,John Lowery,1012,Male,White,208,6051.5
+Lakeview,John Lowery,1245,Male,White,173,5108.84
+Lakeview,John Lowery,1357,Male,White,99,4071.4
+Lakeview,John Lowery,1360,Male,White,452,13605.36
+Lakeview,John Lowery,1420,Male,Black,516.5,12841.71
+Lakeview,John Lowery,1437,Male,White,282,8387.24
+Lakeview,John Lowery,1657,Male,White,26,1065.48
+Lakeview,John Lowery,1687,Male,White,50,1502.6
+Lakeview,John Lowery,1730,Male,White,435.5,16752.88
+Lakeview,John Lowery,1829,Female,Black,551,14909.64
+Lakeview,John Lowery,1859,Male,White,32,1439.2
+Lakeview,John Lowery,1895,Male,White,40,988
+Lakeview,John Lowery,2051,Male,White,408.5,12389.62
+Lakeview,John Lowery,2284,Male,White,17,871.45
+Lakeview,John Lowery,2444,Male,White,67,2950.56
+Lakeview,John Lowery,2523,Male,White,174.5,6112.85
+Lakeview,John Lowery,2568,Male,Native,195.5,7734.7300000000005
+Lakeview,John Lowery,2940,Male,White,104.5,2950.56
+Lakeview,John Lowery,2957,Male,White,295,9739.58
+Lakeview,John Lowery,2990,Male,White,294,9985.46
+Lakeview,John Lowery,3011,Female,White,631,19690.89
+Lakeview,John Lowery,3041,Male,White,344,11146.56
+Lakeview,John Lowery,3547,Male,White,89,3786.2999999999997
+Lakeview,John Lowery,3956,Male,White,506,16241.74
+Lakeview,John Lowery,4051,Male,White,45,1338.68
+Lakeview,John Lowery,4102,Male,White,228,7485.68
+Lakeview,John Lowery,4250,Male,White,24,1092.8
+Lakeview,John Lowery,4252,Male,White,52,1494.35
+Lakeview,John Lowery,4262,Male,White,408,11751.029999999999
+Lakeview,John Lowery,4330,Male,White,473,14274.7
+Lakeview,John Lowery,4529,Male,White,510,8951.27
+Lakeview,John Lowery,4539,Male,White,501,16856.44
+Lakeview,John Lowery,4733,Male,White,200,3605.8
+Lakeview,John Lowery,4829,Male,White,32,1439.2
+Lakeview,John Lowery,4944,Male,White,124,3756.5
+Lakeview,John Lowery,5208,Male,White,20,271.7
+Lakeview,John Lowery,5369,Male,White,483,15531.42
+Lakeview,John Lowery,5641,Female,White,42,1482
+Lakeview,John Lowery,6195,Male,White,422,12881.38
+Lakeview,John Lowery,6207,Male,White,18,931.55
+Lakeview,John Lowery,6346,Male,White,515,16706.18
+Lakeview,John Lowery,6359,Male,White,243,6882.0599999999995
+Lakeview,John Lowery,6373,Male,White,426,12471.58
+Lakeview,John Lowery,6420,Male,White,67,1852.5
+Lakeview,John Lowery,6586,Male,White,605.5,19301.58
+Lakeview,John Lowery,6612,Male,White,528.5,16248.33
+Lakeview,John Lowery,6664,Male,White,721.5,25239.6
+Lakeview,John Lowery,6692,Male,White,273,8605.8
+Lakeview,John Lowery,7163,Male,White,215,7062.219999999999
+Lakeview,John Lowery,7174,Male,White,25,1120.12
+Lakeview,John Lowery,7468,Male,White,547,17054.51
+Lakeview,John Lowery,7522,Male,White,32,983.52
+Lakeview,John Lowery,7795,Male,White,630,21564.92
+Lakeview,John Lowery,8009,Male,Native,48.5,1802.51
+Lakeview,John Lowery,8104,Male,White,249,6483.69
+Lakeview,John Lowery,8809,Male,White,533,16111.97
+Lakeview,John Lowery,9018,Male,White,260,9179.52
+Lakeview,John Lowery,9185,Male,White,57,1611.6799999999998
+Lakeview,John Lowery,9187,Male,White,109,3251.08
+Lakeview,John Lowery,9323,Male,White,609.5,19178.64
+Lakeview,John Lowery,9475,Male,White,226,4870.14
+Lakeview,John Lowery,9589,Male,Black,24,655.68
+Lakeview,John Lowery,9665,Male,White,26,1174.4
+Lakeview,John Lowery,9833,Male,White,32,874.24
+Lakeview,John Lowery,9919,Male,White,24,1092.8
+Lakeview,KC Masonry,0609,NA,NA,24,763.04
+Lakeview,KC Masonry,0904,NA,NA,136,4278.56
+Lakeview,KC Masonry,1695,NA,NA,21.5,496.99
+Lakeview,KC Masonry,3057,NA,NA,97,3067.3500000000004
+Lakeview,KC Masonry,3858,NA,NA,8.5,437.5
+Lakeview,KC Masonry,4843,NA,NA,64,2013.44
+Lakeview,KC Masonry,5404,NA,NA,125.5,4114.31
+Lakeview,KC Masonry,7718,NA,NA,152.5,4941.52
+Lakeview,KC Masonry,8015,NA,NA,78.5,1793.73
+Lakeview,KC Masonry,8070,NA,NA,41,936.85
+Lakeview,KC Masonry,9460,NA,NA,144,3290.4
+Lakeview,KSP Painting,0196,NA,NA,177.5,4117
+Lakeview,KSP Painting,0864,NA,NA,392,8935.5
+Lakeview,KSP Painting,1135,NA,NA,16,368
+Lakeview,KSP Painting,3496,NA,NA,172,4370
+Lakeview,KSP Painting,3692,NA,NA,140,2392
+Lakeview,KSP Painting,4321,NA,NA,420,9070.5
+Lakeview,KSP Painting,5365,NA,NA,208,4140
+Lakeview,KSP Painting,6720,NA,NA,24,552
+Lakeview,KSP Painting,7274,NA,NA,258,6302
+Lakeview,KSP Painting,8933,NA,NA,234.5,5807.5
+Lakeview,KSP Painting,9123,NA,NA,8,184
+Lakeview,Maxim Construction,0287,NA,NA,208,3142.91
+Lakeview,Maxim Construction,1663,NA,NA,8,283.92
+Lakeview,Maxim Construction,1917,NA,NA,207,5631.09
+Lakeview,Maxim Construction,2189,NA,NA,1053.5,38755.979999999996
+Lakeview,Maxim Construction,4423,NA,NA,199,4063.58
+Lakeview,Maxim Construction,4527,NA,NA,123,3510.62
+Lakeview,Maxim Construction,5532,NA,NA,199,5503.29
+Lakeview,Maxim Construction,5924,NA,NA,24,972.92
+Lakeview,Maxim Construction,6233,NA,NA,132,3652.6
+Lakeview,Maxim Construction,6579,NA,NA,607,16080.82
+Lakeview,Maxim Construction,8152,NA,NA,779,28272.31
+Lakeview,Maxim Construction,9497,NA,NA,208,7945.63
+Lakeview,Maxim Construction,9590,NA,NA,162,4917.6
+Lakeview,Maxim Construction,9766,NA,NA,211,4220
+Lakeview,Murnane Construction,0065,Male,White,189,4375.78
+Lakeview,Murnane Construction,0566,Male,White,287,8242.22
+Lakeview,Murnane Construction,1011,Male,White,255,7280.78
+Lakeview,Murnane Construction,1901,Male,Black,40.5,931.14
+Lakeview,Murnane Construction,1901,Male,White,265,6340.9000000000005
+Lakeview,Murnane Construction,2295,Male,White,8,218.56
+Lakeview,Murnane Construction,2327,Male,White,378.5,9042.93
+Lakeview,Murnane Construction,2728,Male,White,282.5,7386.76
+Lakeview,Murnane Construction,3512,Male,White,364,10272.32
+Lakeview,Murnane Construction,3602,Male,White,39.5,1401.86
+Lakeview,Murnane Construction,4527,Female,White,116.5,3244.25
+Lakeview,Murnane Construction,4527,Male,White,159.5,4678.55
+Lakeview,Murnane Construction,5305,Male,White,244.5,7249.08
+Lakeview,Murnane Construction,6383,Male,White,98.5,3795.44
+Lakeview,Murnane Construction,7010,Male,White,396,14999.68
+Lakeview,Murnane Construction,7312,Male,White,32,1019.52
+Lakeview,Murnane Construction,7992,Male,White,238,6915.96
+Lakeview,Murnane Construction,8006,Male,Native,124,4248.92
+Lakeview,Murnane Construction,8006,Male,White,170.5,6097.12
+Lakeview,Murnane Construction,8015,Male,White,248,5849.63
+Lakeview,Murnane Construction,8588,Male,White,235,6597.78
+Lakeview,Murnane Construction,8724,Male,White,392.5,11561.08
+Lakeview,Murnane Construction,9590,Female,White,40,1092.8
+Lakeview,Murnane Construction,9590,Male,White,241,6925.62
+Lakeview,Northeast,0065,Male,White,279,8559.03
+Lakeview,Northeast,0133,Male,White,1471,53180.03
+Lakeview,Northeast,0343,Male,White,892.5,24710.96
+Lakeview,Northeast,0366,Male,White,256.5,8576.92
+Lakeview,Northeast,0373,Male,White,145,4811.63
+Lakeview,Northeast,0675,Male,White,30.5,821.81
+Lakeview,Northeast,1600,Female,White,1198,40549.88
+Lakeview,Northeast,1733,Male,White,1194.5,47191.56
+Lakeview,Northeast,2317,Male,White,512.5,19271.98
+Lakeview,Northeast,2769,Male,White,200,8925
+Lakeview,Northeast,2802,Male,White,224,7949.76
+Lakeview,Northeast,3719,Male,White,29,962.33
+Lakeview,Northeast,3829,Male,White,160,5521.56
+Lakeview,Northeast,4022,Female,White,1157,40945.74
+Lakeview,Northeast,40222,Female,White,60.5,2394.89
+Lakeview,Northeast,4453,Male,White,1236,44048.78
+Lakeview,Northeast,5270,Male,Black,1245.5,32338.760000000002
+Lakeview,Northeast,5332,Male,Black,51,1223.53
+Lakeview,Northeast,5377,Male,White,526.5,11663.68
+Lakeview,Northeast,5932,Male,Black,389.5,9627.41
+Lakeview,Northeast,6512,Male,Black,644,15778.52
+Lakeview,Northeast,6852,Male,Black,524,14013.43
+Lakeview,Northeast,7335,Male,White,1158,42890
+Lakeview,Northeast,7604,Male,White,1403.5,53018.22
+Lakeview,Northeast,8006,Male,Native,260.5,8882.42
+Lakeview,Northeast,8107,Male,White,184,7041.78
+Lakeview,Northeast,8186,Male,White,30.5,821.81
+Lakeview,Northeast,8195,Female,White,32.5,1191.8
+Lakeview,Northeast,8776,Male,White,143,4719.98
+Lakeview,Northeast,9295,Male,White,196.5,7650.42
+Lakeview,O'Connell Electric,0057,Male,White,219,8643.25
+Lakeview,O'Connell Electric,0068,Male,White,326.5,11970
+Lakeview,O'Connell Electric,0081,Male,White,332.5,6897.64
+Lakeview,O'Connell Electric,0319,Male,White,567.5,24211.29
+Lakeview,O'Connell Electric,0496,Male,White,342.5,13991.25
+Lakeview,O'Connell Electric,0498,Male,White,52,2310
+Lakeview,O'Connell Electric,0833,Male,White,733,22052.95
+Lakeview,O'Connell Electric,0908,Male,White,905.5,38654.26
+Lakeview,O'Connell Electric,0916,Male,White,79,3097.5
+Lakeview,O'Connell Electric,1004,Male,White,98,3990
+Lakeview,O'Connell Electric,1024,Female,White,606.5,23940.45
+Lakeview,O'Connell Electric,1124,Male,Black,40,840
+Lakeview,O'Connell Electric,1140,Male,White,96,3885
+Lakeview,O'Connell Electric,1446,Male,White,971.5,45660.88
+Lakeview,O'Connell Electric,1493,Male,White,745,19576.190000000002
+Lakeview,O'Connell Electric,1517,Male,White,319,11777.5
+Lakeview,O'Connell Electric,1564,Male,White,746,30183.6
+Lakeview,O'Connell Electric,1618,Male,White,16,280
+Lakeview,O'Connell Electric,1723,Male,White,212.5,8372.880000000001
+Lakeview,O'Connell Electric,1763,Male,White,416,16317
+Lakeview,O'Connell Electric,1897,Male,White,10,385
+Lakeview,O'Connell Electric,2593,Male,White,195,7948.82
+Lakeview,O'Connell Electric,2610,Male,White,53,2394
+Lakeview,O'Connell Electric,2657,Male,White,249,9938.25
+Lakeview,O'Connell Electric,2674,Male,White,122,5005
+Lakeview,O'Connell Electric,2675,Male,White,229,3668
+Lakeview,O'Connell Electric,2761,Male,White,288,11094.9
+Lakeview,O'Connell Electric,2802,Male,White,129,5372.5
+Lakeview,O'Connell Electric,2945,Male,White,607,24937.5
+Lakeview,O'Connell Electric,3155,Male,White,389.5,15085
+Lakeview,O'Connell Electric,3206,Male,White,8,187.2
+Lakeview,O'Connell Electric,3275,Male,Native,638,23769.12
+Lakeview,O'Connell Electric,3275,Male,White,24,831.6
+Lakeview,O'Connell Electric,3329,Male,White,568,18200
+Lakeview,O'Connell Electric,3465,Male,White,726.5,26954.48
+Lakeview,O'Connell Electric,3504,Male,White,316.5,6057.53
+Lakeview,O'Connell Electric,3625,Male,Hispanic,370.5,14411.25
+Lakeview,O'Connell Electric,3888,Male,White,543.5,20802.25
+Lakeview,O'Connell Electric,3951,Male,White,32,1120
+Lakeview,O'Connell Electric,3968,Male,White,332,13510
+Lakeview,O'Connell Electric,4022,Male,White,320,13230
+Lakeview,O'Connell Electric,4073,Male,White,116,4690
+Lakeview,O'Connell Electric,4089,Male,White,2,30
+Lakeview,O'Connell Electric,4184,Female,Black,34,1295
+Lakeview,O'Connell Electric,4213,Male,White,707.5,29190
+Lakeview,O'Connell Electric,4272,Male,White,549.5,13783.36
+Lakeview,O'Connell Electric,4448,Female,White,26,375.70000000000005
+Lakeview,O'Connell Electric,4458,Male,White,276.5,10573.36
+Lakeview,O'Connell Electric,4703,Male,White,639,20465.06
+Lakeview,O'Connell Electric,4749,Male,Black,171,6840.75
+Lakeview,O'Connell Electric,4871,Male,White,59.5,1071.88
+Lakeview,O'Connell Electric,4978,Male,White,301,12092.5
+Lakeview,O'Connell Electric,5241,Male,White,1,21.75
+Lakeview,O'Connell Electric,5276,Male,White,314,12852.880000000001
+Lakeview,O'Connell Electric,6014,Male,White,18,798
+Lakeview,O'Connell Electric,6199,Male,White,118,4795
+Lakeview,O'Connell Electric,6255,Male,White,162.5,6081.25
+Lakeview,O'Connell Electric,6504,Male,White,30,519.75
+Lakeview,O'Connell Electric,6731,Male,White,105,2682.75
+Lakeview,O'Connell Electric,6769,Male,White,8,277.2
+Lakeview,O'Connell Electric,6859,Male,White,628,23933.1
+Lakeview,O'Connell Electric,7407,Male,White,110.5,4057.9
+Lakeview,O'Connell Electric,7423,Male,White,276,10920
+Lakeview,O'Connell Electric,7519,Male,White,48,NA
+Lakeview,O'Connell Electric,7688,Male,White,471,18847.5
+Lakeview,O'Connell Electric,7862,Male,White,16.5,351.75
+Lakeview,O'Connell Electric,8302,Male,White,141,5593.35
+Lakeview,O'Connell Electric,8841,Male,White,448.5,17701.25
+Lakeview,O'Connell Electric,9064,Male,White,55.5,2603.65
+Lakeview,O'Connell Electric,9139,Male,White,550,10666.27
+Lakeview,O'Connell Electric,9188,Male,White,182,6930
+Lakeview,O'Connell Electric,9198,Male,White,24,848.4000000000001
+Lakeview,O'Connell Electric,9207,Male,White,535,14164.51
+Lakeview,O'Connell Electric,9227,Male,White,396,6440
+Lakeview,O'Connell Electric,9397,Male,White,88,3220
+Lakeview,O'Connell Electric,9454,Male,White,151.5,5643.75
+Lakeview,O'Connell Electric,9486,Male,White,72.5,NA
+Lakeview,O'Connell Electric,9544,Male,White,334.5,13711.25
+Lakeview,O'Connell Electric,9665,Male,White,220,8758.75
+Lakeview,O'Connell Electric,9702,Male,White,88,3605
+Lakeview,O'Connell Electric,9793,Male,White,232,10015.2
+Lakeview,O'Connell Electric,9915,Male,White,8,420
+Lakeview,Postler & Jaeckle,0828,Male,White,420,10139
+Lakeview,Postler & Jaeckle,1624,Male,White,2,46
+Lakeview,Postler & Jaeckle,2276,Male,White,1,35.86
+Lakeview,Postler & Jaeckle,2844,Male,White,14,547.06
+Lakeview,Postler & Jaeckle,3467,Male,White,40,1377.2
+Lakeview,Postler & Jaeckle,4444,Male,White,324.5,11785.89
+Lakeview,Postler & Jaeckle,5472,Male,White,14,322.66
+Lakeview,Postler & Jaeckle,9661,Male,White,458,18313.68
+Lakeview,Postler & Jaeckle,9988,Male,White,95,3393.41
+Lakeview,Rommel Fence,0048,Male,White,40,1222
+Lakeview,Rommel Fence,0862,Male,White,24,672
+Lakeview,Rommel Fence,1700,Male,White,39.5,952.01
+Lakeview,Rommel Fence,5292,Male,White,31,695.95
+Lakeview,Rommel Fence,8454,Male,White,57.5,1381.97
+Lakeview,Seneca Steel,0059,Male,White,586.7,19628.9
+Lakeview,Seneca Steel,0085,Male,Native,470,15411.9
+Lakeview,Seneca Steel,0233,Male,White,325,7343.5
+Lakeview,Seneca Steel,0368,Male,White,266,8638.7
+Lakeview,Seneca Steel,0530,Male,Native,216,7031.5
+Lakeview,Seneca Steel,0665,Male,White,82,2697.8
+Lakeview,Seneca Steel,1879,Male,White,383,13259.4
+Lakeview,Seneca Steel,1990,Male,Native,312,10843.4
+Lakeview,Seneca Steel,4106,Female,White,574,9750
+Lakeview,Seneca Steel,4540,Male,White,290,9242.4
+Lakeview,Seneca Steel,5356,Male,White,375,13962.550000000001
+Lakeview,Seneca Steel,5456,Male,White,182.7,5065.55
+Lakeview,Seneca Steel,5632,Male,Black,478.5,10445.25
+Lakeview,Seneca Steel,5720,Male,Native,472,15612.8
+Lakeview,Seneca Steel,5836,Male,White,311,10260.25
+Lakeview,Seneca Steel,6536,Male,White,341,11996.6
+Lakeview,Seneca Steel,6705,Male,White,220,7031.5
+Lakeview,Seneca Steel,6942,Male,Hispanic,497.2,15031.63
+Lakeview,Seneca Steel,7102,Male,White,210,6816.25
+Lakeview,Seneca Steel,7437,Male,White,49,425.7
+Lakeview,Seneca Steel,7646,Male,White,592.7,19549
+Lakeview,Seneca Steel,8510,Male,Native,611.5,22627.64
+Lakeview,Seneca Steel,9147,Male,White,560.5,11928
+Lakeview,Seneca Steel,9377,Male,Native,378.5,12864.78
+Lakeview,Seneca Steel,9650,Male,Native,448,14823.3
+Lakeview,Seneca Steel,9802,Male,White,59,1879.85
+Lakeview,Syracuse Scenery,0879,NA,NA,125.5,3601.45
+Lakeview,Syracuse Scenery,2988,NA,NA,48,1377.2
+Lakeview,Syracuse Scenery,5966,NA,NA,129.5,6332.63
+Lakeview,Syracuse Scenery,6045,NA,NA,15.5,2081.3500000000004
+Lakeview,Syracuse Scenery,6125,NA,NA,80,2296
+Lakeview,Syracuse Scenery,6942,NA,NA,132,3788.4
+Lakeview,Syracuse Scenery,9243,NA,NA,148.5,4449.95
+Lakeview,Syracuse Scenery,9742,NA,NA,128,2176
+Lakeview,Tradesmen International,5778,NA,NA,NA,NA
+Lakeview,Tradesmen International,7169,NA,NA,NA,NA
+Lakeview,Tradesmen International,7574,NA,NA,NA,NA
+Lakeview,Tradesmen International,8238,NA,NA,NA,NA
+Lakeview,Tradesmen International,8442,NA,NA,NA,NA
+Lakeview,Watson Farms,0200,NA,NA,6,270.66
+Lakeview,Watson Farms,0361,NA,NA,469.4,13116.14
+Lakeview,Watson Farms,1337,NA,NA,430.2,12601.77
+Lakeview,Watson Farms,1404,NA,NA,301.3,7998.06
+Lakeview,Watson Farms,1753,NA,NA,16,721.76
+Lakeview,Watson Farms,1772,NA,NA,408.1,11343.84
+Lakeview,Watson Farms,2023,NA,NA,167,4523.55
+Lakeview,Watson Farms,3592,NA,NA,2.8,124.05
+Lakeview,Watson Farms,4753,NA,NA,420.4,20410.72
+Lakeview,Watson Farms,5373,NA,NA,432.8,16312.32
+Lakeview,Watson Farms,5569,NA,NA,239.8,6584.13
+Lakeview,Watson Farms,5863,NA,NA,280.6,12822.14
+Lakeview,Watson Farms,6163,NA,NA,434,16540.62
+Lakeview,Watson Farms,8780,NA,NA,36,959.76
