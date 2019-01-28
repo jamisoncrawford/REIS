@@ -1,54 +1,59 @@
 race,title,count,total,percent,name
-Black,Brickmasons and Blockmasons,4,334,0.011976047904191617,Expo Center
-Black,Carpenters,8,334,0.023952095808383235,Expo Center
-Black,Construction Laborers,14,334,0.041916167664670656,Expo Center
-Black,Drywall and Ceiling Tile Installers,8,334,0.023952095808383235,Expo Center
-Black,Electricians,1,334,0.0029940119760479044,Expo Center
-Black,Helpers--Roofers,1,334,0.0029940119760479044,Expo Center
-Black,Roofers,2,334,0.005988023952095809,Expo Center
-Black,Structural Iron and Steel Workers,8,334,0.023952095808383235,Expo Center
-Hispanic,Carpenters,5,334,0.014970059880239521,Expo Center
-Hispanic,Cement Masons and Concrete Finishers,1,334,0.0029940119760479044,Expo Center
-Hispanic,Construction Laborers,3,334,0.008982035928143712,Expo Center
-Hispanic,Drywall and Ceiling Tile Installers,10,334,0.029940119760479042,Expo Center
-Hispanic,Operating Engineers and Other Construction Equipment Operators,1,334,0.0029940119760479044,Expo Center
-Hispanic,Structural Iron and Steel Workers,2,334,0.005988023952095809,Expo Center
-Native,Carpenters,1,334,0.0029940119760479044,Expo Center
-Native,Drywall and Ceiling Tile Installers,2,334,0.005988023952095809,Expo Center
-Native,Electricians,8,334,0.023952095808383235,Expo Center
-Native,Glaziers,2,334,0.005988023952095809,Expo Center
-Native,"Painters, Construction and Maintenance",2,334,0.005988023952095809,Expo Center
-Native,Pile-Driver Operators,2,334,0.005988023952095809,Expo Center
-Native,"Plumbers, Pipefitters, and Steamfitters",2,334,0.005988023952095809,Expo Center
-Native,Reinforcing Iron and Rebar Workers,4,334,0.011976047904191617,Expo Center
-Native,Sheet Metal Workers,2,334,0.005988023952095809,Expo Center
-Native,Structural Iron and Steel Workers,6,334,0.017964071856287425,Expo Center
-White,"Bookkeeping, Accounting, and Auditing Clerks",1,334,0.0029940119760479044,Expo Center
-White,Brickmasons and Blockmasons,7,334,0.020958083832335328,Expo Center
-White,Cabinetmakers and Bench Carpenters,2,334,0.005988023952095809,Expo Center
-White,Carpenters,22,334,0.0658682634730539,Expo Center
-White,Cement Masons and Concrete Finishers,7,334,0.020958083832335328,Expo Center
-White,Chief Executives,2,334,0.005988023952095809,Expo Center
-White,"Construction and Related Workers, All Other",6,334,0.017964071856287425,Expo Center
-White,Construction Laborers,31,334,0.09281437125748503,Expo Center
-White,Crane and Tower Operators,4,334,0.011976047904191617,Expo Center
-White,Drywall and Ceiling Tile Installers,14,334,0.041916167664670656,Expo Center
-White,Electricians,18,334,0.05389221556886228,Expo Center
-White,Excavating and Loading Machine and Dragline Operators,2,334,0.005988023952095809,Expo Center
-White,First-Line Supervisors of Construction Trades and Extraction Workers,16,334,0.04790419161676647,Expo Center
-White,"First-Line Supervisors of Helpers, Laborers, and Material Movers, Hand",1,334,0.0029940119760479044,Expo Center
-White,Glaziers,7,334,0.020958083832335328,Expo Center
-White,Helpers--Roofers,1,334,0.0029940119760479044,Expo Center
-White,"Helpers, Construction Trades, All Other",6,334,0.017964071856287425,Expo Center
-White,"Insulation Workers, Mechanical",3,334,0.008982035928143712,Expo Center
-White,"Office and Administrative Support Workers, All Other",1,334,0.0029940119760479044,Expo Center
-White,Operating Engineers and Other Construction Equipment Operators,23,334,0.0688622754491018,Expo Center
-White,"Painters, Construction and Maintenance",8,334,0.023952095808383235,Expo Center
-White,Payroll and Timekeeping Clerks,1,334,0.0029940119760479044,Expo Center
-White,Pile-Driver Operators,2,334,0.005988023952095809,Expo Center
-White,"Plumbers, Pipefitters, and Steamfitters",17,334,0.05089820359281437,Expo Center
-White,Reinforcing Iron and Rebar Workers,8,334,0.023952095808383235,Expo Center
-White,Roofers,4,334,0.011976047904191617,Expo Center
-White,Sheet Metal Workers,4,334,0.011976047904191617,Expo Center
-White,Structural Iron and Steel Workers,14,334,0.041916167664670656,Expo Center
-White,Surveyors,3,334,0.008982035928143712,Expo Center
+Asian,Carpenters,1,344,0.0029069767441860465,Expo Center
+Asian,Construction Laborers,2,344,0.005813953488372093,Expo Center
+Asian,Drywall and Ceiling Tile Installers,2,344,0.005813953488372093,Expo Center
+Asian,Glaziers,1,344,0.0029069767441860465,Expo Center
+Asian,"Painters, Construction and Maintenance",2,344,0.005813953488372093,Expo Center
+Black,Brickmasons and Blockmasons,4,344,0.011627906976744186,Expo Center
+Black,Carpenters,8,344,0.023255813953488372,Expo Center
+Black,Construction Laborers,14,344,0.040697674418604654,Expo Center
+Black,Drywall and Ceiling Tile Installers,8,344,0.023255813953488372,Expo Center
+Black,Electricians,1,344,0.0029069767441860465,Expo Center
+Black,Helpers--Roofers,1,344,0.0029069767441860465,Expo Center
+Black,Roofers,2,344,0.005813953488372093,Expo Center
+Black,Structural Iron and Steel Workers,8,344,0.023255813953488372,Expo Center
+Hispanic,Carpenters,4,344,0.011627906976744186,Expo Center
+Hispanic,Cement Masons and Concrete Finishers,1,344,0.0029069767441860465,Expo Center
+Hispanic,Construction Laborers,3,344,0.00872093023255814,Expo Center
+Hispanic,Drywall and Ceiling Tile Installers,10,344,0.029069767441860465,Expo Center
+Hispanic,Operating Engineers and Other Construction Equipment Operators,1,344,0.0029069767441860465,Expo Center
+Hispanic,Structural Iron and Steel Workers,2,344,0.005813953488372093,Expo Center
+Native,Carpenters,1,344,0.0029069767441860465,Expo Center
+Native,Drywall and Ceiling Tile Installers,2,344,0.005813953488372093,Expo Center
+Native,Electricians,8,344,0.023255813953488372,Expo Center
+Native,Glaziers,2,344,0.005813953488372093,Expo Center
+Native,"Painters, Construction and Maintenance",2,344,0.005813953488372093,Expo Center
+Native,Pile-Driver Operators,2,344,0.005813953488372093,Expo Center
+Native,"Plumbers, Pipefitters, and Steamfitters",1,344,0.0029069767441860465,Expo Center
+Native,Reinforcing Iron and Rebar Workers,4,344,0.011627906976744186,Expo Center
+Native,Sheet Metal Workers,2,344,0.005813953488372093,Expo Center
+Native,Structural Iron and Steel Workers,6,344,0.01744186046511628,Expo Center
+White,"Bookkeeping, Accounting, and Auditing Clerks",2,344,0.005813953488372093,Expo Center
+White,Brickmasons and Blockmasons,7,344,0.020348837209302327,Expo Center
+White,Cabinetmakers and Bench Carpenters,2,344,0.005813953488372093,Expo Center
+White,Carpenters,22,344,0.06395348837209303,Expo Center
+White,Cement Masons and Concrete Finishers,7,344,0.020348837209302327,Expo Center
+White,Chief Executives,2,344,0.005813953488372093,Expo Center
+White,"Construction and Related Workers, All Other",7,344,0.020348837209302327,Expo Center
+White,Construction Laborers,31,344,0.09011627906976744,Expo Center
+White,Crane and Tower Operators,4,344,0.011627906976744186,Expo Center
+White,Drywall and Ceiling Tile Installers,14,344,0.040697674418604654,Expo Center
+White,Electricians,18,344,0.05232558139534884,Expo Center
+White,Excavating and Loading Machine and Dragline Operators,3,344,0.00872093023255814,Expo Center
+White,First-Line Supervisors of Construction Trades and Extraction Workers,16,344,0.046511627906976744,Expo Center
+White,"First-Line Supervisors of Helpers, Laborers, and Material Movers, Hand",1,344,0.0029069767441860465,Expo Center
+White,Glaziers,7,344,0.020348837209302327,Expo Center
+White,Helpers--Roofers,1,344,0.0029069767441860465,Expo Center
+White,"Helpers, Construction Trades, All Other",6,344,0.01744186046511628,Expo Center
+White,"Insulation Workers, Mechanical",3,344,0.00872093023255814,Expo Center
+White,"Office and Administrative Support Workers, All Other",1,344,0.0029069767441860465,Expo Center
+White,Operating Engineers and Other Construction Equipment Operators,23,344,0.06686046511627906,Expo Center
+White,"Painters, Construction and Maintenance",8,344,0.023255813953488372,Expo Center
+White,Payroll and Timekeeping Clerks,2,344,0.005813953488372093,Expo Center
+White,Pile-Driver Operators,2,344,0.005813953488372093,Expo Center
+White,"Plumbers, Pipefitters, and Steamfitters",17,344,0.04941860465116279,Expo Center
+White,Reinforcing Iron and Rebar Workers,8,344,0.023255813953488372,Expo Center
+White,Roofers,4,344,0.011627906976744186,Expo Center
+White,Sheet Metal Workers,4,344,0.011627906976744186,Expo Center
+White,Structural Iron and Steel Workers,14,344,0.040697674418604654,Expo Center
+White,Surveyors,3,344,0.00872093023255814,Expo Center

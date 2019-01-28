@@ -12,13 +12,14 @@ Male,Black,14,380,0.03684210526315789,Lakeview
 Male,Hispanic,5,380,0.013157894736842105,Lakeview
 Male,Native,16,380,0.042105263157894736,Lakeview
 Male,White,325,380,0.8552631578947368,Lakeview
-Female,Black,1,0,5.241090146750524e-4,Expo Center
-Female,Hispanic,5,0,0.002620545073375262,Expo Center
-Female,White,46,0,0.02410901467505241,Expo Center
-Male,Black,71,0,0.037211740041928724,Expo Center
-Male,Hispanic,45,0,0.02358490566037736,Expo Center
-Male,Native,63,0,0.0330188679245283,Expo Center
-Male,White,1677,0,0.8789308176100629,Expo Center
+Female,Black,1,0,5.194805194805195e-4,Expo Center
+Female,Hispanic,5,0,0.0025974025974025974,Expo Center
+Female,White,48,0,0.024935064935064935,Expo Center
+Male,Asian,8,0,0.004155844155844156,Expo Center
+Male,Black,71,0,0.036883116883116886,Expo Center
+Male,Hispanic,44,0,0.022857142857142857,Expo Center
+Male,Native,61,0,0.03168831168831169,Expo Center
+Male,White,1687,0,0.8763636363636363,Expo Center
 Female,Native,2,400,0.005,I-690
 Female,White,7,400,0.0175,I-690
 Male,Black,21,400,0.0525,I-690
