@@ -90,9 +90,10 @@ tbl_all_sex <- all_sexes %>%
   arrange(Project, desc(Gender), Percent)
 
 viz_all_sex <- tbl_all_sex
-tbl_all_sex <- tbl_all_sex %>% 
+tbl_all_sex <- tbl_all_sex %>%
+  filter(Project != "Expo Center") %>%
   select(-Project) %>%
-  mutate(Percent = percent(Percent, accuracy = 2))
+  mutate(Percent = percent(Percent, accuracy = 0.01))
 
 ```
 
@@ -104,18 +105,22 @@ tbl_all_sex <- tbl_all_sex %>%
 
 sex <- all_sexes %>%
   as_data_frame() %>%
+  filter(project != "Expo Center") %>%
   group_by(sex) %>%
   summarize(total = sum(count)) %>%
   as_data_frame() %>%
   mutate(percent = total / sum(total)) %>%
-  rename("Gender" = sex, "Total" = total, "Percent" = percent)
+  rename("Gender" = sex, 
+         "Total" = total, 
+         "Percent" = percent)
 
 tbl_sex <- sex %>%
   arrange(desc(Total)) %>%
-  mutate(Percent = percent(Percent, accuracy = 3))
+  mutate(Percent = percent(Percent, accuracy = 0.01))
 
 race <- all_races %>%
   as_data_frame() %>%
+  filter(project != "Expo Center") %>%
   group_by(race) %>%
   summarize(total = sum(count)) %>%
   as_data_frame() %>%
@@ -124,10 +129,11 @@ race <- all_races %>%
 
 tbl_race <- race %>%
   arrange(desc(Total)) %>%
-  mutate(Percent = percent(Percent, accuracy = 3))
+  mutate(Percent = percent(Percent, accuracy = 0.01))
 
 sxrc <- all_sxrc %>%
   as_data_frame() %>%
+  filter(project != "Expo Center") %>%
   group_by(sex, race) %>%
   summarize(total = sum(count)) %>%
   as_data_frame() %>%
@@ -136,13 +142,17 @@ sxrc <- all_sxrc %>%
 
 tbl_sxrc <- sxrc %>%
   arrange(desc(Total)) %>%
-  mutate(Percent = percent(Percent, accuracy = 3))
+  mutate(Percent = percent(Percent, accuracy = 0.01))
   
 ```
 
+**Note****:** Due to the high aggregation of records on the "Exposition Center", it is impossible to determine unique workers. Therefore, "Expo Center" records are excluded from *Section 2: Workforce Demographics*. 
+
+<br>
+
 <center>
 
-**Table 1: Workforce Gender Distribution, All Projects**
+**Table 1: Workforce Gender Distribution**
 
 ```{r tbl_sex, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
@@ -180,7 +190,7 @@ ggplot(sex, aes(x = Gender, y = Percent)) +
 
 <center>
 
-**Table 2: Workforce Race Distribution, All Projects**
+**Table 2: Workforce Race Distribution**
 
 ```{r tbl_race, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
@@ -221,7 +231,7 @@ ggplot(race, aes(x = reorder(Race, Total), y = Percent)) +
 
 <center>
 
-**Table 3: Workforce Gender & Race Distribution, All Projects**
+**Table 3: Workforce Gender & Race Distribution**
 
 ```{r tbl_sxrc, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
@@ -262,13 +272,11 @@ ggplot(sxrc, aes(x = reorder(Race, Total), y = Percent, fill = Gender)) +
 
 ## Worker Gender by Project
 
+<br>
+
 <center>
 
 **Table 4: Gender Distribution for All Projects**
-
-</center>
-
-<br>
 
 ```{r all_sex_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
@@ -278,12 +286,13 @@ kable(tbl_all_sex) %>%
                                       "responsive"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 2) %>%
-  group_rows(group_label = "Hancock International", start_row = 3, end_row = 4) %>%
-  group_rows(group_label = "Highway I-690", start_row = 5, end_row = 6) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 7, end_row = 8)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 2) %>%
+  group_rows(group_label = "Highway I-690", start_row = 3, end_row = 4) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 5, end_row = 6)
 
 ```
+
+</center>
 
 <br>
 
@@ -294,6 +303,7 @@ kable(tbl_all_sex) %>%
 ```{r all_sex_dist_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
 
 viz_all_sex <- viz_all_sex %>%
+  filter(Project != "Expo Center") %>%
   arrange(Project, desc(Gender))
 
 ggplot(viz_all_sex, aes(x = Project, y = Percent, fill = Gender)) +
@@ -307,14 +317,15 @@ ggplot(viz_all_sex, aes(x = Project, y = Percent, fill = Gender)) +
 
 ```
 
+</center>
+
 <br>
+
+<center>
 
 **Image 5: Gender Totals by Project**
 
 ```{r all_sex_count_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
-
-viz_all_sex <- viz_all_sex %>%
-  arrange(Project, desc(Gender))
 
 ggplot(viz_all_sex, aes(x = Project, y = Count, fill = Gender)) +
   coord_flip() +
@@ -337,23 +348,24 @@ ggplot(viz_all_sex, aes(x = Project, y = Count, fill = Gender)) +
 
 tbl_all_race <- all_races %>%
   select(race:project) %>%
+  filter(project != "Expo Center") %>%
   rename("Race" = race, "Count" = count, "Percent" = percent, "Project" = project) %>%
   arrange(Project, desc(Percent))
 
 viz_all_race <- tbl_all_race
 tbl_all_race <- tbl_all_race %>% 
   select(-Project) %>%
-  mutate(Percent = percent(Percent, accuracy = 2))
+  mutate(Percent = percent(Percent, accuracy = 0.01))
 
 ```
 
 </center>
 
-**Table 5: Race Distribution for All Projects**
+<br>
 
 <center>
 
-<br>
+**Table 5: Race Distribution for All Projects**
 
 ```{r all_race_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
@@ -363,18 +375,19 @@ kable(tbl_all_race) %>%
                                       "responsive"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 4) %>%
-  group_rows(group_label = "Hancock International", start_row = 5, end_row = 9) %>%
-  group_rows(group_label = "Highway I-690", start_row = 10, end_row = 13) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 14, end_row = 18)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 5) %>%
+  group_rows(group_label = "Highway I-690", start_row = 6, end_row = 9) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 10, end_row = 14)
 
 ```
+
+</center>
 
 <br>
 
 <center>
 
-**Image 6: Race Distribution for All Projects**
+**Image 6: Race Distribution by Project**
 
 ```{r all_race_dist_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
 
@@ -386,17 +399,22 @@ ggplot(viz_all_race, aes(x = Project, y = Percent, fill = reorder(Race, Percent)
         axis.text = element_text(size = 16),
         legend.text = element_text(size = 14)) +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.title = element_text("Race"))
+  theme(legend.title = element_text("Race")) +
+  labs(fill = "Race")
 
 ```
 
+</center>
+
 <br>
+
+<center>
 
 **Image 7: Race Totals by Project**
 
 ```{r all_race_count_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
 
-ggplot(viz_all_race, aes(x = reorder(Project, Count), y = Count, fill = Race)) +
+ggplot(viz_all_race, aes(x = reorder(Project, Count), y = Count, fill = reorder(Race, Count))) +
   coord_flip() +
   geom_bar(stat = "identity", position = "dodge") +
   theme_classic() +
@@ -404,7 +422,8 @@ ggplot(viz_all_race, aes(x = reorder(Project, Count), y = Count, fill = Race)) +
         axis.text = element_text(size = 16),
         legend.text = element_text(size = 14)) +
   scale_y_continuous(labels = scales::number_format(big.mark = ",")) +
-  xlab("Project")
+  xlab("Project") +
+  labs(fill = "Race")
 
 ```
 
@@ -418,23 +437,24 @@ ggplot(viz_all_race, aes(x = reorder(Project, Count), y = Count, fill = Race)) +
 
 tbl_all_sxrc <- all_sxrc %>%
   select(sex:project, -total) %>%
+  filter(project != "Expo Center") %>%
   rename("Gender" = sex, "Race" = race, "Count" = count, "Percent" = percent, "Project" = project) %>%
   arrange(Project, desc(Percent))
 
 viz_all_sxrc <- tbl_all_sxrc
 tbl_all_sxrc <- tbl_all_sxrc %>% 
   select(-Project) %>%
-  mutate(Percent = percent(Percent, accuracy = 2))
+  mutate(Percent = percent(Percent, accuracy = 0.01))
 
 ```
 
 </center>
 
-**Table 6: Race & Gender Distribution for All Projects**
+<br>
 
 <center>
 
-<br>
+**Table 6: Race & Gender Distribution for All Projects**
 
 ```{r all_sxrc_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
@@ -444,12 +464,13 @@ kable(tbl_all_sxrc) %>%
                                       "responsive"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 7) %>%
-  group_rows(group_label = "Hancock International", start_row = 8, end_row = 12) %>%
-  group_rows(group_label = "Highway I-690", start_row = 13, end_row = 18) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 19, end_row = 26)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 5) %>%
+  group_rows(group_label = "Highway I-690", start_row = 6, end_row = 11) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 12, end_row = 19)
 
 ```
+
+</center>
 
 <br>
 
@@ -472,7 +493,11 @@ ggplot(viz_all_sxrc, aes(x = Gender, y = Percent, fill = Race)) +
 
 ```
 
+</center>
+
 <br>
+
+<center>
 
 **Image 9: Race & Gender Totals by Project**
 
@@ -497,6 +522,8 @@ ggplot(viz_all_sxrc, aes(x = Gender, y = Count, fill = Race)) +
 
 # Workforce Hourage
 
+**Note****:** Though unique worker count is indeterminable per "Expo Center" records. However, the proportion of hours and gross pay by gender and race are available. Therefore, "Expo Center" records will now be included until otherwise stated.
+
 ```{r all_hours_sex, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
 hrs_sx <- all_hours_sex %>%
@@ -510,6 +537,8 @@ hrs_rc <- all_hours_race %>%
 hrs_sxrc <- all_hours_sxrc %>%
   select(-total) %>%
   rename("Gender" = sex, "Race" = race, "Count" = count, "Percent" = percent, "Project" = project)
+
+hrs_sxrc[1:6, "Project"] <- "Hancock"
 
 hrs_sx_wf <- hrs_sx %>%
   group_by(Gender) %>%
@@ -536,6 +565,8 @@ hrs_sxrc_wf <- hrs_sxrc %>%
 
 ```
 
+<br>
+
 ## Hourage Overview 
 
 <center>
@@ -545,8 +576,8 @@ hrs_sxrc_wf <- hrs_sxrc %>%
 ```{r hrs_sx_wf_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
 hrs_sx_wf_tbl <- hrs_sx_wf %>%
-  mutate(Percent = percent(Percent, accuracy = 3),
-         Total = number(Total, big.mark = ",", accuracy = 2))
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Total = number(Total, big.mark = ","))
 
 kable(hrs_sx_wf_tbl) %>%
   kable_styling(bootstrap_options = c("striped", 
@@ -580,6 +611,8 @@ ggplot(hrs_sx_wf, aes(x = Gender, y = Percent)) +
 
 </center>
 
+<br>
+
 <center>
 
 **Table 8: Workforce Hourage Distribution by Race, All Projects**
@@ -587,7 +620,7 @@ ggplot(hrs_sx_wf, aes(x = Gender, y = Percent)) +
 ```{r hrs_rc_wf_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
 hrs_rc_wf_tbl <- hrs_rc_wf %>%
-  mutate(Percent = percent(Percent, accuracy = 3),
+  mutate(Percent = percent(Percent, accuracy = 0.01),
          Total = number(Total, big.mark = ",", accuracy = 2))
 
 kable(hrs_rc_wf_tbl) %>%
@@ -632,7 +665,7 @@ ggplot(hrs_rc_wf, aes(x = reorder(Race, Total), y = Percent)) +
 ```{r hrs_sxrc_wf_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
 hrs_sxrc_wf_tbl <- hrs_sxrc_wf %>%
-  mutate(Percent = percent(Percent, accuracy = 3),
+  mutate(Percent = percent(Percent, accuracy = 0.01),
          Total = number(Total, big.mark = ",", accuracy = 2))
 
 kable(hrs_sxrc_wf_tbl) %>%
@@ -674,6 +707,10 @@ ggplot(hrs_sxrc_wf, aes(x = reorder(Race, Total), y = Percent, fill = Gender)) +
 
 ```{r sex_hourage_setup, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
+hrs_rc <- all_hours_race %>%
+  select(-total) %>%
+  rename("Race" = race, "Count" = count, "Percent" = percent, "Project" = project)
+
 hrs_sx <- hrs_sx %>% arrange(Project, desc(Count), Gender)
 hrs_rc <- hrs_rc %>% arrange(Project, desc(Count), Race)
 hrs_sxrc <- hrs_sxrc %>% arrange(Project, desc(Count), Gender, Race)
@@ -684,40 +721,50 @@ hrs_sxrc_viz <- hrs_sxrc
 
 hrs_sx_tbl <- hrs_sx %>%
   mutate(Count = number(Count, big.mark = ",", accuracy = 2),
-         Percent = percent(Percent, accuracy = 2))
+         Percent = percent(Percent, accuracy = 0.01))
 
 hrs_rc <- hrs_rc %>%
   select(-Percent) %>%
-  as_data_frame()
+  ungroup() %>%
+  group_by(Project, Race) %>%
+  summarize(Count = sum(Count)) %>%
+  ungroup() %>%
+  arrange(Project, desc(Count))
 
 totals <- hrs_rc %>%
   group_by(Project) %>%
   summarize(Total = sum(Count))
+  
+totals <- totals$Total
 
-totals <- c(rep(totals$Total[1], times = 4), 
-  rep(totals$Total[2], times = 5), 
-  rep(totals$Total[3], times = 4), 
-  rep(totals$Total[4], times = 5))
+n_tots <- c(rep(x = totals[1], times = 5),
+            rep(x = totals[2], times = 5),
+            rep(x = totals[3], times = 4),
+            rep(x = totals[4], times = 5))
 
-hrs_rc$Total <- totals
+hrs_rc$Total <- n_tots
 
 hrs_rc <- hrs_rc %>%
-  as_data_frame() %>%
+  ungroup() %>%
   mutate(Percent = Count / Total) %>%
-  select(Race, Count, Percent, Project)
+  select(-Total)
 
 hrs_rc_viz <- hrs_rc
 
 hrs_rc_tbl <- hrs_rc %>%
   mutate(Count = number(Count, big.mark = ","),
-         Percent = percent(Percent, accuracy = 3))
+         Percent = percent(Percent, accuracy = 0.01))
 
 hrs_sxrc_tbl <- hrs_sxrc %>%
   mutate(Count = number(Count, big.mark = ",", accuracy = 2),
-         Percent = percent(Percent, accuracy = 2)) %>%
+         Percent = percent(Percent, accuracy = 0.01)) %>%
   filter(!is.na(Gender))
 
 ```
+
+</center>
+
+<br>
 
 <center>
 
@@ -763,7 +810,11 @@ ggplot(hrs_sx_viz, aes(x = Project, y = Percent, fill = reorder(Gender, Percent)
 
 ```
 
+</center>
+
 <br>
+
+<center>
 
 **Image 14: Hourage Totals by Gender & Project**
 
@@ -787,6 +838,8 @@ ggplot(hrs_sx_viz, aes(x = reorder(Project, Count), y = Count, fill = Gender)) +
 
 ## Hourage by Race & Project
 
+<br>
+
 <center>
 
 **Table 11: Workforce Hourage Distribution by Sex & Project**
@@ -801,10 +854,10 @@ kable(hrs_rc_tbl) %>%
                                       "responsive"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 4) %>%
-  group_rows(group_label = "Hancock International", start_row = 5, end_row = 9) %>%
-  group_rows(group_label = "Highway I-690", start_row = 10, end_row = 13) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 14, end_row = 18)
+  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 5) %>%
+  group_rows(group_label = "Hancock International", start_row = 6, end_row = 10) %>%
+  group_rows(group_label = "Highway I-690", start_row = 11, end_row = 14) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 15, end_row = 19)
 
 ```
 
@@ -832,7 +885,11 @@ ggplot(hrs_rc_viz, aes(x = Project, y = Percent, fill = reorder(Race, Percent)))
 
 ```
 
+</center>
+
 <br>
+
+<center>
 
 **Image 15: Race Totals by Project**
 
@@ -855,4 +912,583 @@ ggplot(hrs_rc_viz, aes(x = reorder(Project, Count), y = Count, fill = Race)) +
 
 <br>
 
-## Hourage by Gender, Race, & Project
+## Hourage by Gender, Race, Project
+
+```{r hrs_sxrc_project, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+hrs_sxrc <- all_hours_sxrc %>%
+  rename("Gender" = sex, "Race" = race, 
+         "Count" = count, "Total" = total, 
+         "Percent" = percent, "Project" = project) %>%
+  select(-Total) %>%
+  arrange(Project, desc(Count)) %>%
+  filter(!is.na(Race),
+         Count != 0) %>%
+  as_data_frame()
+
+hrs_sxrc_viz <- hrs_sxrc
+
+hrs_sxrc_tbl <- hrs_sxrc %>% 
+  mutate(Count = number(Count, big.mark = ",", accuracy = 2),
+         Percent = percent(Percent, accuracy = 0.01)) %>%
+  as_data_frame()
+
+hrs_sxrc_tbl <- as.data.frame(hrs_sxrc_tbl)
+
+file <- "~/Projects/REIS/Master/hrs_sxrc.rds"
+
+save(hrs_sxrc_tbl, file = file)
+
+load(file)
+
+```
+
+<br>
+
+<center>
+
+**Table 12: Workforce Hourage Distribution by Sex, Race, & Project**
+
+```{r hrs_sxrc_proj_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+load(file)
+
+hrs_sxrc_tbl <- hrs_sxrc_tbl %>% select(-Project)
+
+kable(hrs_sxrc_tbl) %>%
+  kable_styling(bootstrap_options = c("striped"),
+                font_size = 14,
+                full_width = TRUE) %>%
+  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 8) %>%
+  group_rows(group_label = "Hancock International", start_row = 9, end_row = 13) %>%
+  group_rows(group_label = "Highway I-690", start_row = 14, end_row = 19) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 20, end_row = 27)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 16: Workforce Hourage Distribution by Sex, Race, & Project**
+
+```{r hrs_sxrc_viz_dist, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(hrs_sxrc_viz, aes(x = reorder(Gender, Count), y = Percent, fill = reorder(Race, Percent))) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.title = element_text("Gender")) +
+  labs(fill = "Race") +
+  xlab("") +
+  ylab("Hours (%)") +
+  facet_grid(Project ~ .)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 17: Workforce Hourage Count by Sex, Race, & Project**
+
+```{r hrs_sxrc_viz_count, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(hrs_sxrc_viz, aes(x = reorder(Gender, Count), y = Count, fill = Race)) +
+  coord_flip() +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::number_format(big.mark = ",")) +
+  xlab("") +
+  ylab("Total Hours") +
+  facet_grid(Project ~ .)
+
+```
+
+</center>
+
+<br>
+
+# Workforce Gross Wages 
+
+```{r grs_sx_wf_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gross_sex <- all_gross_sex %>%
+  group_by(sex) %>%
+  summarize(count = sum(count)) %>%
+  as_data_frame() %>%
+  arrange(desc(count)) %>%
+  rename("Gender" = sex, "Count" = count) %>%
+  mutate(Total = sum(Count),
+         Percent = Count / Total)
+
+gross_sex_viz <- gross_sex
+
+gross_sex_tbl <- gross_sex %>%
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Count = dollar(Count, big.mark = ",", accuracy = 2)) %>%
+  select(-Total)
+
+```
+
+<br>
+
+## Gross Wages Overview
+
+<br>
+
+<center>
+
+**Table 13: Gross Wage Distribution by Gender**
+
+```{r grs_sx_wf_tbl2, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+kable(gross_sex_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", 
+                                      "hover", 
+                                      "responsive"),
+                font_size = 14,
+                full_width = TRUE)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 18: Gross Wage Distribution by Gender**
+
+```{r gross_sex_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gross_sex_viz, aes(x = Gender, y = Percent)) +
+  coord_flip() +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Table 14: Gross Wage Distribution by Race**
+
+```{r grs_rc_wf_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gross_race <- all_gross_race %>%
+  group_by(race) %>%
+  summarize(count = sum(count)) %>%
+  as_data_frame() %>%
+  arrange(desc(count)) %>%
+  rename("Race" = race, "Count" = count) %>%
+  mutate(Total = sum(Count),
+         Percent = Count / Total)
+
+gross_race_viz <- gross_race
+
+gross_race_tbl <- gross_race %>%
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Count = dollar(Count, big.mark = ",", accuracy = 2)) %>%
+  select(-Total)
+
+kable(gross_race_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", 
+                                      "hover", 
+                                      "responsive"),
+                font_size = 14,
+                full_width = TRUE)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 19: Gross Wage Distribution by Race**
+
+```{r grs_rc_wf_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gross_race_viz, aes(x = reorder(Race, Count), y = Percent)) +
+  coord_flip() +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("") +
+  ylab("Total Gross (%)")
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Table 15: Gross Wage by Gender & Race**
+
+```{r grs_sxrc_wf_tbl, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gross_sxrc <- all_gross_sxrc %>%
+  group_by(sex, race) %>%
+  summarize(count = sum(count)) %>%
+  as_data_frame() %>%
+  rename("Gender" = sex, "Race" = race, "Count" = count) %>%
+  mutate(Total = sum(Count),
+         Percent = Count / Total) %>%
+  arrange(desc(Percent))
+
+gross_sxrc_viz <- gross_sxrc
+
+gross_sxrc_tbl <- gross_sxrc %>%
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Count = dollar(Count, big.mark = ",", accuracy = 2)) %>%
+  select(-Total)
+
+kable(gross_sxrc_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", 
+                                      "hover", 
+                                      "responsive"),
+                font_size = 14,
+                full_width = TRUE)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 20: Gross Wage Distribution by Gender & Race**
+
+```{r sxrc_grs_dist_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gross_sxrc_viz, aes(x = reorder(Race, Percent), y = Percent, fill = Gender)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Race")
+
+```
+
+</center>
+
+<br>
+
+## Gross by Gender & Project
+
+```{r sxrc_gross_all_setup, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gp_sex <- all_gross_sex %>% 
+  rename("Gender" = sex, "Count" = count, "Total" = total, "Percent" = percent, "Project" = project) %>%
+  select(-Total) %>%
+  arrange(Project, desc(Percent))
+
+gp_sex_viz <- gp_sex
+gp_sex_tbl <- gp_sex %>%
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Count = dollar(Count, big.mark = ",", accuracy = 2))
+  
+
+gp_race <- all_gross_race %>% 
+  rename("Race" = race, "Count" = count, "Total" = total, "Percent" = percent, "Project" = project) %>%
+  select(-Total) %>%
+  arrange(Project, desc(Percent))
+
+gp_race_viz <- gp_race
+gp_race_tbl <- gp_race %>%
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Count = dollar(Count, big.mark = ",", accuracy = 2))
+
+
+gp_sxrc_all <- all_gross_sxrc %>% 
+  rename("Gender" = sex, "Race" = race, "Count" = count, "Total" = total, "Percent" = percent, "Project" = project) %>%
+  select(-Total) %>%
+  arrange(Project, desc(Percent))
+
+gp_sxrc_viz <- gp_sxrc_all
+gp_sxrc_tbl <- gp_sxrc_all %>%
+  mutate(Percent = percent(Percent, accuracy = 0.01),
+         Count = dollar(Count, big.mark = ",", accuracy = 2))
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Table 16: Gross Wage Distribution by Gender & Project**
+
+```{r grs_by_sex_project, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gp_sex_tbl <- gp_sex_tbl %>% select(-Project)
+
+kable(gp_sex_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", 
+                                      "hover", 
+                                      "responsive"),
+                font_size = 14,
+                full_width = TRUE) %>%
+  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 2) %>%
+  group_rows(group_label = "Hancock International", start_row = 3, end_row = 3) %>%
+  group_rows(group_label = "Highway I-690", start_row = 4, end_row = 5) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 6, end_row = 7)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 21: Gross Wage Distribution by Gender & Projects**
+
+```{r grs_sx_viz_dist, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gp_sex_viz, aes(x = Project, y = Percent, fill = reorder(Gender, Percent))) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.title = element_text("Gender")) +
+  labs(fill = "Gender")
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 22: Gross Wage Totals by Gender & Project**
+
+```{r grs_sx_viz_count, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gp_sex_viz, aes(x = reorder(Project, Count), y = Count, fill = Gender)) +
+  coord_flip() +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::number_format(big.mark = ",", prefix = "$")) +
+  ylab("Gross Wages") +
+  xlab("")
+
+```
+
+</center>
+
+<br>
+
+## Wages by Race & Project
+
+<br>
+
+<center>
+
+**Table 17: Gross Wage Distribution by Sex & Project**
+
+```{r grs_by_rc_project, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gp_race_tbl <- gp_race_tbl %>% select(-Project)
+
+kable(gp_race_tbl) %>%
+  kable_styling(bootstrap_options = c("striped", 
+                                      "hover", 
+                                      "responsive"),
+                font_size = 14,
+                full_width = TRUE) %>%
+  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 5) %>%
+  group_rows(group_label = "Hancock International", start_row = 6, end_row = 10) %>%
+  group_rows(group_label = "Highway I-690", start_row = 11, end_row = 14) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 15, end_row = 19)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 23: Gross Wage Distribution for All Projects**
+
+```{r grs_rc_viz_dist, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gp_race_viz, aes(x = Project, y = Percent, fill = reorder(Race, Percent))) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.title = element_text("Gender")) +
+  labs(fill = "Race") +
+  xlab("")
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 24: Gross Wage Totals by Race & Project**
+
+```{r grs_rc_viz_count, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gp_race_viz, aes(x = reorder(Project, Count), y = Count, fill = Race)) +
+  coord_flip() +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::number_format(big.mark = ",", prefix = "$")) +
+  xlab("") +
+  ylab("Total Gross")
+
+```
+
+</center>
+
+<br>
+
+## Gross by Gender, Race, Project
+
+```{r grs_sxrc_proj_tbl_2, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/all_gross_sxrc.csv"
+gp_sxrc <- read_csv(url)
+
+gp_sxrc <- gp_sxrc %>% 
+  rename("Gender" = sex,
+         "Race" = race,
+         "Count" = count,
+         "Total" = total,
+         "Percent" = percent,
+         "Project" = project) %>%
+  select(-Total) %>%
+  as_tibble() %>%
+  arrange(Project, desc(Count))
+
+gp_sxrc_viz <- gp_sxrc
+
+gp_sxrc_tbl <- gp_sxrc %>%
+  mutate(Count = number(Count, big.mark = ",", accuracy = 2),
+         Percent = percent(Percent, accuracy = 0.01))
+  
+```
+
+<br>
+
+<center>
+
+**Table 18: Gross Wage Distribution by Sex, Race, & Project**
+
+```{r grs_sxrc_proj_tbl_3, message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
+
+gp_sxrc_tbl <- gp_sxrc_tbl %>% select(-Project)
+
+kable(gp_sxrc_tbl) %>%
+  kable_styling(bootstrap_options = c("striped"),
+                font_size = 14,
+                full_width = TRUE) %>%
+  group_rows(group_label = "Exposition Center", start_row = 1, end_row = 8) %>%
+  group_rows(group_label = "Hancock International", start_row = 9, end_row = 13) %>%
+  group_rows(group_label = "Highway I-690", start_row = 14, end_row = 19) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 20, end_row = 27)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 25: Gross Wage Distribution by Sex, Race, & Project**
+
+```{r grs_sxrc_viz_dist, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gp_sxrc_viz, aes(x = reorder(Gender, Count), y = Percent, fill = reorder(Race, Percent))) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.title = element_text("Gender")) +
+  labs(fill = "Race") +
+  xlab("") +
+  ylab("Gross Pay (%)") +
+  facet_grid(Project ~ .)
+
+```
+
+</center>
+
+<br>
+
+<center>
+
+**Image 26: Gross Wage Total by Sex, Race, & Project**
+
+```{r grs_sxrc_viz_count, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
+
+ggplot(gp_sxrc_viz, aes(x = reorder(Gender, Count), y = Count, fill = Race)) +
+  coord_flip() +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_classic() +
+  theme(text = element_text(size = 18), 
+        axis.text = element_text(size = 16),
+        legend.text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::number_format(big.mark = ",", prefix = "$")) +
+  xlab("") +
+  ylab("Total Gross") +
+  facet_grid(Project ~ .)
+
+```
+
+</center>
+
+<br>
