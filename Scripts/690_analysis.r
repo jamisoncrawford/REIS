@@ -16,17 +16,21 @@ if(!require(zoo)){install.packages("zoo")}
 if(!require(readr)){install.packages("readr")}
 if(!require(tidyr)){install.packages("tidyr")}
 if(!require(dplyr)){install.packages("dplyr")}
+if(!require(scales)){install.packages("scales")}
 if(!require(readxl)){install.packages("readxl")}
 if(!require(stringr)){install.packages("stringr")}
 if(!require(lubridate)){install.packages("lubridate")}
+if(!require(zipcode)){install.packages("zipcode")}
 
 library(zoo)
 library(readr)
 library(tidyr)
 library(dplyr)
+library(scales)
 library(readxl)
 library(stringr)
 library(lubridate)
+library(zipcode)
 
 
 # SET WORKING DIRECTORY; RETRIEVE DATA
@@ -128,7 +132,7 @@ hrs_sx_690 <- util %>%
   summarize(hours = sum(total)) %>%
   mutate(percent = hours / sum(hours))                  # Hours by sex
 
-hrs_sxtd_690$sex <- c("Female", "Male")
+hrs_sx_690$sex[1:2] <- c("Female", "Male")
 
 hrs_rc_690 <- util %>%
   group_by(race) %>%
@@ -137,16 +141,7 @@ hrs_rc_690 <- util %>%
 tot_hrs <- sum(util$total_m, util$total_f)
 wht_hrs <- data_frame(race = "White", hours = tot_hrs - sum(hrs_rc_690$hours))
 
-bind_rows(hrs_rc_690, wht_hrs)
-
-tmp <- util %>%
-  select(trade, total_m:total_f, race:tot_hrs) %>%
-  group_by(trade, sex) %>%
-  mutate(all_hrs = sum(total_m, total_f))
-
-tmp %>%
-  group_by(trade) %>%
-  mutate(hours = tot_hrs / sum(all_hrs))
+all_hours <- bind_rows(hrs_rc_690, wht_hrs)
 
 rm(tot_hrs, tot_wht)
 
@@ -211,7 +206,7 @@ hrs_rcsx_690_ut <- hrs_rcsx_690_ut %>%
   group_by(trade, race, sex) %>%
   summarize(total_trade_hrs_m = total_m,
             total_trade_hrs_f = total_f,
-            dem_hrs = dem_hrs,
+            dem_hrs = as.numeric(dem_hrs),
             hrs_wht = total - hrs)
 
 trades <- unique(hrs_rcsx_690_ut$trade)
@@ -757,7 +752,7 @@ hc <- hc %>%
   rename("count" = tot_hours) %>%
   mutate(total = sum(count),
          percent = count / total,
-         project = "Expo Center") %>%
+         project = "Hancock") %>%
   select(sex:count, total, percent:project)
 
 hw <- hw %>% 
@@ -765,8 +760,8 @@ hw <- hw %>%
   rename("count" = tot_hrs) %>%
   group_by(sex, race) %>%
   summarize(count = sum(count)) %>%
-  as_tibble() %>%
-  mutate(total = as.double(sum(count)),
+  as_data_frame() %>%
+  mutate(total = sum(count),
          percent = count / total,
          project = "I-690")
 
@@ -873,21 +868,24 @@ hw <- hw %>%
   mutate(total = sum(count),
          percent = count / total,
          project = "I-690") %>%
-  select(sex, race, count, total, percent, project)
+  select(sex, race, count, total, percent, project) %>%
+  arrange(desc(percent))
 
 ex <- ex %>%
   rename("count" = earnings) %>%
   mutate(total = sum(count),
          percent = count / total,
          project = "Expo Center") %>%
-  select(sex, race, count, total, percent, project)
+  select(sex, race, count, total, percent, project) %>%
+  arrange(desc(percent))
 
 hc <- hc %>%
   rename("count" = earnings) %>%
   mutate(total = sum(count),
          percent = count / total,
          project = "Hancock") %>%
-  select(sex, race, count, total, percent, project)
+  select(sex, race, count, total, percent, project) %>%
+  arrange(desc(percent))
 
 index <- which(lv$sex == "male")
 lv[index, "sex"] <- "Male"
@@ -895,11 +893,13 @@ lv[index, "sex"] <- "Male"
 lv <- lv %>%
   group_by(sex, race) %>%
   summarize(count = sum(earnings)) %>%
+  ungroup() %>%
   as_tibble() %>%
   mutate(total = sum(count),
          percent = count / total,
          project = "Lakeview") %>%
-  select(sex, race, count, total, percent, project)
+  select(sex, race, count, total, percent, project) %>%
+  arrange(desc(percent))
 
 all_gross_sxrc <- hc %>%
   bind_rows(lv) %>%
@@ -967,3 +967,625 @@ write_csv(all_sxrc, files[9])
 write_csv(expo_sex_class, files[10])
 write_csv(expo_race_class, files[11])
 write_csv(expo_rcsx_class, files[12])
+
+
+# AGGREGATION TO UNIQUE WORKER TOTALS: I-690, HANCOCK, LAKEVIEW
+
+ex_tots <- wsum %>%
+  select(project:name, ssn, hours, gross, sex, race)
+  
+ex_tots$ssn <- as.character(1:length(ex_tots$ssn))     # Unique IDs in lieu of SSN, I-690
+
+hc_tots <- lvhc %>%
+  filter(project == "Hancock")
+
+index <- which(is.na(hc_tots$ssn))
+
+hc_tots[index[c(1:9, 11)], "ssn"] <- "401"
+hc_tots[index[c(10, 12)], "ssn"] <- "402"
+hc_tots[index[c(13:21)], "ssn"] <- "403"
+
+hc_tots <- hc_tots %>%
+  select(project:name, zip:ssn, hours, gross, sex:race) %>%
+  group_by(project, name, ssn, sex, race) %>%
+  summarize(tot_hrs = sum(hours),
+            tot_grs = sum(gross))                      # Unique totals, Hancock
+
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/lakeview_hancock_merge.csv"
+lv <- read_csv(url); rm(url)
+
+
+lv_tots <- lv %>%
+  filter(project == "Lakeview") %>%
+  select(project:ssn, hours, gross, sex:race) %>%
+  group_by(project, name, ssn, sex, race) %>%
+  summarize(tot_hrs = sum(hours),
+            tot_grs = sum(gross))                      # Unique totals, Lakeview
+
+ex_tots <- ex_tots %>% select(project, name, ssn, sex, race, hours, gross)
+hc_tots <- hc_tots %>% rename("hours" = tot_hrs, "gross" = tot_grs)
+lv_tots <- lv_tots %>% rename("hours" = tot_hrs, "gross" = tot_grs)
+
+all_tots <- ex_tots %>%
+  bind_rows(hc_tots) %>%
+  bind_rows(lv_tots)
+
+
+# WRITE TO CSV
+
+setwd("~/Projects/REIS/Master")
+
+write_csv(all_tots, "all_tots.csv")
+
+
+# HANCOCK & LAKEVIEW ANALYSIS
+
+
+# RECORDS
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/lakeview_hancock_merge.csv"
+lvhc <- read_csv(url); rm(url)
+
+lvhc[which(lvhc$sex == "male"), "sex"] <- "Male"
+
+lvhc_recs_uniq <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  select(project:name, ssn, sex:race) %>%
+  unique() %>%
+  group_by(project) %>%
+  summarize(unique = n(),
+            race_recs = sum(!is.na(race)),
+            race_perc = race_recs / unique,
+            sex_recs = sum(!is.na(sex)),
+            sex_perc = sex_recs / unique) %>%    # Note: Uniqueness determined by project, ssn, ignores zip
+  ungroup() %>% 
+  mutate(unique = number(unique, big.mark = ","),
+         race_recs = number(race_recs, big.mark = ","),
+         race_perc = percent(race_perc, accuracy = 0.01),
+         sex_recs = number(sex_recs, big.mark = ","),
+         sex_perc = percent(sex_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Total Workers" = unique,
+         "Race Disclosed" = race_recs,
+         "Race Disclosed (%)" = race_perc,
+         "Gender Disclosed" = sex_recs,
+         "Gender Disclosed (%)" = sex_perc)
+  
+  
+lvhc_recs <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  group_by(project) %>%
+  summarize(unique = n(),
+            race_recs = sum(!is.na(race)),
+            race_perc = race_recs / unique,
+            sex_recs = sum(!is.na(sex)),
+            sex_perc = sex_recs / unique,
+            zip_recs = sum(!is.na(zip)),
+            zip_perc = sex_recs / unique,
+            grs_recs = sum(!is.na(gross)),
+            grs_perc = grs_recs / unique) %>%     # Note: Revealed Records Breakdown
+  ungroup() %>% 
+  mutate(unique = number(unique, big.mark = ","),
+         race_recs = number(race_recs, big.mark = ","),
+         race_perc = percent(race_perc, accuracy = 0.01),
+         sex_recs = number(sex_recs, big.mark = ","),
+         sex_perc = percent(sex_perc, accuracy = 0.01),
+         zip_recs = number(zip_recs, big.mark = ","),
+         zip_perc = percent(zip_perc, accuracy = 0.01),
+         grs_recs = number(grs_recs, big.mark = ","),
+         grs_perc = percent(grs_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Total Workers" = unique,
+         "Race Disclosed" = race_recs,
+         "Race Disclosed (%)" = race_perc,
+         "Gender Disclosed" = sex_recs,
+         "Gender Disclosed (%)" = sex_perc,
+         "ZIP Disclosed" = zip_recs,
+         "ZIP Disclosed (%)" = zip_perc,
+         "Gross Disclosed" = grs_recs,
+         "Gross Disclosed (%)" = grs_perc)
+  
+lvhc_rec_cons <- lvhc %>%
+  filter(!is.na(project)) %>%
+  group_by(project, name) %>%
+  summarize(`Unique Records` = n()) %>%
+  ungroup()
+
+tmp_tots <- lvhc_rec_cons %>%
+  group_by(project) %>%
+  summarize(Total = sum(`Unique Records`)) %>%
+  ungroup()
+
+lvhc_rec_cons <- left_join(lvhc_rec_cons, 
+                           tmp_tots, 
+                           by = "project") %>%
+  rename("Project" = project,
+         "Contractor" = name) %>%
+  mutate(Percent = `Unique Records` / Total) %>%
+  arrange(Project, desc(Percent)) %>%
+  mutate(`Unique Records` = number(`Unique Records`, big.mark = ","),
+         Total = number (Total, big.mark = ","),
+         Percent = percent(Percent, accuracy = 0.01)) %>%
+  rename(`Project Total` = Total)
+
+# Race & Gender by Contractor
+
+con_race <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  select(project:name, ssn, sex:race) %>%
+  unique() %>%
+  group_by(project, name, race) %>%
+  summarize(total = n()) %>%
+  ungroup() %>%
+  arrange(project, reorder(name, desc(total)), reorder(race, desc(total)))
+
+proj_tots <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  select(project:name, ssn, sex:race) %>%
+  unique() %>%
+  group_by(project) %>%
+  summarize(proj_total = sum(n())) %>%
+  ungroup()
+
+name_tots <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  select(project:name, ssn, sex:race) %>%
+  unique() %>%
+  group_by(project, name) %>%
+  summarize(name_total = sum(n())) %>%
+  ungroup()
+
+con_race_viz <- con_race %>%
+  left_join(name_tots, by = c("project", "name")) %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(name_perc = total / name_total,
+         proj_perc = total / proj_total) %>%
+  select(project:name_total, name_perc, proj_total, proj_perc)
+
+con_race_tbl <- con_race_viz %>%
+  mutate(name_perc = percent(name_perc, accuracy = 0.01),
+         proj_perc = percent(proj_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Company" = name,
+         "Race" = race,
+         "Workers of Race" = total,
+         "Total Company Workers" = name_total,
+         "Company Workers (%)" = name_perc,
+         "Total Project Workers" = proj_total,
+         "Project Workers (%)" = proj_perc)                        # Workers by Company & Race
+
+con_sex <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  select(project:name, ssn, sex:race) %>%
+  unique() %>%
+  group_by(project, name, sex) %>%
+  summarize(total = n()) %>%
+  ungroup() %>%
+  arrange(project, reorder(name, desc(total)), reorder(sex, desc(total)))
+
+con_sex_viz <- con_sex %>%
+  left_join(name_tots, by = c("project", "name")) %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(name_perc = total / name_total,
+         proj_perc = total / proj_total) %>%
+  select(project:name_total, name_perc, proj_total, proj_perc)
+
+con_sex_tbl <- con_sex_viz %>%
+  mutate(name_perc = percent(name_perc, accuracy = 0.01),
+         proj_perc = percent(proj_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Company" = name,
+         "Gender" = sex,
+         "Workers of Gender" = total,
+         "Total Company Workers" = name_total,
+         "Company Workers (%)" = name_perc,
+         "Total Project Workers" = proj_total,
+         "Project Workers (%)" = proj_perc)                        # Workers by Company & Sex
+
+con_sxrc <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  select(project:name, ssn, sex:race) %>%
+  unique() %>%
+  group_by(project, name, sex, race) %>%
+  summarize(total = n()) %>%
+  ungroup() %>%
+  arrange(project, reorder(name, desc(total)), reorder(sex, desc(total)), reorder(race, desc(total)))
+
+con_sxrc_viz <- con_sxrc %>%
+  left_join(name_tots, by = c("project", "name")) %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(name_perc = total / name_total,
+         proj_perc = total / proj_total) %>%
+  select(project:name_total, name_perc, proj_total, proj_perc)
+
+con_sxrc_tbl <- con_sxrc_viz %>%
+  mutate(name_perc = percent(name_perc, accuracy = 0.01),
+         proj_perc = percent(proj_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Company" = name,
+         "Gender" = sex,
+         "Race" = race,
+         "Workers of Gender & Race" = total,
+         "Total Company Workers" = name_total,
+         "Company Workers (%)" = name_perc,
+         "Total Project Workers" = proj_total,
+         "Project Workers (%)" = proj_perc)                        # Workers by Company & Sex/Race
+
+# Pay & Hours by Gender & Race
+
+tot_hours <- lvhc %>%
+  filter(!is.na(ssn),
+         !is.na(project),
+         !is.na(hours)) %>%
+  select(project, name, ssn, sex, race, hours) %>%
+  group_by(project, name, ssn, sex, race) %>%
+  summarize(total = sum(hours)) %>%
+  ungroup()
+
+proj_tots <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn),
+         !is.na(hours)) %>%
+  select(project:name, ssn, sex:race, hours) %>%
+  group_by(project) %>%
+  summarize(proj_total = sum(hours, na.rm = TRUE)) %>%
+  ungroup()
+
+name_tots <- lvhc %>%
+  filter(!is.na(project),
+         !is.na(ssn),
+         !is.na(hours)) %>%
+  select(project:name, ssn, sex:race, hours) %>%
+  group_by(project, name) %>%
+  summarize(name_total = sum(n())) %>%
+  ungroup()
+
+tot_hrs_sx_viz <- tot_hours %>%
+  group_by(project, sex) %>%
+  summarize(tot_hrs = sum(total)) %>%
+  arrange(project, desc(`tot_hrs`)) %>%
+  ungroup() %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(proj_perc = tot_hrs / proj_total)
+
+tot_hrs_sx_tbl <- tot_hrs_sx_viz %>%
+  mutate(tot_hrs = number(tot_hrs, big.mark = ","),
+         proj_total = number(proj_total, big.mark = ","),
+         proj_perc = percent(proj_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Gender" = sex,
+         "Hours" = tot_hrs, 
+         "Project Hours" = proj_total,
+         "Project Hours (%)" = proj_perc)                           # Hours by project and gender
+
+tot_hrs_rc_viz <- tot_hours %>%
+  group_by(project, race) %>%
+  summarize(tot_hrs = sum(total)) %>%
+  arrange(project, desc(`tot_hrs`)) %>%
+  ungroup() %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(proj_perc = tot_hrs / proj_total)
+
+tot_hrs_rc_tbl <- tot_hrs_rc_viz %>%
+  mutate(tot_hrs = number(tot_hrs, big.mark = ","),
+         proj_total = number(proj_total, big.mark = ","),
+         proj_perc = percent(proj_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Race" = race,
+         "Hours" = tot_hrs, 
+         "Project Hours" = proj_total,
+         "Project Hours (%)" = proj_perc)                           # Hours by project and gender
+
+tot_hrs_sxrc_viz <- tot_hours %>%
+  group_by(project, sex, race) %>%
+  summarize(tot_hrs = sum(total)) %>%
+  arrange(project, desc(`tot_hrs`)) %>%
+  ungroup() %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(proj_perc = tot_hrs / proj_total)
+
+tot_hrs_sxrc_tbl <- tot_hrs_sxrc_viz %>%
+  mutate(tot_hrs = number(tot_hrs, big.mark = ","),
+         proj_total = number(proj_total, big.mark = ","),
+         proj_perc = percent(proj_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Gender" = sex,
+         "Race" = race,
+         "Hours" = tot_hrs, 
+         "Project Hours" = proj_total,
+         "Project Hours (%)" = proj_perc)                           # Hours by project and gender/race
+
+# Worker Location
+
+library(zipcode)
+library(noncensus)
+
+data("zip_codes")
+data("counties")
+
+lvhc_loc <- lvhc %>%
+  select(project:name, zip, ssn, hours, gross, sex:race) %>%
+  filter(!is.na(project),
+         !is.na(ssn)) %>%
+  mutate(zip = as.character(zip),
+         zip = str_pad(zip, width = 5, side = "left", pad = "0")) %>%
+  left_join(zip_codes, by = "zip") %>%
+  mutate(state_fips = str_extract(fips, "^.{2}"),
+         county_fips = str_extract(fips, ".{3}$")) %>%
+  left_join(counties, by = c("state", "state_fips", "county_fips")) %>%
+  select(project:state, county_name, latitude:fips)
+
+lvhc_loc_tots <- lvhc_loc %>%
+  select(project, name, ssn, zip, gross, hours, county_name, state) %>%
+  filter(!is.na(project)) %>%
+  group_by(project, name, zip, ssn, state, county_name) %>%
+  summarize(tot_gross = sum(gross),
+            tot_hours = sum(hours)) %>%
+  ungroup()
+  
+county_tots <- lvhc_loc_tots %>%
+  group_by(state, county_name) %>%
+  summarize(workers = n(),
+            tot_gross = sum(tot_gross, na.rm = TRUE),
+            tot_hours = sum(tot_hours, na.rm = TRUE)) %>%
+  arrange(reorder(county_name, desc(tot_gross))) %>%
+  ungroup()
+
+all_tots <- lvhc_loc_tots %>%
+  mutate(all_gross = sum(tot_gross, na.rm = TRUE),
+         all_hours = sum(tot_hours, na.rm = TRUE)) %>%
+  select(county_name, all_gross, all_hours)
+
+all_wrks <- lvhc_loc_tots %>%
+  unique() %>%
+  group_by(state, county_name) %>%
+  summarize(tot_workers = n()) %>%
+  select(county_name, tot_workers) %>%
+  ungroup() %>%
+  mutate(tot_workers = sum(tot_workers, na.rm = TRUE))
+
+county_tots_viz <- county_tots %>%
+  left_join(all_tots, by = c("county_name")) %>%
+  left_join(all_wrks, by = c("county_name", "state")) %>%
+  mutate(gross_perc = tot_gross / all_gross,
+         hours_perc = tot_hours / all_hours,
+         works_perc = workers / tot_workers) %>%
+  unique()
+
+county_tots_tbl <- county_tots_viz %>%
+  select(state:workers, works_perc, tot_gross, gross_perc, tot_hours, hours_perc) %>%
+  mutate(works_perc = percent(works_perc, accuracy = 0.01),
+         hours_perc = percent(hours_perc, accuracy = 0.01),
+         gross_perc = percent(gross_perc, accuracy = 0.01),
+         tot_gross = dollar(tot_gross, big.mark = ","),
+         tot_hours = number(tot_hours, big.mark = ",", accuracy = 0.1)) %>%
+  rename("State" = state,
+         "County" = county_name,
+         "Workers" = workers,
+         "Workforce (%)" = works_perc,
+         "Hours" = tot_hours,
+         "Total Hours (%)" = hours_perc, 
+         "Gross" = tot_gross,
+         "Total Gross (%)" = gross_perc)                               # Workers, hours, gross by county; LV & HC
+
+proj_loc_tots <- lvhc_loc %>%
+  select(project, name, ssn, zip, gross, hours, county_name, state) %>%
+  filter(!is.na(project)) %>%
+  group_by(project, name, zip, ssn, state, county_name) %>%
+  summarize(tot_gross = sum(gross),
+            tot_hours = sum(hours)) %>%
+  ungroup()
+
+proj_county_tots <- proj_loc_tots %>%
+  group_by(project, state, county_name) %>%
+  summarize(workers = n(),
+            tot_gross = sum(tot_gross, na.rm = TRUE),
+            tot_hours = sum(tot_hours, na.rm = TRUE)) %>%
+  arrange(project, reorder(county_name, desc(workers))) %>%
+  ungroup()
+
+all_tots <- proj_county_tots %>%
+  group_by(project) %>%
+  summarize(all_gross = sum(tot_gross, na.rm = TRUE),
+            all_hours = sum(tot_hours, na.rm = TRUE)) %>%
+  select(project, all_gross, all_hours)
+
+all_wrks <- proj_county_tots %>%
+  unique() %>%
+  group_by(project) %>%
+  summarize(tot_workers = sum(workers)) %>%
+  ungroup()
+
+proj_county_tots_viz <- proj_county_tots %>%
+  left_join(all_tots, by = c("project")) %>%
+  left_join(all_wrks, by = "project") %>%
+  mutate(gross_perc = tot_gross / all_gross,
+         hours_perc = tot_hours / all_hours,
+         works_perc = workers / tot_workers) %>%
+  unique()
+
+proj_county_tots_tbl <- proj_county_tots_viz %>%
+  select(project, state:workers, works_perc, tot_gross, gross_perc, tot_hours, hours_perc) %>%
+  mutate(works_perc = percent(works_perc, accuracy = 0.01),
+         hours_perc = percent(hours_perc, accuracy = 0.01),
+         gross_perc = percent(gross_perc, accuracy = 0.01),
+         tot_gross = dollar(tot_gross, big.mark = ","),
+         tot_hours = number(tot_hours, big.mark = ",", accuracy = 0.1)) %>%
+  rename("Project" = project,
+         "State" = state,
+         "County" = county_name,
+         "Workers" = workers,
+         "Project Workforce (%)" = works_perc,
+         "Hours" = tot_hours,
+         "Project Hours (%)" = hours_perc, 
+         "Gross" = tot_gross,
+         "Project Gross (%)" = gross_perc)                               # Workers, hours, gross by county; LV & HC
+
+# Workers & Race in Syracuse
+
+if(!require(sf)){install.packages("sf")}
+if(!require(tmap)){installe.packages("tmap")}
+if(!require(dplyr)){install.packages("dplyr")}
+if(!require(readr)){install.packages("readr")}
+if(!require(tigris)){install.packages("tigris")}
+
+library(sf)
+library(tmap)
+library(dplyr)
+library(readr)
+library(tigris)
+
+options(scipen = 999)
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/Syracuse-Crime-Analysis/master/Data/fips_geoid.csv"
+
+fips <- read_csv(url)
+sf_tracts <- tracts(state = "NY", county = "Onondaga", year = 2016, class = "sf")
+
+sf_tracts <- sf_tracts %>%
+  filter(GEOID %in% fips$geoid)
+
+syr_zips <- zctas(starts_with = "132", year = 2016, state = "NY", class = "sf")
+
+save(syr_zips, file = "syr_zips.rds")
+
+load("syr_zips.rds")
+
+syr_zips <- syr_zips %>%
+  filter(ZCTA5CE10 != "13212",
+         ZCTA5CE10 != "13211",
+         ZCTA5CE10 != "13209")
+
+index <- which(syr_zips$ZCTA5CE10 == "13214")
+syr_zips[index, "ZCTA5CE10"] <- ""
+
+map <- tm_shape(syr_zips) +
+  tm_fill(col = "skyblue",
+          alpha = 1,
+          title = "ZIP Codes in Syracuse") +
+  tm_borders(alpha = 1,
+             col = "white") +
+  tm_text(text = "ZCTA5CE10", 
+          size = 0.7,
+          col = "black") +
+  tm_credits(text = "Source:\nU.S. Census Bureau" , 
+             align = "left",
+             position = c("left", "bottom"),
+             size = 0.7) +
+  tm_layout(title = "ZIP Codes",
+            title.size = 1,
+            title.position = c("LEFT", "TOP"), 
+            main.title.position = c("LEFT", "TOP"),
+            frame = FALSE) +
+    tm_shape(sf_tracts) +
+    tm_fill(alpha = 0.3,
+            col = "tomato") +
+    tm_borders(alpha = 0,
+               col = "white")                         # Rationale for Inclusion: Map of ZIPs & City Limits
+
+
+city_zips <- c("13204", "13290", "13208", "13203", "13206", "13202", "13207", "13205", "13210", "13224")
+
+lvhc_loc <- lvhc_loc %>%
+  mutate(in_city = NA)
+
+for (i in 1:nrow(lvhc_loc)){
+  if (lvhc_loc$zip[i] %in% city_zips){
+    lvhc_loc$in_city[i] <- "Within"
+  } else {
+    lvhc_loc$in_city[i] <- "Outside"
+  }
+}
+
+lvhc_inds <- lvhc_loc %>%
+  group_by(project, name, zip, ssn, sex, race, in_city) %>%
+  summarize(tot_weeks = n(),
+            tot_hours = sum(hours, na.rm = TRUE),
+            tot_gross = sum(gross, na.rm = TRUE)) %>%
+  ungroup()
+  
+city_lims <- lvhc_inds %>%
+  group_by(project, race, in_city) %>%
+  summarize(tots = n(),
+            weeks = sum(tot_weeks),
+            hours = sum(tot_hours),
+            gross = sum(tot_gross)) %>%
+  arrange(project, reorder(in_city, gross)) %>%
+  ungroup()
+
+proj_tots <- city_lims %>%
+  group_by(project) %>%
+  summarize(proj_tots = sum(tots),
+            proj_weeks = sum(weeks),
+            proj_hours = sum(hours),
+            proj_gross = sum(gross))
+
+city_lims_viz <- city_lims %>% 
+  left_join(proj_tots, by = "project") %>%
+  mutate(wrk_perc = tots / proj_tots,
+         wks_perc = weeks / proj_weeks,
+         hrs_perc = hours / proj_hours,
+         grs_perc = gross / proj_gross)
+
+city_lims_tbl <- city_lims_viz %>%
+  select(project:tots, wrk_perc, weeks, wks_perc, hours, hrs_perc, gross, grs_perc) %>%
+  mutate(weeks = number(weeks, big.mark = ","),
+         hours = number(hours, big.mark = ","),
+         gross = dollar(gross, big.mark = ","),
+         wrk_perc = percent(wrk_perc, accuracy = 0.01),
+         wks_perc = percent(wks_perc, accuracy = 0.01),
+         hrs_perc = percent(hrs_perc, accuracy = 0.01),
+         grs_perc = percent(grs_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Race" = race,
+         "Syracuse" = in_city,
+         "Workers" = tots,
+         "Proj. Workers (%)" = wrk_perc,
+         "Weeks" = weeks,
+         "Proj. Weeks (%)" = wks_perc,
+         "Hours" = hours,
+         "Proj. Hours (%)" = hrs_perc,
+         "Gross" = gross,
+         "Proj. Gross (%)" = grs_perc)                              # City lims by race
+
+city_lims_overview_viz <- city_lims_viz %>%
+  group_by(project, in_city) %>%
+  summarize(workers = sum(tots),
+            weeks = sum(weeks),
+            hours = sum(hours),
+            gross = sum(gross)) %>%
+  ungroup() %>%
+  left_join(proj_tots, by = "project") %>%
+  mutate(wrk_perc = workers / proj_tots,
+         wks_perc = weeks / proj_weeks,
+         hrs_perc = hours / proj_hours,
+         grs_perc = gross / proj_gross)
+
+city_lims_overview_tbl <- city_lims_overview_viz %>%
+  select(project:workers, wrk_perc, weeks, wks_perc, hours, hrs_perc, gross, grs_perc) %>%
+  mutate(weeks = number(weeks, big.mark = ","),
+         hours = number(hours, big.mark = ","),
+         gross = dollar(gross, big.mark = ","),
+         wrk_perc = percent(wrk_perc, accuracy = 0.01),
+         wks_perc = percent(wks_perc, accuracy = 0.01),
+         hrs_perc = percent(hrs_perc, accuracy = 0.01),
+         grs_perc = percent(grs_perc, accuracy = 0.01)) %>%
+  rename("Project" = project,
+         "Syracuse" = in_city,
+         "Workers" = workers,
+         "Proj. Workers (%)" = wrk_perc,
+         "Weeks" = weeks,
+         "Proj. Weeks (%)" = wks_perc,
+         "Hours" = hours,
+         "Proj. Hours (%)" = hrs_perc,
+         "Gross" = gross,
+         "Proj. Gross (%)" = grs_perc)
+
