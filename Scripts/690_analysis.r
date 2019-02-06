@@ -40,7 +40,7 @@ setwd("~/Projects/REIS/Master")
 urls <- c("https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/690_workforce_summary.csv",
           "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/690_util_tidy.csv",
           "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/expo_tidy.csv",
-          "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/lakeview_hancock_merge.csv")
+          "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/tblr_master.csv")
 names <- c("wsum", "util", "expo", "lvhc")
 
 do.call("read_csv", mget(names[1]))
@@ -54,27 +54,34 @@ rm(i, names, urls)
 
 # AGGREGATE DATASETS TO I-690 WORKER SUMMARY LEVEL: "GROSS" & "HOURS"
 
-wrk_race_690 <- as_data_frame(table(wsum$race)) %>%     # Race distribution, I-690
-  rename(race = Var1, count = n) %>%
-  mutate(percent = count / sum(count))
+wrk_sex_690 <- wsum %>%
+  select(project:name, sex:race) %>%
+  group_by(sex) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count, na.rm = TRUE),
+         percent = count / total,
+         project = "I-690")                             # Expo sex
 
-wrk_sex_690 <- as_data_frame(table(wsum$sex)) %>%       # Sex distribution
-  rename(sex = Var1, count = n) %>%
-  mutate(percent = count / sum(count))
+wrk_race_690 <- wsum %>%
+  select(project:name, sex:race) %>%
+  group_by(race) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count, na.rm = TRUE),
+         percent = count / total,
+         project = "I-690")                             # Expo race
 
-tot <- wsum %>%
-  filter(!is.na(race),
-         !is.na(sex)) %>%
-  nrow()
-
-workers_sxrc_690 <- wsum %>%
-  filter(!is.na(race),
-         !is.na(sex)) %>%
+wrk_sxrc_690 <- wsum %>%
+  select(project:name, sex:race) %>%
   group_by(sex, race) %>%
-  summarize(count = n(),
-            total = tot,
-            percent = count / total) %>%
-  mutate(project = "I-690")
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count, na.rm = TRUE),
+         percent = count / total,
+         project = "I-690")                             # Expo sx/rc
+
+
 
 grs_race_690 <- wsum %>%                                # Gross by race
   group_by(race) %>%
@@ -143,7 +150,7 @@ wht_hrs <- data_frame(race = "White", hours = tot_hrs - sum(hrs_rc_690$hours))
 
 all_hours <- bind_rows(hrs_rc_690, wht_hrs)
 
-rm(tot_hrs, tot_wht)
+rm(tot_hrs)
 
 
 # IMPORT ALTERNATIVE DATA STRUCTURE: I-690, UNTIDIED
@@ -171,8 +178,8 @@ hrs_rc_690 <- util_untidy %>%
   select(trade, total_m:total_f, total, 
          percent_m:percent_f, fem_goal:fem_actual,
          goal_diff)                                              # Hours by sex, trade, goals
-  
-  
+
+
 hrs_rcsx_690_ut <- util_untidy %>%
   mutate(total = total_m + total_f) %>%
   gather(key = race_gen, value = hrs, black_m:native_f)
@@ -256,6 +263,45 @@ tot_sxrc_690 <- hrs_rcsx_690_fnl %>%
   summarize(tot_hrs = sum(tot_hrs),
             percent = tot_hrs / sum(tot_sxrc_690$tot_hrs))     # Total hours by sex, race
 
+hours2 <- hours
+
+for (i in 1:nrow(hours2)){
+  if(hours2$race[i] == "White" & hours2$sex[i] == "Male"){
+    hours2$hrs[i] <- 0
+  }
+}
+
+min_hrs <- hours2 %>% 
+  filter(hrs > 0) %>%
+  group_by(trade) %>%
+  summarize(min_count = sum(hrs, na.rm = TRUE)) %>%
+  ungroup()
+
+for (i in 1:nrow(hours)){
+  for (j in 1:nrow(min_hrs)){
+    if (hours$race[i] == "White" & hours$sex[i] == "Male" & hours$trade[i] == min_hrs$trade[j]){
+      hours$hrs[i] <- hours$hrs[i] - min_hrs$min_count[j]
+    }
+  }
+}
+
+hrs_sxrc_690 <- hours %>% filter(hrs > 0)                      # Total hours by trade, sex, race
+
+tot_rc_690 <- hrs_sxrc_690 %>%
+  group_by(race) %>%
+  summarize(count = sum(hrs, na.rm = TRUE)) %>%
+  ungroup()                                                    # Total hours by race
+
+tot_sx_690 <- hrs_sxrc_690 %>%
+  group_by(sex) %>%
+  summarize(count = sum(hrs, na.rm = TRUE)) %>%
+  ungroup()                                                    # Total hours by sex
+
+tot_sxrc_690 <- hrs_sxrc_690 %>%
+  group_by(sex, race) %>%
+  summarize(count = sum(hrs, na.rm = TRUE)) %>%
+  ungroup() 
+
 workers <- util_untidy %>%
   select(trade, min_goal:total_min_f) %>%
   rename("mgoal" = min_goal,
@@ -302,303 +348,284 @@ tot_workers <- tot_workers %>%
 
 tot_wage_expo <- sum(expo$wages, na.rm = TRUE)
 
-expo_gross_sex <- expo %>% 
-  filter(!is.na(wages)) %>%
+expo_gross_sex <- expo %>%
+  select(project:name, sex:race, wages) %>%
   group_by(sex) %>%
-  summarize(earnings = sum(wages, na.rm = TRUE),
-            percent = sum(wages) / tot_wage_expo)               # Total gross by sex
+  summarize(count = sum(wages, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by sex
 
-expo_gross_rac <- expo %>% 
-  filter(!is.na(wages)) %>%
+expo_gross_rac <- expo %>%
+  select(project:name, sex:race, wages) %>%
   group_by(race) %>%
-  summarize(earnings = sum(wages, na.rm = TRUE),
-            percent = sum(wages) / tot_wage_expo)               # Total gross by race
+  summarize(count = sum(wages, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by race
 
-expo_gross_sxrc <- expo %>% 
-  filter(!is.na(wages)) %>%
+expo_gross_sxrc <- expo %>%
+  select(project:name, sex:race, wages) %>%
   group_by(sex, race) %>%
-  summarize(earnings = sum(wages, na.rm = TRUE),
-            percent = sum(wages) / tot_wage_expo)               # Total gross by race, sex
+  summarize(count = sum(wages, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by race, sex
 
-expo_hours_sex <- expo %>% 
-  filter(!is.na(hours)) %>%
+expo_hours_sex <- expo %>%
+  select(project:name, sex:race, hours) %>%
   group_by(sex) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = tot_hours / tot_wage_expo)                # Total hours by sex
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by sex
 
-expo_hours_rac <- expo %>% 
-  filter(!is.na(hours)) %>%
+expo_hours_rac <- expo %>%
+  select(project:name, sex:race, hours) %>%
   group_by(race) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = tot_hours / tot_wage_expo)                # Total hours by race
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by race
 
-expo_hours_sxrc <- expo %>% 
-  filter(!is.na(hours)) %>%
+expo_hours_sxrc <- expo %>%
+  select(project:name, sex:race, hours) %>%
   group_by(sex, race) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = sum(hours) / tot_wage_expo)               # Total hours by race, sex
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by race, sex
 
 employees <- sum(expo$employees)
 
 expo_workers_sex <- expo %>%
-  filter(!is.na(employees),
-         !is.na(sex)) %>%
+  select(project:name, sex:race) %>%
   group_by(sex) %>%
-  summarize(tot_emps = sum(employees)) %>%
-  as_data_frame() %>%
-  mutate(percent = tot_emps / employees)                        # Total employees by sex
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by sex
 
 expo_workers_rac <- expo %>%
-  filter(!is.na(employees),
-         !is.na(race)) %>%
+  select(project:name, sex:race) %>%
   group_by(race) %>%
-  summarize(tot_emps = sum(employees)) %>%
-  as_data_frame() %>%
-  mutate(percent = tot_emps / employees)                        # Total employees by race
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by race
   
 expo_workers_rcsx <- expo %>%
-  filter(!is.na(employees),
-         !is.na(race),
-         !is.na(sex)) %>%
+  select(project:name, sex:race) %>%
   group_by(sex, race) %>%
-  summarize(emps = sum(employees)) %>%
-  as_data_frame() %>%
-  mutate(percent = emps / employees)                            # Total employees by race, sex
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by race, sex
 
 
 # AGGREGATION TO I-690 LEVELS: LAKEVIEW
 
-lvhc_dup <- lvhc
-lvhc <- lvhc_dup %>% 
-  filter(project == "Lakeview")
-
-tot_wage_lvhc <- sum(lvhc$gross, na.rm = TRUE)
-
-lvhc_gross_sex <- lvhc %>% 
-  filter(!is.na(gross),
-         !is.na(sex),
-         !is.na(race)) %>%
-  group_by(sex) %>%
-  summarize(earnings = sum(gross, na.rm = TRUE),
-            percent = sum(gross) / tot_wage_lvhc)               # Total gross by sex
-
-lvhc_gross_rac <- lvhc %>% 
-  filter(!is.na(gross),
-         !is.na(sex),
-         !is.na(race)) %>%
-  group_by(race) %>%
-  summarize(earnings = sum(gross, na.rm = TRUE),
-            percent = sum(gross) / tot_wage_lvhc)               # Total gross by race
-
-lvhc_gross_sxrc <- lvhc %>% 
-  filter(!is.na(gross),
-         !is.na(sex),
-         !is.na(race)) %>%
-  group_by(sex, race) %>%
-  summarize(earnings = sum(gross, na.rm = TRUE),
-            percent = sum(gross) / tot_wage_lvhc)               # Total gross by race, sex
-
-tot_hours_lvhc <- sum(lvhc$hours, na.rm = TRUE)
 index <- which(lvhc$sex == "male")
 lvhc$sex[index] <- "Male"
+lvhc <- filter(lvhc, !is.na(project))
 
-lvhc_hours_sex <- lvhc %>% 
-  filter(!is.na(hours),
-         !is.na(sex)) %>%
+lvhc_gross_sex <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race, gross) %>%
   group_by(sex) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = tot_hours / tot_hours_lvhc)               # Total hours by sex
+  summarize(count = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by sex
 
-lvhc_hours_rac <- lvhc %>% 
-  filter(!is.na(hours),
-         !is.na(race)) %>%
+lvhc_gross_rac <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race, gross) %>%
   group_by(race) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = tot_hours / tot_hours_lvhc)               # Total hours by race
+  summarize(count = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by race
 
-lvhc_hours_sxrc <- lvhc %>% 
-  filter(!is.na(hours),
-         !is.na(race),
-         !is.na(sex)) %>%
+lvhc_gross_sxrc <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race, gross) %>%
   group_by(sex, race) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = sum(hours) / tot_hours_lvhc)              # Total hours by race, sex
+  summarize(count = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by race, sex
+
+lvhc_hours_sex <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
+  group_by(sex) %>%
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by sex
+
+lvhc_hours_rac <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
+  group_by(race) %>%
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by race
+
+lvhc_hours_sxrc <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
+  group_by(sex, race) %>%
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by race, sex
 
 lvhc_workers_sex <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(sex),
-         !is.na(name),
-         !is.na(race),
-         !is.na(zip)) %>%
-  group_by(zip, ssn, race, sex) %>%
-  summarize(occurrences = n()) %>%
-  as_data_frame()
-
-lvhc_workers_sex <- lvhc_workers_sex %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
   group_by(sex) %>%
-  summarize(count = n(),
-            percent = count / count) %>%
-  as_data_frame()                                              # Total employees by sex
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by sex
 
 lvhc_workers_race <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(sex),
-         !is.na(name),
-         !is.na(race),
-         !is.na(zip)) %>%
-  group_by(zip, ssn, sex, race) %>%
-  summarize(occurrences = n()) %>%
-  as_data_frame()
-
-occ <- sum(lvhc_workers_race$count, na.rm = TRUE)
-
-lvhc_workers_race <- lvhc_workers_race %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
   group_by(race) %>%
   summarize(count = n()) %>%
-  as_data_frame() %>%
+  ungroup() %>%
   mutate(total = sum(count),
-         percent = count / total)                                 # Total employees by race
+         perc = count / total)                                  # Total employees by race
                                  
 lvhc_workers_sxrc <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(sex),
-         !is.na(name),
-         !is.na(race),
-         !is.na(zip)) %>%
-  group_by(zip, ssn, sex, race) %>%
-  summarize(occurrences = n()) %>%
-  as_data_frame() %>%
+  filter(project == "Lakeview") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
   group_by(sex, race) %>%
-  summarize(count = n(),
-            total = sum(lvhc_workers_race$count)) %>%
-  as_data_frame() %>%
-  mutate(percent = count / total)                               # Total employees by sex, race
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by sex, race
   
 
 # AGGREGATION TO I-690 LEVELS: HANCOCK
 
-lvhc <- lvhc_dup %>% 
-  filter(project == "Hancock")
-
-tot_wage_hc <- sum(lvhc$gross, na.rm = TRUE)
-
-hc_gross_sex <- lvhc %>% 
-  filter(!is.na(gross),
-         !is.na(sex),
-         !is.na(race)) %>%
+hc_gross_sex <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race, gross) %>%
   group_by(sex) %>%
-  summarize(earnings = sum(gross, na.rm = TRUE),
-            percent = sum(gross) / tot_wage_hc)                 # Total gross by sex
+  summarize(count = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by sex
 
-hc_gross_rac <- lvhc %>% 
-  filter(!is.na(gross),
-         !is.na(sex),
-         !is.na(race)) %>%
+hc_gross_rac <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race, gross) %>%
   group_by(race) %>%
-  summarize(earnings = sum(gross, na.rm = TRUE),
-            percent = sum(gross) / tot_wage_hc)                 # Total gross by race
+  summarize(count = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by race
 
-hc_gross_sxrc <- lvhc %>% 
-  filter(!is.na(gross),
-         !is.na(sex),
-         !is.na(race)) %>%
+hc_gross_sxrc <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race, gross) %>%
   group_by(sex, race) %>%
-  summarize(earnings = sum(gross, na.rm = TRUE),
-            percent = sum(gross) / tot_wage_hc)                 # Total gross by race, sex
+  summarize(count = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total gross by race, sex
 
 tot_hours_hc <- sum(lvhc$hours, na.rm = TRUE)
 index <- which(lvhc$sex == "male")
 lvhc$sex[index] <- "Male"
+lvhc <- filter(lvhc, !is.na(project))
 
-hc_hours_sex <- lvhc %>% 
-  filter(!is.na(hours),
-         !is.na(sex)) %>%
+hc_hours_sex <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(sex) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = tot_hours / tot_hours_hc)                 # Total hours by sex
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by sex
 
-hc_hours_rac <- lvhc %>% 
-  filter(!is.na(hours),
-         !is.na(race)) %>%
+hc_hours_rac <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(race) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = tot_hours / tot_hours_hc)                 # Total hours by race
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by race
 
-hc_hours_sxrc <- lvhc %>% 
-  filter(!is.na(hours),
-         !is.na(race),
-         !is.na(sex)) %>%
+hc_hours_sxrc <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(sex, race) %>%
-  summarize(tot_hours = sum(hours, na.rm = TRUE),
-            percent = sum(hours) / tot_hours_hc)                # Total hours by race, sex
+  summarize(count = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total hours by race, sex
 
 hc_workers_sex <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(sex),
-         !is.na(name),
-         !is.na(race),
-         !is.na(zip)) %>%
-  group_by(zip, ssn, race, sex) %>%
-  summarize(occurrences = n()) %>%
-  as_data_frame()
-
-hc_workers_sex <- hc_workers_sex %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
   group_by(sex) %>%
-  summarize(count = n(),
-            total = sum(hc_workers_sex$count)) %>%
-  as_data_frame() %>%
-  mutate(percent = count / total)                               # Total employees by sex
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by sex
 
 hc_workers_race <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(sex),
-         !is.na(name),
-         !is.na(race),
-         !is.na(zip)) %>%
-  group_by(zip, ssn, sex, race) %>%
-  summarize(occurrences = n()) %>%
-  as_data_frame()
-
-hc_workers_race <- hc_workers_race %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
   group_by(race) %>%
   summarize(count = n()) %>%
-  as_data_frame() %>%
-  mutate(total = count / sum(count))                            # Total employees by race
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by race
 
 hc_workers_sxrc <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(sex),
-         !is.na(name),
-         !is.na(race),
-         !is.na(zip)) %>%
-  group_by(zip, ssn, sex, race) %>%
-  summarize(occurrences = n()) %>%
-  as_data_frame() %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
   group_by(sex, race) %>%
-  summarize(count = n(),
-            total = sum(hc_workers_race$count)) %>%
-  as_data_frame() %>%
-  mutate(percent = count / total)                               # Total employees by sex, race
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)                                  # Total employees by sex, race
 
 
 # AGGREGATE FINDINGS: TOTAL EMPLOYEES
 
 hc <- hc_workers_race %>%
-  select(race, count, total) %>%
-  rename("percent" = total) %>%
+  select(race, count, total, perc) %>%
+  rename("percent" = perc) %>%
   mutate(project = "Hancock")
 
 lv <- lvhc_workers_race %>%
-  select(-total) %>%
-  mutate(project = "Lakeview")
+  mutate(project = "Lakeview") %>%
+  rename("percent" = perc)
 
 ex <- expo_workers_rac %>%
-  select(race:percent) %>%
-  rename("count" = tot_emps) %>%
-  mutate(project = "Expo Center")
+  select(race, count:perc) %>%
+  mutate(project = "Expo Center") %>%
+  rename("percent" = perc)
 
 hw <- wrk_race_690 %>%
-  mutate(project = "I-690")
+  mutate(total = sum(count, na.rm = TRUE),
+         project = "I-690") %>%
+  select(race, count, total, percent, project) 
 
 names <- c(hc, lv, ex, hw)
 
@@ -608,45 +635,37 @@ all_races <- hc %>%
   bind_rows(hw)                                                 # Race distribution by project
 
 lv <- lvhc_workers_sex %>%
-  mutate(percent = count / sum(count),
-         project = "Lakeview")
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview")
 
 hc <- hc_workers_sex %>%
-  select(-total) %>%
-  mutate(project = "Hancock")
-
-hc[1, "percent"] <- 1
-nr <- data_frame(sex = "Female", 
-                 count = 0, 
-                 percent = 0, 
-                 project = "Hancock")
-hc <- hc %>% bind_rows(nr)
+  rename(percent = perc) %>%
+  mutate(project = "Hancock") %>%
+  select(sex, count, total, percent, project)
 
 ex <- expo_workers_sex %>%
-  rename("count" = tot_emps) %>%
+  rename(percent = perc) %>%
   mutate(project = "Expo Center")
 
-hw <- wrk_sex_690 %>%
-  mutate(percent = as.numeric(percent)) %>%
-  mutate(project = "I-690")
+hw <- wrk_sex_690
 
 all_sexes <- hc %>%
   bind_rows(lv) %>%
   bind_rows(ex) %>%
   bind_rows(hw)                                                 # Sex distribution by project
 
-hw <- workers_sxrc_690
+hw <- wrk_sxrc_690
 
 hc <- hc_workers_sxrc %>%
-  mutate(project = "Hancock")
+  mutate(project = "Hancock") %>%
+  rename(percent = perc)
 
 ex <- expo_workers_rcsx %>%
-  rename("count" = emps) %>%
-  mutate(total = sum(ex$emps),
-         project = "Expo Center") %>%
-  select(sex:count, total, percent:project)
+  mutate(project = "Expo Center") %>%
+  rename(percent = perc)
 
 lv <- lvhc_workers_sxrc %>%
+  rename(percent = perc) %>%
   mutate(project = "Lakeview")
 
 all_sxrc <- hc %>%
@@ -657,26 +676,22 @@ all_sxrc <- hc %>%
 
 # AGGREGATE FINDINGS: HOURS DISTRIBUTION
 
-hw <- hrs_race_690 %>%
-  rename("count" = total) %>%
-  select(-mean, -median) %>%
-  mutate(total = sum(hw$total),
+hw <- tot_rc_690 %>%
+  mutate(total = sum(count, na.rm = TRUE),
          percent = count / total,
          project = "I-690")
 
 ex <- expo_hours_rac %>%
-  rename("count" = tot_hours) %>%
+  rename(percent = perc) %>%
   mutate(total = sum(count),
-         project = "Expo Center") %>%
-  select(race:count, total, percent, project)
+         project = "Expo Center")
 
 lv <- lvhc_hours_rac %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         project = "Lakeview")
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview")
 
 hc <- hc_hours_rac %>%
-  rename("count" = tot_hours) %>%
+  rename(percent = perc) %>%
   mutate(total = sum(count),
          project = "Hancock")
 
@@ -685,88 +700,51 @@ all_hours_race <- hc %>%
   bind_rows(ex) %>%
   bind_rows(hw)                                                 # Hours by race
 
-hw <- hrs_sx_690 %>%
-  rename("count" = hours) %>%
+hw <- tot_sx_690 %>%
   mutate(total = sum(count),
          percent = count / total,
-         project = "I-690") %>%
-  select(sex:count, total, percent:project)
-
-hw[1:2, 1] <- c("Female", "Male")
+         project = "I-690")
 
 hc <- hc_hours_sex %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Hancock") %>%
+  rename(percent = perc) %>%
+  mutate(project = "Hancock") %>%
   select(sex:count, total, percent:project)
 
 lv <- lvhc_hours_sex %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Lakeview") %>%
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview") %>%
   select(sex:count, total, percent:project)
 
 ex <- expo_hours_sex %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Expo Center") %>%
+  rename(percent = perc) %>%
+  mutate(project = "Expo Center") %>%
   select(sex:count, total, percent:project)
 
-hc_fem <- data_frame(sex = "Female", 
-                     count = 0.0, 
-                     total = 27988.0, 
-                     percent = 0.0, 
-                     project = "Hancock")
-
 all_hours_sex <- hc %>%
-  bind_rows(hc_fem) %>%
   bind_rows(lv) %>%
   bind_rows(ex) %>%
   bind_rows(hw)                                                 # Hours by sex
 
 options(scipen = 999)                                           # Disable sci. notation
 
-hw <- as_data_frame(hrs_rcsx_690_fnl)
-ex <- as_data_frame(expo_hours_sxrc)
-hc <- as_data_frame(hc_hours_sxrc)
-lv <- as_data_frame(lvhc_hours_sxrc)
-
-lv <- lv %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Lakeview") %>%
-  select(sex:race, count, total, percent:project)
-
-ex <- ex %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Expo Center") %>%
-  select(sex:race, count, total, percent:project)
-
-hc <- hc %>%
-  rename("count" = tot_hours) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Hancock") %>%
-  select(sex:count, total, percent:project)
-
-hw <- hw %>% 
-  select(sex, race, tot_hrs) %>%
-  rename("count" = tot_hrs) %>%
-  group_by(sex, race) %>%
-  summarize(count = sum(count)) %>%
-  as_data_frame() %>%
-  mutate(total = sum(count),
+hw <- as_data_frame(tot_sxrc_690) %>%
+  mutate(total = sum(count, na.rm = TRUE),
          percent = count / total,
          project = "I-690")
 
+ex <- as_data_frame(expo_hours_sxrc) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Expo Center")
+
+hc <- as_data_frame(hc_hours_sxrc) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Hancock")
+
+lv <- as_data_frame(lvhc_hours_sxrc) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview")
+
 all_hours_sxrc <- hc %>%
-  bind_rows(hc_fem) %>%
   bind_rows(lv) %>%
   bind_rows(ex) %>%
   bind_rows(hw)                                                 # Hours by sex, race, project
@@ -774,83 +752,59 @@ all_hours_sxrc <- hc %>%
 
 # AGGREGATE FINDINGS: GROSS DISTRIBUTION
 
-hw <- as_data_frame(grs_race_690)
-ex <- as_data_frame(expo_gross_rac)
-hc <- as_data_frame(hc_gross_rac)
-lv <- as_data_frame(lvhc_gross_rac)
+hw <- as_data_frame(grs_race_690) %>%
+  rename(count = total) %>%
+  select(race, count) %>%
+  mutate(total = sum(count, na.rm = TRUE),
+         percent = count / total,
+         project = "I-690")
 
-hw <- hw %>%
+ex <- as_data_frame(expo_gross_rac) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Expo Center")
+
+hc <- as_data_frame(hc_gross_rac) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Hancock")
+
+lv <- as_data_frame(lvhc_gross_rac) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview")
+
+hw <- grs_race_690 %>%
   select(race:total) %>%
-  rename("count" = total) %>%
-  mutate(total = sum(count),
+  rename(count = total) %>%
+  mutate(total = sum(count, na.rm = TRUE),
          percent = count / total,
-         project = "I-690") %>%
-  select(race, count, total, percent, project)
+         project = "I-690")
   
-ex <- ex %>%
-  rename("count" = earnings) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Expo Center") %>%
-  select(race, count, total, percent, project)
-
-hc <- hc %>%
-  rename("count" = earnings) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Hancock") %>%
-  select(race, count, total, percent, project)
-
-lv <- lv %>%
-  rename("count" = earnings) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Lakeview") %>%
-  select(race, count, total, percent, project)
+ex <- expo_gross_rac %>%
+  rename(percent = perc) %>%
+  mutate(project = "Expo Center")
 
 all_gross_race <- hc %>%
   bind_rows(lv) %>%
   bind_rows(ex) %>%
   bind_rows(hw)                                                 # Gross by race, project
 
-hw <- as_data_frame(grs_sex_690)
-ex <- as_data_frame(expo_gross_sex)
-hc <- as_data_frame(hc_gross_sex)
-lv <- as_data_frame(lvhc_gross_sex)
-
-hw <- hw %>%
+hw <- as_data_frame(grs_sex_690) %>%
   select(sex:total) %>%
-  rename("count" = total) %>%
-  mutate(total = sum(count),
+  rename(count = total) %>%
+  mutate(total = sum(count, na.rm = TRUE),
          percent = count / total,
-         project = "I-690") %>%
-  select(sex, count, total, percent, project)
+         project = "I-690")
 
-ex <- ex %>%
-  rename("count" = earnings) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Expo Center") %>%
-  select(sex, count, total, percent, project)
+ex <- as_data_frame(expo_gross_sex) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Expo Center")
 
-hc <- hc %>%
-  rename("count" = earnings) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Hancock") %>%
-  select(sex, count, total, percent, project)
-
-index <- which(lv$sex == "male")
-lv[index, "sex"] <- "Male"
-
-lv <- lv %>%
-  group_by(sex) %>%
-  summarize(count = sum(earnings)) %>%
-  as_tibble() %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Lakeview") %>%
-  select(sex, count, total, percent, project)
+hc <- as_data_frame(hc_gross_sex) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Hancock")
+  
+lv <- as_data_frame(lvhc_gross_sex) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview")
 
 all_gross_sex <- hc %>%
   bind_rows(lv) %>%
@@ -872,7 +826,6 @@ hw <- hw %>%
   arrange(desc(percent))
 
 ex <- ex %>%
-  rename("count" = earnings) %>%
   mutate(total = sum(count),
          percent = count / total,
          project = "Expo Center") %>%
@@ -880,25 +833,13 @@ ex <- ex %>%
   arrange(desc(percent))
 
 hc <- hc %>%
-  rename("count" = earnings) %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Hancock") %>%
-  select(sex, race, count, total, percent, project) %>%
+  rename("percent" = perc) %>%
+  mutate(project = "Hancock") %>%
   arrange(desc(percent))
 
-index <- which(lv$sex == "male")
-lv[index, "sex"] <- "Male"
-
 lv <- lv %>%
-  group_by(sex, race) %>%
-  summarize(count = sum(earnings)) %>%
-  ungroup() %>%
-  as_tibble() %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         project = "Lakeview") %>%
-  select(sex, race, count, total, percent, project) %>%
+  rename(percent = perc) %>%
+  mutate(project = "Lakeview") %>%
   arrange(desc(percent))
 
 all_gross_sxrc <- hc %>%
@@ -909,44 +850,43 @@ all_gross_sxrc <- hc %>%
 
 # ADDITIONAL FINDINGS: EXPO CENTER
 
-expo_sex_class <- expo %>%
-  filter(!is.na(title),
-         !is.na(sex)) %>%
-  group_by(sex, title) %>%
-  summarize(count = n()) %>%
-  as_data_frame() %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         name = "Expo Center")                                  # Class by sex, Expo
+#expo_sex_class <- expo %>%
+#  filter(!is.na(title),
+#         !is.na(sex)) %>%
+#  group_by(sex, title) %>%
+#  summarize(count = n()) %>%
+#  as_data_frame() %>%
+#  mutate(total = sum(count),
+#         percent = count / total,
+#         name = "Expo Center")                                  # Class by sex, Expo
 
-expo_race_class <- expo %>%
-  filter(!is.na(title),
-         !is.na(race)) %>%
-  group_by(race, title) %>%
-  summarize(count = n()) %>%
-  as_data_frame() %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         name = "Expo Center")                                  # Class by race, Expo
+#expo_race_class <- expo %>%
+#  filter(!is.na(title),
+#         !is.na(race)) %>%
+#  group_by(race, title) %>%
+#  summarize(count = n()) %>%
+#  as_data_frame() %>%
+#  mutate(total = sum(count),
+#         percent = count / total,
+#         name = "Expo Center")                                  # Class by race, Expo
   
-expo_rcsx_class <- expo %>%
-  filter(!is.na(title),
-         !is.na(race),
-         !is.na(sex)) %>%
-  group_by(sex, race, title) %>%
-  summarize(count = n()) %>%
-  as_data_frame() %>%
-  mutate(total = sum(count),
-         percent = count / total,
-         name = "Expo Center")                                  # Class by sex and race, Expo
+#expo_rcsx_class <- expo %>%
+#  filter(!is.na(title),
+#         !is.na(race),
+#         !is.na(sex)) %>%
+#  group_by(sex, race, title) %>%
+#  summarize(count = n()) %>%
+#  as_data_frame() %>%
+#  mutate(total = sum(count),
+#         percent = count / total,
+#         name = "Expo Center")                                  # Class by sex and race, Expo
 
 
 # WRITE TO CSV
 
 names <- c("all_gross_race", "all_gross_sex",   "all_gross_sxrc", 
            "all_hours_race", "all_hours_sex",   "all_hours_sxrc", 
-           "all_races",      "all_sexes",       "all_sxrc", 
-           "expo_sex_class", "expo_race_class", "expo_rcsx_class")
+           "all_races",      "all_sexes",       "all_sxrc")
 
 files <- paste0(names, ".csv"); rm(names)
 
@@ -963,10 +903,6 @@ write_csv(all_hours_sxrc, files[6])
 write_csv(all_races, files[7])
 write_csv(all_sexes, files[8])
 write_csv(all_sxrc, files[9])
-
-write_csv(expo_sex_class, files[10])
-write_csv(expo_race_class, files[11])
-write_csv(expo_rcsx_class, files[12])
 
 
 # AGGREGATION TO UNIQUE WORKER TOTALS: I-690, HANCOCK, LAKEVIEW
@@ -992,7 +928,7 @@ hc_tots <- hc_tots %>%
             tot_grs = sum(gross))                      # Unique totals, Hancock
 
 
-url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/lakeview_hancock_merge.csv"
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/tblr_master.csv"
 lv <- read_csv(url); rm(url)
 
 
@@ -1024,15 +960,15 @@ write_csv(all_tots, "all_tots.csv")
 
 # RECORDS
 
-url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/lakeview_hancock_merge.csv"
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/tblr_master.csv"
 lvhc <- read_csv(url); rm(url)
 
-lvhc[which(lvhc$sex == "male"), "sex"] <- "Male"
+index <- which(lvhc$sex == "male")
+lvhc$sex[index] <- "Male"
+lvhc <- filter(lvhc, !is.na(project))
 
 lvhc_recs_uniq <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project) %>%
   summarize(unique = n(),
@@ -1055,8 +991,6 @@ lvhc_recs_uniq <- lvhc %>%
   
   
 lvhc_recs <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
   group_by(project) %>%
   summarize(unique = n(),
             race_recs = sum(!is.na(race)),
@@ -1078,7 +1012,7 @@ lvhc_recs <- lvhc %>%
          grs_recs = number(grs_recs, big.mark = ","),
          grs_perc = percent(grs_perc, accuracy = 0.01)) %>%
   rename("Project" = project,
-         "Total Workers" = unique,
+         "Total Records" = unique,
          "Race Disclosed" = race_recs,
          "Race Disclosed (%)" = race_perc,
          "Gender Disclosed" = sex_recs,
@@ -1089,7 +1023,6 @@ lvhc_recs <- lvhc %>%
          "Gross Disclosed (%)" = grs_perc)
   
 lvhc_rec_cons <- lvhc %>%
-  filter(!is.na(project)) %>%
   group_by(project, name) %>%
   summarize(`Unique Records` = n()) %>%
   ungroup()
@@ -1114,9 +1047,7 @@ lvhc_rec_cons <- left_join(lvhc_rec_cons,
 # Race & Gender by Contractor
 
 con_race <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project, name, race) %>%
   summarize(total = n()) %>%
@@ -1124,18 +1055,14 @@ con_race <- lvhc %>%
   arrange(project, reorder(name, desc(total)), reorder(race, desc(total)))
 
 proj_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project) %>%
   summarize(proj_total = sum(n())) %>%
   ungroup()
 
 name_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project, name) %>%
   summarize(name_total = sum(n())) %>%
@@ -1161,9 +1088,7 @@ con_race_tbl <- con_race_viz %>%
          "Project Workers (%)" = proj_perc)                        # Workers by Company & Race
 
 con_sex <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project, name, sex) %>%
   summarize(total = n()) %>%
@@ -1222,28 +1147,19 @@ con_sxrc_tbl <- con_sxrc_viz %>%
 # Pay & Hours by Gender & Race
 
 tot_hours <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(project),
-         !is.na(hours)) %>%
-  select(project, name, ssn, sex, race, hours) %>%
+  select(project, name, zip:ssn, sex, race, hours) %>%
   group_by(project, name, ssn, sex, race) %>%
   summarize(total = sum(hours)) %>%
   ungroup()
 
 proj_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn),
-         !is.na(hours)) %>%
-  select(project:name, ssn, sex:race, hours) %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(project) %>%
   summarize(proj_total = sum(hours, na.rm = TRUE)) %>%
   ungroup()
 
 name_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn),
-         !is.na(hours)) %>%
-  select(project:name, ssn, sex:race, hours) %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(project, name) %>%
   summarize(name_total = sum(n())) %>%
   ungroup()
