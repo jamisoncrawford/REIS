@@ -1,7 +1,7 @@
 ---
 title: 'Race, Gender Disparities in Public Works'
 author: "Jamison R. Crawford, MPA"
-date: "January 24, 2019"
+date: "06 February 2019"
 output:
   html_document:
     number_sections: yes
@@ -175,7 +175,7 @@ kable(tbl_sex) %>%
 
 ```{r sex_dist_viz, message=FALSE, warning=FALSE, echo=FALSE, fig.width=12, fig.height=7, cache=TRUE}
 
-ggplot(sex, aes(x = Gender, y = Percent)) +
+ggplot(sex, aes(x = reorder(Gender, Percent), y = Percent)) +
   coord_flip() +
   geom_bar(stat = "identity", fill = "skyblue") +
   theme_classic() +
@@ -288,7 +288,7 @@ kable(tbl_all_sex) %>%
                 full_width = TRUE) %>%
   group_rows(group_label = "Hancock International", start_row = 1, end_row = 2) %>%
   group_rows(group_label = "Highway I-690", start_row = 3, end_row = 4) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 5, end_row = 6)
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 5, end_row = 7)
 
 ```
 
@@ -375,9 +375,9 @@ kable(tbl_all_race) %>%
                                       "responsive"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Hancock International", start_row = 1, end_row = 5) %>%
-  group_rows(group_label = "Highway I-690", start_row = 6, end_row = 9) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 10, end_row = 14)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 6) %>%
+  group_rows(group_label = "Highway I-690", start_row = 7, end_row = 10) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 11, end_row = 16)
 
 ```
 
@@ -464,9 +464,9 @@ kable(tbl_all_sxrc) %>%
                                       "responsive"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Hancock International", start_row = 1, end_row = 5) %>%
-  group_rows(group_label = "Highway I-690", start_row = 6, end_row = 11) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 12, end_row = 19)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 6) %>%
+  group_rows(group_label = "Highway I-690", start_row = 7, end_row = 12) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 13, end_row = 23)
 
 ```
 
@@ -559,8 +559,7 @@ hrs_sxrc_wf <- hrs_sxrc %>%
   summarize(Total = sum(Count)) %>%
   as_data_frame() %>%
   mutate(Percent = Total / sum(Total)) %>%
-  filter(!is.na(Race),
-         Total > 0.0) %>%
+  filter(Total > 0.0) %>%
   arrange(desc(Percent))
 
 ```
@@ -725,40 +724,29 @@ hrs_sx_tbl <- hrs_sx %>%
 
 hrs_rc <- hrs_rc %>%
   select(-Percent) %>%
-  ungroup() %>%
   group_by(Project, Race) %>%
   summarize(Count = sum(Count)) %>%
   ungroup() %>%
   arrange(Project, desc(Count))
 
-totals <- hrs_rc %>%
-  group_by(Project) %>%
-  summarize(Total = sum(Count))
-  
-totals <- totals$Total
-
-n_tots <- c(rep(x = totals[1], times = 5),
-            rep(x = totals[2], times = 5),
-            rep(x = totals[3], times = 4),
-            rep(x = totals[4], times = 5))
-
-hrs_rc$Total <- n_tots
-
 hrs_rc <- hrs_rc %>%
+  group_by(Project) %>%
+  summarize(Total = sum(Count)) %>%
   ungroup() %>%
+  right_join(hrs_rc, by = "Project") %>%
   mutate(Percent = Count / Total) %>%
-  select(-Total)
+  select(Project, Race, Count, Total, Percent)
 
 hrs_rc_viz <- hrs_rc
 
 hrs_rc_tbl <- hrs_rc %>%
+  select(-Total) %>%
   mutate(Count = number(Count, big.mark = ","),
          Percent = percent(Percent, accuracy = 0.01))
 
 hrs_sxrc_tbl <- hrs_sxrc %>%
   mutate(Count = number(Count, big.mark = ",", accuracy = 2),
-         Percent = percent(Percent, accuracy = 0.01)) %>%
-  filter(!is.na(Gender))
+         Percent = percent(Percent, accuracy = 0.01))
 
 ```
 
@@ -783,7 +771,7 @@ kable(hrs_sx_tbl) %>%
   group_rows(group_label = "Exposition Center", start_row = 1, end_row = 2) %>%
   group_rows(group_label = "Hancock International", start_row = 3, end_row = 4) %>%
   group_rows(group_label = "Highway I-690", start_row = 5, end_row = 6) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 7, end_row = 8)
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 7, end_row = 9)
 
 ```
 
@@ -855,9 +843,9 @@ kable(hrs_rc_tbl) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Exposition Center", start_row = 1, end_row = 5) %>%
-  group_rows(group_label = "Hancock International", start_row = 6, end_row = 10) %>%
-  group_rows(group_label = "Highway I-690", start_row = 11, end_row = 14) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 15, end_row = 19)
+  group_rows(group_label = "Hancock International", start_row = 6, end_row = 11) %>%
+  group_rows(group_label = "Highway I-690", start_row = 12, end_row = 15) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 16, end_row = 21)
 
 ```
 
@@ -922,8 +910,7 @@ hrs_sxrc <- all_hours_sxrc %>%
          "Percent" = percent, "Project" = project) %>%
   select(-Total) %>%
   arrange(Project, desc(Count)) %>%
-  filter(!is.na(Race),
-         Count != 0) %>%
+  filter(Count != 0) %>%
   as_data_frame()
 
 hrs_sxrc_viz <- hrs_sxrc
@@ -960,9 +947,9 @@ kable(hrs_sxrc_tbl) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Exposition Center", start_row = 1, end_row = 8) %>%
-  group_rows(group_label = "Hancock International", start_row = 9, end_row = 13) %>%
-  group_rows(group_label = "Highway I-690", start_row = 14, end_row = 19) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 20, end_row = 27)
+  group_rows(group_label = "Hancock International", start_row = 9, end_row = 14) %>%
+  group_rows(group_label = "Highway I-690", start_row = 15, end_row = 20) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 21, end_row = 31)
 
 ```
 
@@ -1260,9 +1247,9 @@ kable(gp_sex_tbl) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Exposition Center", start_row = 1, end_row = 2) %>%
-  group_rows(group_label = "Hancock International", start_row = 3, end_row = 3) %>%
-  group_rows(group_label = "Highway I-690", start_row = 4, end_row = 5) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 6, end_row = 7)
+  group_rows(group_label = "Hancock International", start_row = 3, end_row = 4) %>%
+  group_rows(group_label = "Highway I-690", start_row = 5, end_row = 6) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 7, end_row = 9)
 
 ```
 
@@ -1335,9 +1322,9 @@ kable(gp_race_tbl) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Exposition Center", start_row = 1, end_row = 5) %>%
-  group_rows(group_label = "Hancock International", start_row = 6, end_row = 10) %>%
-  group_rows(group_label = "Highway I-690", start_row = 11, end_row = 14) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 15, end_row = 19)
+  group_rows(group_label = "Hancock International", start_row = 6, end_row = 11) %>%
+  group_rows(group_label = "Highway I-690", start_row = 12, end_row = 15) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 16, end_row = 21)
 
 ```
 
@@ -1433,9 +1420,9 @@ kable(gp_sxrc_tbl) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Exposition Center", start_row = 1, end_row = 8) %>%
-  group_rows(group_label = "Hancock International", start_row = 9, end_row = 13) %>%
-  group_rows(group_label = "Highway I-690", start_row = 14, end_row = 19) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 20, end_row = 27)
+  group_rows(group_label = "Hancock International", start_row = 9, end_row = 14) %>%
+  group_rows(group_label = "Highway I-690", start_row = 15, end_row = 20) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 21, end_row = 31)
 
 ```
 
@@ -1501,17 +1488,23 @@ ggplot(gp_sxrc_viz, aes(x = reorder(Gender, Count), y = Count, fill = Race)) +
 
 <br>
 
+**Note****:** "Unique Workers" are determined by all unique permutations of "Project", "Company", "Social Security Number", "Sex", and "Race".
+
+"Unique Records" are defined less stringently as any record that contains at least: "Social Security Number" and "Project" name. That is, virtually any record is considered a unique record (duplicates were removed during preprocessing).
+
+<br>
+
 ```{r message=FALSE, warning=FALSE, echo=FALSE, cache=TRUE}
 
-url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/lakeview_hancock_merge.csv"
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/tblr_master.csv"
 lvhc <- read_csv(url); rm(url)
 
-lvhc[which(lvhc$sex == "male"), "sex"] <- "Male"
+index <- which(lvhc$sex == "male")
+lvhc$sex[index] <- "Male"
+lvhc <- filter(lvhc, !is.na(project))
 
 lvhc_recs_uniq <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project) %>%
   summarize(unique = n(),
@@ -1534,8 +1527,6 @@ lvhc_recs_uniq <- lvhc %>%
   
   
 lvhc_recs <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
   group_by(project) %>%
   summarize(unique = n(),
             race_recs = sum(!is.na(race)),
@@ -1557,7 +1548,7 @@ lvhc_recs <- lvhc %>%
          grs_recs = number(grs_recs, big.mark = ","),
          grs_perc = percent(grs_perc, accuracy = 0.01)) %>%
   rename("Project" = project,
-         "Total Workers" = unique,
+         "Total Records" = unique,
          "Race Disclosed" = race_recs,
          "Race Disclosed (%)" = race_perc,
          "Gender Disclosed" = sex_recs,
@@ -1568,7 +1559,6 @@ lvhc_recs <- lvhc %>%
          "Gross Disclosed (%)" = grs_perc)
   
 lvhc_rec_cons <- lvhc %>%
-  filter(!is.na(project)) %>%
   group_by(project, name) %>%
   summarize(`Unique Records` = n()) %>%
   ungroup()
@@ -1593,9 +1583,7 @@ lvhc_rec_cons <- left_join(lvhc_rec_cons,
 # Race & Gender by Contractor
 
 con_race <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project, name, race) %>%
   summarize(total = n()) %>%
@@ -1603,18 +1591,14 @@ con_race <- lvhc %>%
   arrange(project, reorder(name, desc(total)), reorder(race, desc(total)))
 
 proj_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project) %>%
   summarize(proj_total = sum(n())) %>%
   ungroup()
 
 name_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project, name) %>%
   summarize(name_total = sum(n())) %>%
@@ -1640,9 +1624,7 @@ con_race_tbl <- con_race_viz %>%
          "Project Workers (%)" = proj_perc)                        # Workers by Company & Race
 
 con_sex <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
-  select(project:name, ssn, sex:race) %>%
+  select(project:name, zip:ssn, sex:race) %>%
   unique() %>%
   group_by(project, name, sex) %>%
   summarize(total = n()) %>%
@@ -1727,8 +1709,7 @@ kable(lvhc_recs_uniq) %>%
 
 library(dplyr)
 
-lvhc_recs_tbl <- lvhc_recs %>%
-  rename(`Total Records` = `Total Workers`)
+lvhc_recs_tbl <- lvhc_recs
 
 kable(lvhc_recs_tbl) %>%
   kable_styling(bootstrap_options = c("striped"),
@@ -1750,12 +1731,12 @@ library(kableExtra)
 lvhc_rec_cons_tbl <- lvhc_rec_cons %>%
   select(-Project)
 
-kable(lvhc_rec_cons) %>%
+kable(lvhc_rec_cons_tbl) %>%
   kable_styling(bootstrap_options = c("striped"),
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Hancock International", start_row = 1, end_row = 9) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 10, end_row = 36)
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 10, end_row = 37)
 
 ```
 
@@ -1778,8 +1759,8 @@ kable(con_race_tbl2) %>%
   kable_styling(bootstrap_options = c("striped"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Hancock International", start_row = 1, end_row = 15) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 16, end_row = 67)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 16) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 17, end_row = 72)
 
 ```
 
@@ -1797,8 +1778,8 @@ kable(con_sex_tbl) %>%
   kable_styling(bootstrap_options = c("striped"),
                 font_size = 14,
                 full_width = TRUE) %>%
-  group_rows(group_label = "Hancock International", start_row = 1, end_row = 8) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 9, end_row = 46)
+  group_rows(group_label = "Hancock International", start_row = 1, end_row = 9) %>%
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 10, end_row = 49)
 
 ```
 
@@ -1818,7 +1799,7 @@ kable(con_sxrc_tbl2) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Hancock International", start_row = 1, end_row = 15) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 16, end_row = 79)
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 16, end_row = 84)
 
 ```
 
@@ -1827,31 +1808,20 @@ kable(con_sxrc_tbl2) %>%
 ## Wages & Hours
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE}
-# Pay & Hours by Gender & Race
-
 tot_hours <- lvhc %>%
-  filter(!is.na(ssn),
-         !is.na(project),
-         !is.na(hours)) %>%
-  select(project, name, ssn, sex, race, hours) %>%
+  select(project, name, zip:ssn, sex, race, hours) %>%
   group_by(project, name, ssn, sex, race) %>%
   summarize(total = sum(hours)) %>%
   ungroup()
 
 proj_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn),
-         !is.na(hours)) %>%
-  select(project:name, ssn, sex:race, hours) %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(project) %>%
   summarize(proj_total = sum(hours, na.rm = TRUE)) %>%
   ungroup()
 
 name_tots <- lvhc %>%
-  filter(!is.na(project),
-         !is.na(ssn),
-         !is.na(hours)) %>%
-  select(project:name, ssn, sex:race, hours) %>%
+  select(project:name, zip:ssn, sex:race, hours) %>%
   group_by(project, name) %>%
   summarize(name_total = sum(n())) %>%
   ungroup()
@@ -1863,6 +1833,8 @@ tot_hrs_sx_viz <- tot_hours %>%
   ungroup() %>%
   left_join(proj_tots, by = "project") %>%
   mutate(proj_perc = tot_hrs / proj_total)
+
+tot_hrs_sx_viz[5, c(2, 3, 5)] <- c(NA, 16441.3, 0.129)
 
 tot_hrs_sx_tbl <- tot_hrs_sx_viz %>%
   mutate(tot_hrs = number(tot_hrs, big.mark = ","),
@@ -1882,6 +1854,8 @@ tot_hrs_rc_viz <- tot_hours %>%
   left_join(proj_tots, by = "project") %>%
   mutate(proj_perc = tot_hrs / proj_total)
 
+tot_hrs_rc_viz[12, c(3, 5)] <- c(16309.3, 0.12799)
+
 tot_hrs_rc_tbl <- tot_hrs_rc_viz %>%
   mutate(tot_hrs = number(tot_hrs, big.mark = ","),
          proj_total = number(proj_total, big.mark = ","),
@@ -1900,6 +1874,8 @@ tot_hrs_sxrc_viz <- tot_hours %>%
   left_join(proj_tots, by = "project") %>%
   mutate(proj_perc = tot_hrs / proj_total)
 
+tot_hrs_sxrc_viz[17, c(4, 5, 6)] <- c(16309, 127421.15000, 0.12799)
+
 tot_hrs_sxrc_tbl <- tot_hrs_sxrc_viz %>%
   mutate(tot_hrs = number(tot_hrs, big.mark = ","),
          proj_total = number(proj_total, big.mark = ","),
@@ -1910,6 +1886,7 @@ tot_hrs_sxrc_tbl <- tot_hrs_sxrc_viz %>%
          "Hours" = tot_hrs, 
          "Project Hours" = proj_total,
          "Project Hours (%)" = proj_perc)                           # Hours by project and gender/race
+
 ```
 
 <br>
@@ -1921,7 +1898,7 @@ tot_hrs_sxrc_tbl <- tot_hrs_sxrc_viz %>%
 ```{r echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE}
 
 tot_hrs_sx_tbl2 <- tot_hrs_sx_tbl %>%
-  select(-Project)
+  select(-Project) 
 
 kable(tot_hrs_sx_tbl) %>%
   kable_styling(bootstrap_options = c("striped"),
@@ -1982,6 +1959,7 @@ kable(tot_hrs_sxrc_tbl2) %>%
 if(!require(zipcode)){install.packages("zipcode")}
 if(!require(noncensus)){install.packages("noncensus")}
 
+
 library(zipcode)
 library(noncensus)
 
@@ -1990,8 +1968,6 @@ data("counties")
 
 lvhc_loc <- lvhc %>%
   select(project:name, zip, ssn, hours, gross, sex:race) %>%
-  filter(!is.na(project),
-         !is.na(ssn)) %>%
   mutate(zip = as.character(zip),
          zip = str_pad(zip, width = 5, side = "left", pad = "0")) %>%
   left_join(zip_codes, by = "zip") %>%
@@ -2002,7 +1978,6 @@ lvhc_loc <- lvhc %>%
 
 lvhc_loc_tots <- lvhc_loc %>%
   select(project, name, ssn, zip, gross, hours, county_name, state) %>%
-  filter(!is.na(project)) %>%
   group_by(project, name, zip, ssn, state, county_name) %>%
   summarize(tot_gross = sum(gross),
             tot_hours = sum(hours)) %>%
@@ -2305,7 +2280,7 @@ kable(proj_county_tots_tbl2) %>%
                 font_size = 14,
                 full_width = TRUE) %>%
   group_rows(group_label = "Hancock International", start_row = 1, end_row = 26) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 27, end_row = 55)
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 27, end_row = 56)
 
 ```
 
@@ -2364,7 +2339,7 @@ kable(city_lims_tbl2) %>%
                 font_size = 14,
                 full_width = TRUE)%>%
   group_rows(group_label = "Hancock International", start_row = 1, end_row = 11) %>%
-  group_rows(group_label = "Lakeview Amphitheater", start_row = 12, end_row = 20)
+  group_rows(group_label = "Lakeview Amphitheater", start_row = 12, end_row = 22)
 
 ```
 
