@@ -4,13 +4,11 @@
 ## R Version: 3.5.1
 ## Windows 10
 
-## Script Version: 1.0
-## Updated: 2019-02-09
+## Script Version: 1.1
+## Updated: 2019-02-13
 
 
 # CLEAR WORKSPACE; INSTALL/LOAD PACKAGES
-
-rm(list = ls())
 
 if(!require(zoo)){install.packages("zoo")}
 if(!require(readr)){install.packages("readr")}
@@ -43,14 +41,6 @@ library(kableExtra)
     ## Source: https://haozhu233.github.io/kableExtra/save_kable_and_as_image.html
     ## Warning: Installs Software (http://phantomjs.org/)
 
-if(!require(magick)){install.packages("magick")}
-if(!require(webshot)){install.packages("webshot")}
-
-library(magick)
-library(webshot)
-
-webshot::install_phantomjs()
-
 # Note: Run the following script: "reis_findings.rmd"
 
 # Script Location: https://github.com/jamisoncrawford/reis/tree/master/Scripts
@@ -76,7 +66,7 @@ bar_expo_rc_hrs <- ggplot(viz_expo_rc_hrs, aes(x = reorder(Race, Percent), y = C
        subtitle = "Expo Center",
        x = "Race", 
        y = "Hours", 
-       caption = "Source: Onondaga County")
+       caption = "Source: NYS Office of General Services")
 
 ggsave(plot = bar_expo_rc_hrs, 
        filename = "expo_rc_hrs_bar.jpg",
@@ -110,7 +100,7 @@ bar_exp_sxrc_hrs <- ggplot(viz_exp_sxrc_hrs, aes(x = reorder(Race, Percent), y =
        subtitle = "Expo Center",
        x = "Race", 
        y = "Hours", 
-       caption = "Source: Onondaga County")
+       caption = "Source: NYS Office of General Services")
 
 ggsave(plot = bar_exp_sxrc_hrs, 
        filename = "expo_sxrc_hrs_bar.jpg",
@@ -138,7 +128,7 @@ bar_expo_rc_grs <- ggplot(viz_expo_rc_grs, aes(x = reorder(Race, Percent), y = C
        subtitle = "Expo Center",
        x = "Race", 
        y = "Gross", 
-       caption = "Source: Onondaga County")
+       caption = "Source: NYS Office of General Services")
 
 ggsave(plot = bar_expo_rc_grs, 
        filename = "expo_rc_grs_bar.jpg",
@@ -159,7 +149,7 @@ bar_expo_sxrc_grs <- ggplot(viz_expo_sxrc_grs, aes(x = reorder(Race, Percent), y
        x = "Race", 
        y = "Gross", 
        fill = "Gender",
-       caption = "Source: Onondaga County")
+       caption = "Source: NYS Office of General Services")
 
 ggsave(plot = bar_expo_sxrc_grs, 
        filename = "expo_sxrc_grs_bar.jpg",
@@ -197,10 +187,11 @@ tmp_expo_rc_viz <- bind_rows(tmp_expo_rc_hrs, tmp_expo_rc_grs)
 tmp_expo_rc <- ggplot(tmp_expo_rc_viz, aes(x = Race, y = Percent, fill = reorder(Indicator, Percent))) +
   geom_bar(stat = "identity", position = "dodge") +
   coord_flip() +
-  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1),
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = c(0, 0.25, 0.5, 0.75, 1),
                      labels = percent) +
   labs(title = "Proportion of hours v. gross earnings by race",
-       subtitle = "Full Scale: 100%",
+       subtitle = "Scale: 100%",
        x = NULL,
        y = NULL,
        fill = "Proportion",
@@ -213,8 +204,8 @@ tmp_expo_rc2 <- tmp_expo_rc +
                      labels = percent) +
   theme(legend.position = "right") +
   labs(title = "",
-       subtitle = "Zoom: 5%",
-       caption = "Source: Onondaga County") +
+       subtitle = "Scale: 5%",
+       caption = "Source: NYS Office of General Services") +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
 
@@ -222,6 +213,327 @@ png("expo_rc_grshrs_spec.jpg", width = 700, height = 350, bg = "transparent")   
 grid.arrange(tmp_expo_rc, tmp_expo_rc2, ncol=2)
 dev.off()
 
+
+## I-690 VISUALIZATIONS
+
+# Viz: Hours by Gender
+
+hw_sx_hrs <- all_hours_sex %>%
+  filter(project == "I-690") %>%
+  arrange(desc(sex))
+
+viz_hw_sx_hrs <- ggplot(hw_sx_hrs, aes(x = sex, y = count)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Total hours by gender",
+       subtitle = "I-690",
+       x = "Gender", 
+       y = "Hours",
+       caption = "Source: [Insert Source]")
+
+ggsave(plot = viz_hw_sx_hrs, 
+       filename = "hw_sx_hrs_bar.jpg",
+       bg = "transparent")
+
+# Table: Hours by Gender
+
+tbl_hw_sx_hrs <- hw_sx_hrs %>%
+  select(-total, - project) %>%
+  mutate(count = number(count, big.mark = ","),
+         percent = percent(percent, accuracy = 0.01)) %>%
+  rename(Gender = sex,
+         Hours = count,
+         `Hours (%)` = percent)
+
+# Viz: Workforce by Race
+
+hw_rc_wf <- all_races %>%
+  filter(project == "I-690") %>%
+  arrange(reorder(race, desc(percent)))
+
+viz_hw_rc_wf <- ggplot(hw_rc_wf, aes(x = reorder(race, percent), y = count)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Total workers by race",
+       subtitle = "I-690",
+       x = "Race", 
+       y = "Workers",
+       caption = "Source: [Insert Source]")
+
+ggsave(plot = viz_hw_rc_wf, 
+       filename = "hw_rc_wf_bar.jpg",
+       bg = "transparent")
+
+# Table: Workforce by Race
+
+tbl_hw_rc_wf <- hw_rc_wf %>%
+  select(-total, - project) %>%
+  mutate(count = number(count, big.mark = ","),
+         percent = percent(percent, accuracy = 0.01)) %>%
+  rename("Race" = race,
+         "Workers" = count,
+         `Workers (%)` = percent)
+
+# Preparation: I-690 Sex, Race, & Trades (Hours)
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/690_utilization.csv"
+
+hw_trades <- read_csv(url) %>%
+  select(trade:native_f, total_emp_m:total_min_f)
+
+index <- which(hw_trades$trade == "Welders & Citters")
+hw_trades$trade[index] <- "Welders & Cutters"
+
+hw_black <- hw_trades %>% 
+  select(trade, black_m:black_f) %>% 
+  rename(Male = black_m, Female = black_f) %>%
+  gather(key = sex, value = count, Male, Female) %>%
+  filter(count != 0) %>%
+  mutate(race = "Black") %>%
+  arrange(trade)
+
+hw_hispanic <- hw_trades %>% 
+  select(trade, hispanic_m:hispanic_f) %>% 
+  rename(Male = hispanic_m, Female = hispanic_f) %>%
+  gather(key = sex, value = count, Male, Female) %>%
+  filter(count != 0) %>%
+  mutate(race = "Hispanic") %>%
+  arrange(trade)
+
+hw_asian <- hw_trades %>% 
+  select(trade, asian_m:asian_f) %>% 
+  rename(Male = asian_m, Female = asian_f) %>%
+  gather(key = sex, value = count, Male, Female) %>%
+  filter(count != 0) %>%
+  mutate(race = "Asian") %>%
+  arrange(trade)
+
+hw_native <- hw_trades %>% 
+  select(trade, native_m:native_f) %>% 
+  rename(Male = native_m, Female = native_f) %>%
+  gather(key = sex, value = count, Male, Female) %>%
+  filter(count != 0) %>%
+  mutate(race = "Native") %>%
+  arrange(trade)
+
+hw_rc_mins <- bind_rows(hw_black, hw_hispanic, hw_asian, hw_native)
+
+hw_white_m <- hw_trades %>%
+  select(trade:native_f) %>%
+  select(trade, ends_with(match = "_m")) %>%
+  mutate(white_male_hrs = total_m - (black_m + hispanic_m + asian_m + native_m)) %>%
+  select(trade, white_male_hrs) %>%
+  rename(count = white_male_hrs) %>%
+  filter(count != 0) %>%
+  mutate(race = "White") %>%
+  arrange(trade) %>%
+  mutate(sex = "Male")
+
+hw_white_f <- hw_trades %>%
+  select(trade:native_f) %>%
+  select(trade, ends_with(match = "_f")) %>%
+  mutate(white_female_hrs = total_f - (black_f + hispanic_f + asian_f + native_f)) %>%
+  select(trade, white_female_hrs) %>%
+  rename(count = white_female_hrs) %>%
+  filter(count != 0) %>%
+  mutate(race = "White") %>%
+  arrange(trade) %>%
+  mutate(sex = "Female")
+
+hw_white <- bind_rows(hw_white_m, hw_white_f) %>%
+  arrange(desc(sex), desc(count)) %>%
+  select(trade, sex, count, race)
+
+# Viz: Hours by Sex & Race
+
+hw_sxrc_hrs_trade <- bind_rows(hw_white, hw_rc_mins) %>%
+  mutate(total = sum(count),
+         percent = count / total) %>%
+  select(-total) %>%
+  arrange(desc(sex), reorder(trade, desc(count)))
+
+viz_hw_sxrc_hrs_trade <- ggplot(hw_sxrc_hrs_trade, aes(x = race, y = count, fill = sex)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(limits = c("Hispanic", "Native", "Black", "White")) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Total hours by gender and race",
+       subtitle = "I-690",
+       x = "Race", 
+       y = "Hours",
+       fill = "Gender",
+       caption = "Source: [Insert Source]")
+
+ggsave(plot = viz_hw_sxrc_hrs_trade, 
+       filename = "hw_sxrc_hrs_bar.jpg",
+       bg = "transparent")
+
+# Viz: Hours by Race & Trade
+
+viz_hw_sxrc_hrs_trade <- ggplot(hw_sxrc_hrs_trade, aes(x = reorder(trade, desc(count)), y = count, fill = race)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(limits = c("Foreman", "Laborers Unskilled", "Piledriver", "Surveyors", "Cement Masons",       
+                              "Electricians", "Iron Workers", "Carpenters", "Equipment Operator",  
+                              "Laborers Semiskilled")) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Top 10 trades by hourage and race",
+       subtitle = "All workers, 99.45% of hours",
+       x = "Trades", 
+       y = "Hours",
+       fill = "Race",
+       caption = "") +
+  theme(legend.position = "none")
+
+hw_sxrc_hrs_trade_min <- hw_sxrc_hrs_trade
+index <- which(hw_sxrc_hrs_trade_min$race == "White")
+hw_sxrc_hrs_trade_min[index, "count"] <- 0
+hw_sxrc_hrs_trade_min[index, "percent"] <- 0
+
+viz_hw_sxrc_hrs_trade_min <- ggplot(hw_sxrc_hrs_trade_min, aes(x = reorder(trade, desc(count)), y = count, fill = race)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(limits = c("Foreman", "Laborers Unskilled", "Piledriver", "Surveyors", "Cement Masons",       
+                              "Electricians", "Iron Workers", "Carpenters", "Equipment Operator",  
+                              "Laborers Semiskilled")) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "",
+       subtitle = "Minority workers only",
+       x = "", 
+       y = "",
+       fill = "Race",
+       caption = "Source: [Insert Source]") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+png("hw_rc_hrs_trades_spec.jpg", width = 800, height = 400, bg = "transparent")      # Note: Requires graphics device
+grid.arrange(viz_hw_sxrc_hrs_trade, viz_hw_sxrc_hrs_trade_min, ncol=2)
+dev.off()
+
+# Preparation: I-690 Workers by Race, Sex, Trade
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/690_utilization.csv"
+
+hw_wf_trades_m <- read_csv(url) %>%
+  select(trade, total_emp_m:total_min_f) %>%
+  select(trade, ends_with("_m")) %>%
+  mutate(White = total_emp_m - total_min_m) %>%
+  rename(Minority = total_min_m,
+         Total = total_emp_m,
+         Trade = trade) %>%
+  gather(key = Race, value = Count, Minority, White) %>%
+  select(Trade, Race, Count, Total) %>%
+  filter(Total != 0) %>%
+  mutate(Percent = Count / Total,
+         Gender = "Male")
+  
+hw_wf_trades_f <- read_csv(url) %>%
+  select(trade, total_emp_m:total_min_f) %>%
+  select(trade, ends_with("_f")) %>%
+  mutate(White = total_emp_f - total_min_f) %>%
+  rename(Minority = total_min_f,
+         Total = total_emp_f,
+         Trade = trade) %>%
+  gather(key = Race, value = Count, Minority, White) %>%
+  select(Trade, Race, Count, Total) %>%
+  filter(Total != 0) %>%
+  mutate(Percent = Count / Total,
+         Gender = "Female")
+
+hw_wf_trades <- bind_rows(hw_wf_trades_m, hw_wf_trades_f) %>%
+  select(Trade, Gender, Race, Count, Total) %>%
+  arrange(desc(Race), desc(Count))
+
+index <- which(hw_wf_trades$Trade == "Welders & Citters")
+
+hw_wf_trades[index, "Trade"] <- "Welders & Cutters"
+
+# Viz: Total Minority Workers by Trade
+
+trades <- c("Clerical", "Mechanic", "Other", "Surveyors", "Asbestos Workers", "Supervisor",
+            "Welders & Cutters", "Truck Driver", "Foreman", "Laborers Unskilled", "Piledriver",
+            "Electricians", "Cement Masons", "Carpenters", "Iron Workers", "Equipment Operator",
+            "Laborers Semiskilled")
+
+viz_hw_wf_trades <- ggplot(hw_wf_trades, aes(x = reorder(Trade, Count), y = Count, fill = Race)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = comma, breaks = c(0, 25, 50, 75, 100)) +
+  scale_x_discrete(limits = trades) +
+  labs(title = "Total workers by minority status",
+       subtitle = "I-690",
+       x = "Trades", 
+       y = "Workers",
+       fill = "Status",
+       caption = "Source: [Insert Source]")
+
+ggsave(plot = viz_hw_wf_trades, 
+       filename = "hw_wf_trades_bar.jpg",
+       bg = "transparent")
+
+# Table: Total Workers, Minority Workers, Proportion by Trade
+
+hw_wf_trades_w <- hw_wf_trades %>%
+  group_by(Trade, Race) %>%
+  summarize(Count = sum(Count)) %>%
+  ungroup() %>%
+  mutate(Total = sum(Count),
+         Percent = Count / Total) %>%
+  filter(Race == "White") %>%
+  select(-Total) %>%
+  arrange(Trade)
+
+hw_wf_trades_m <- hw_wf_trades %>%
+  group_by(Trade, Race) %>%
+  summarize(`Minority Count` = sum(Count)) %>%
+  ungroup() %>%
+  mutate(`Minority Total` = sum(`Minority Count`),
+         `Minority Percent` = `Minority Count` / `Minority Total`) %>%
+  filter(Race == "Minority") %>%
+  select(-`Minority Total`) %>%
+  arrange(Trade) %>%
+  select(-Trade, -Race)
+
+tidy_hw_wf_trades <- bind_cols(hw_wf_trades_w, hw_wf_trades_m)
+
+tbl_hw_wf_trades <- bind_cols(hw_wf_trades_w, hw_wf_trades_m) %>%
+  rename("White Workers" = Count,
+         "Minority Workers" = `Minority Count`) %>%
+  select(-Race, -Percent, -`Minority Percent`) %>%
+  mutate(`Total Workers` = `White Workers` + `Minority Workers`,
+         `White Workers (%)` = `White Workers` / `Total Workers`,
+         `Minority Workers (%)` = `Minority Workers` / `Total Workers`) %>%
+  select(Trade, `White Workers`, `White Workers (%)`, 
+         `Minority Workers`, `Minority Workers (%)`, `Total Workers`) %>%
+  mutate(`White Workers (%)` = percent(`White Workers (%)`, accuracy = 0.01),
+         `Minority Workers (%)` = percent(`Minority Workers (%)`, accuracy = 0.01)) %>%
+  arrange(desc(`Total Workers`))
+
+write_csv(tbl_hw_wf_trades, "hw_wf_trades_tbl.csv")
+
+# Table: Total & Proportion of Hours by Race, Gender
+
+hw_sxrc_hrs <- hw_sxrc_hrs_trade %>%
+  group_by(sex, race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  arrange(desc(count)) %>%
+  mutate(total = sum(count),
+         percent = count / total)
+
+tbl_hw_sxrc_hrs <- hw_sxrc_hrs %>%
+  select(-total) %>%
+  arrange(desc(count)) %>%
+  mutate(count = number(count, big.mark = ","),
+         percent = percent(percent, accuracy = 0.01)) %>%
+  rename(Gender = sex,
+         Race = race,
+         Hours = count,
+         `Hours (%)` = percent)
+
+write_csv(tbl_hw_sxrc_hrs, "hw_sxrc_hrs_tbl.csv")
 
 
 
