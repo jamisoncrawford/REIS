@@ -804,14 +804,24 @@ potential <- tmp %>%
 
 hw_wf_poten <- bind_rows(actual, potential)
 
+
+index <- which(hw_wf_poten$trade == "Ironworkers" & hw_wf_poten$count == -5)
+hw_wf_poten[index, "count"] <- 0
+
+exceed <- data_frame(trade = "Ironworkers", class = "Exceeding", count = 5)
+
+hw_wf_poten <- bind_rows(hw_wf_poten, exceed)
+
+
 viz_hw_wf_poten <- ggplot(hw_wf_poten, 
-                          aes(x = reorder(trade, count), y = count, fill = class)) +
+       aes(x = reorder(trade, count), y = count, 
+           fill = factor(class, levels = c("Potential", "Exceeding", "Actual")))) +
   geom_bar(stat = "identity") +
   coord_flip() +
   scale_y_continuous(labels = comma, limits = c(0, 50)) +
   labs(x = "Trade",
        y = "Workers",
-       fill = "Status",
+       fill = "Apprentices",
        title = "Actual v. potential hired apprentices by trade",
        subtitle = "I-690",
        caption = "Source: NYS Department of Transportation")
@@ -826,6 +836,255 @@ ggsave(plot = viz_hw_wf_poten,
 
 # 1) Proportionality of Minority vs. White workers
 # 2) Proportionality of Actual v. Potential Apprentices
+
+actual <- hw_wf_poten %>%
+  filter(class != "Potential") %>%
+  group_by(trade) %>%
+  summarize(count = sum(count)) %>%
+  ungroup()
+
+potent <- hw_wf_poten %>%
+  filter(class == "Potential") %>%
+  group_by(trade) %>%
+  summarize(potent = sum(count)) %>%
+  ungroup()
+
+potent[potent$trade == "Ironworkers", "potent"] <- -5
+
+potential <- left_join(actual, potent, by = "trade") %>%
+  mutate(potent = count + potent,
+         perc = count / potent,
+         inverse = 1 - perc)
+
+hw_wf_potent <- hw_wf_class %>%
+  filter(class == "Apprentice") %>%
+  group_by(trade, race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  spread(key = race, value = count)
+
+index <- which(is.na(hw_wf_potent$Minority))
+hw_wf_potent[index, "Minority"] <- 0
+
+hw_wf_potent <- hw_wf_potent %>%
+  mutate(total = Minority + White,
+         perc = Minority / total,
+         inverse = 1 - perc)
+
+missing <- data_frame(trade = c("Laborer Unskilled", 
+                                "Welders and Cutters", 
+                                "Asbestos Workers"),
+           Minority = 0,
+           White = 0,
+           total = 0,
+           perc = 0,
+           inverse = 1)
+
+potential_by_class <- potential %>%
+  select(trade, perc, inverse) %>%
+  arrange(trade) %>%
+  rename(Actual = perc,
+         Potential = inverse) %>%
+  mutate(Exceeding = Actual - 1) %>%
+  gather(key = Status, value = Proportion, Actual, Potential, Exceeding) %>%
+  mutate(class = "Hired v. Potential Apprentices")
+
+index <- which(potential_by_class$Status == "Exceeding" & potential_by_class$Proportion < -0.1)
+potential_by_class[index, "Proportion"] <- 0
+
+potential_by_race <- bind_rows(hw_wf_potent, missing) %>%
+  select(trade, perc, inverse) %>%
+  rename(Minority = perc,
+         White = inverse) %>%
+  arrange(trade) %>%
+  gather(key = Status, value = Proportion, Minority, White) %>%
+  mutate(class = "White v. Minority Apprentices")
+
+class_potential <- full_join(potential_by_class, potential_by_race) %>%
+  filter(Status != "Exceeding")
+
+index <- which(class_potential$trade == "Ironworkers" & class_potential$Status == "Potential")
+class_potential[index, "Proportion"] <- 0
+
+index <- which(class_potential$trade == "Ironworkers" & class_potential$Status == "Actual")
+class_potential[index, "Proportion"] <- 1
+
+class_potential_focused <- class_potential %>%
+  filter(Status != "Actual",
+         Status != "White")
+
+index <- which(class_potential_focused$Status == "Minority")
+class_potential_focused[index, "Status"] <- "Minority Occupied (%)"
+
+index <- which(class_potential_focused$Status == "Potential")
+class_potential_focused[index, "Status"] <- "Unoccupied (%)"
+
+viz_class_potential <- ggplot(class_potential_focused, aes(x = factor(trade,
+                                               levels = rev(c("Asbestos Workers",
+                                                          "Laborer Unskilled",
+                                                          "Welders and Cutters",
+                                                          "Laborer Semi-skilled",
+                                                          "Equipment Operator",
+                                                          "Cement Masons",
+                                                          "Carpenters",
+                                                          "Piledriver",
+                                                          "Ironworkers",
+                                                          "Electrician"))), 
+                                    y = Proportion, fill = Status)) +
+  geom_bar(stat = "identity", alpha = 0.75, position = "dodge") +
+  coord_flip() +
+  theme(axis.title.y = element_blank()) +
+  scale_y_continuous(labels = percent) +
+  labs(title = "Minority apprentices v. apprentice vacancies by trade",
+       subtitle = "I-690",
+       fill = "Position Status",
+       x = NULL,
+       caption = "Source: NYS Department of Transportation")
+
+ggsave(plot = viz_class_potential, 
+       filename = "class_potential_bar.jpg",
+       bg = "transparent")
+
+
+### CONCLUSION VISUALIZATIONS
+
+# Viz: Workforce by Race: Hancock, Lakeview, I-690
+
+viz_wf_race_1 <- ggplot(all_races, aes(x = reorder(project, count), y = count, fill = race)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Workforce composition by race",
+       subtitle = "All projects",
+       x = "Project",
+       y = "Total Workers",
+       fill = "Race",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT")
+
+viz_wf_race_2 <- ggplot(all_races, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity", fill = "tomato", alpha = 0.8) +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Workforce composition by race",
+       subtitle = "All projects",
+       x = NULL,
+       y = "Total Workers",
+       fill = "Race",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT")
+
+viz_wf_race_3 <- ggplot(all_races, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity", fill = "tomato", alpha = 0.8) +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Workforce composition by race",
+       subtitle = "All projects",
+       x = NULL,
+       y = "Total Workers",
+       fill = "Race",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT") +
+  facet_wrap(~ reorder(project, desc(count)), nrow = 4)
+
+ggsave(plot = viz_wf_race_1, 
+       filename = "wf_race_bar_1.jpg",
+       bg = "transparent")
+
+ggsave(plot = viz_wf_race_2, 
+       filename = "wf_race_bar_2.jpg",
+       bg = "transparent")
+
+ggsave(plot = viz_wf_race_3, 
+       filename = "wf_race_bar_3.jpg",
+       bg = "transparent")
+
+# Viz: Percentage of Workers Who Identify Race & Gender
+
+wf_sxrc <- all_sxrc %>%
+  select(sex:count) %>%
+  group_by(sex, race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         perc = count / total)
+
+viz_wf_sxrc <- ggplot(wf_sxrc, aes(x = factor(race, 
+                               levels = c("Multiracial",
+                                          "Asian",
+                                          "Hispanic",
+                                          "Native",
+                                          "Black",
+                                          "White"),
+                               labels = c("Multiracial",
+                                          "Asian",
+                                          "Hispanic",
+                                          "Indigenous",
+                                          "Black",
+                                          "White")), 
+                     y = perc, 
+                     fill = sex)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(labels = percent) +
+  labs(title = "Workforce proportions by gender and race",
+       subtitle = "Records disclosing race and gender, all projects",
+       x = NULL,
+       y = "Workforce (%)",
+       fill = "Gender",
+       caption = "Source: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT")
+
+ggsave(plot = viz_wf_sxrc, 
+       filename = "wf_sxrc_bar.jpg",
+       bg = "transparent")
+
+# Viz: Workhours and Wages, Hancock, Lakeview, I-690, Expo by Race
+
+hours_conclusion <- all_hours_race %>%
+  select(race, count) %>%
+  group_by(race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  arrange(reorder(race, desc(count))) %>%
+  mutate(var = "Hours")
+
+gross_conclusion <- all_gross_race %>%
+  select(race, count) %>%
+  group_by(race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  arrange(reorder(race, desc(count))) %>%
+  mutate(var = "Gross")
+
+conclusion <- bind_rows(hours_conclusion, gross_conclusion)
+
+options(scipen = 999)
+
+con1 <- ggplot(gross_conclusion, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(label = dollar) +
+  labs(title = "Total gross pay and hours by race, all projects",
+       subtitle = "Total gross",
+       x = NULL,
+       y = NULL,
+       caption = "")
+
+con_2 <- ggplot(hours_conclusion, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(label = comma) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  labs(title = "",
+       subtitle = "Total hours",
+       x = NULL,
+       y = NULL,
+       caption = "Source: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT")
+
+png("conclusion_hrs_grs_spec.jpg", width = 700, height = 350, bg = "transparent")      # Note: Requires graphics device
+grid.arrange(con1, con_2, ncol = 2)
+dev.off()
+
+
+
 
 
 
