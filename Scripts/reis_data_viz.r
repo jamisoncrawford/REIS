@@ -462,7 +462,7 @@ viz_hw_wf_trades <- ggplot(hw_wf_trades, aes(x = reorder(Trade, Count), y = Coun
   geom_bar(stat = "identity") +
   scale_y_continuous(labels = comma, breaks = c(0, 25, 50, 75, 100)) +
   scale_x_discrete(limits = trades) +
-  labs(title = "Total workers by minority status",
+  labs(title = "Total workers by minority status and trade",
        subtitle = "I-690",
        x = "Trades", 
        y = "Workers",
@@ -534,6 +534,299 @@ tbl_hw_sxrc_hrs <- hw_sxrc_hrs %>%
          `Hours (%)` = percent)
 
 write_csv(tbl_hw_sxrc_hrs, "hw_sxrc_hrs_tbl.csv")
+
+
+### I-690 CLASSES BY GENDER & MINORITY STATUS
+
+url_hr <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/hw_hrs_class.csv"
+url_wf <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/hw_wf_class.csv"
+
+hw_hr_class <- read_csv(url_hr)
+hw_wf_class <- read_csv(url_wf)
+
+hw_wf_class$trade <- hw_hr_class$trade
+
+rm(url_hr, url_wf)
+
+hw_wf_class <- hw_wf_class %>%
+  mutate(denom = as.integer(str_extract(allow_2, "[0-9]{1}$")),
+         actual = tot_j / tot_a,
+         potent = round(tot_j / denom, digits = 0))
+
+for (i in 1:nrow(hw_wf_class)){
+  if (hw_wf_class$actual[i] == Inf & !is.na(hw_wf_class$denom[i])){
+    hw_wf_class$actual[i] <- 0
+  }
+}
+
+hw_wf_class <- hw_wf_class %>%
+  mutate(perc_pot = tot_a / potent)
+
+# Workforce & Class Prep
+
+hw_wf_class_jw <- hw_wf_class %>%
+  select(trade:jwf, allow_2:perc_pot) %>%
+  rename("total" = tot_j,
+         "Male" = jwm,
+         "Female" = jwf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "White",
+         class = "Journeyman")
+
+hw_wf_class_jm <- hw_wf_class %>%
+  select(trade, tot_j, jmm:jmf, allow_2:perc_pot) %>%
+  rename("total" = tot_j,
+         "Male" = jmm,
+         "Female" = jmf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "Minority",
+         class = "Journeyman")
+
+hw_wf_class_aw <- hw_wf_class %>%
+  select(trade, tot_a, awm:awf, allow_2:perc_pot) %>%
+  rename("total" = tot_a,
+         "Male" = awm,
+         "Female" = awf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "White",
+         class = "Apprentice")
+
+hw_wf_class_am <- hw_wf_class %>%
+  select(trade, tot_a, amm:amf, allow_2:perc_pot) %>%
+  rename("total" = tot_a,
+         "Male" = amm,
+         "Female" = amf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "Minority",
+         class = "Apprentice")
+
+hw_wf_class <- bind_rows(hw_wf_class_jw, 
+                         hw_wf_class_jm, 
+                         hw_wf_class_aw, 
+                         hw_wf_class_am) %>%
+  select(trade, class, gender, race, count, total, allow_2, actual, potent, perc_pot) %>%
+  filter(count != 0) %>%
+  arrange(trade, desc(class), reorder(gender, desc(count)), reorder(race, desc(count))) %>%
+  mutate(percent = count / total) %>%
+  select(trade, class, gender, race, count, total, percent, allow_2, actual, potent, perc_pot) %>%
+  rename(ratio = allow_2) %>%
+  mutate(denom = as.integer(str_extract(ratio, "[0-9]{1}$")))
+
+index <- which(hw_wf_class$actual == Inf)
+
+hw_wf_class$actual[index] <- NA
+
+# Hours & Class Prep
+
+hw_hr_class_jw <- hw_hr_class %>%
+  select(trade:jwf, allow_2) %>%
+  rename("total" = tot_j,
+         "Male" = jwm,
+         "Female" = jwf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "White",
+         class = "Journeyman")
+
+hw_hr_class_jm <- hw_hr_class %>%
+  select(trade, tot_j, jmm:jmf, allow_2) %>%
+  rename("total" = tot_j,
+         "Male" = jmm,
+         "Female" = jmf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "Minority",
+         class = "Journeyman")
+
+hw_hr_class_aw <- hw_hr_class %>%
+  select(trade, tot_a, awm:awf, allow_2) %>%
+  rename("total" = tot_a,
+         "Male" = awm,
+         "Female" = awf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "White",
+         class = "Apprentice")
+
+hw_hr_class_am <- hw_hr_class %>%
+  select(trade, tot_a, amm:amf, allow_2) %>%
+  rename("total" = tot_a,
+         "Male" = amm,
+         "Female" = amf) %>%
+  gather(key = gender, value = count, Male, Female) %>%
+  mutate(race = "Minority",
+         class = "Apprentice")
+
+hw_hr_class <- bind_rows(hw_hr_class_jw, 
+                         hw_hr_class_jm, 
+                         hw_hr_class_aw, 
+                         hw_hr_class_am) %>%
+  select(trade, class, gender, race, count, total, allow_2) %>%
+  filter(count != 0) %>%
+  arrange(trade, desc(class), reorder(gender, desc(count)), reorder(race, desc(count))) %>%
+  mutate(percent = count / total) %>%
+  select(trade, class, gender, race, count, total, percent, allow_2) %>%
+  rename(ratio = allow_2) %>%
+  mutate(denom = as.integer(str_extract(ratio, "[0-9]{1}$")))
+
+# Viz: Classification by Gender and Minority
+
+viz_hw_sxrc_class <- ggplot(hw_wf_class, aes(x = class, y = count, fill = gender)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  facet_grid(reorder(race, desc(count)) ~ .) +
+  labs(x = "Class",
+       y = "Count",
+       fill = "Gender",
+       title = "Class by gender and minority status",
+       subtitle = "I-690",
+       caption = "Source: NYS Department of Transportation")
+
+ggsave(plot = viz_hw_sxrc_class, 
+       filename = "hw_sxrc_class_bar.jpg",
+       bg = "transparent")
+
+# Table: Classification by Gender and Minority
+
+tbl_hw_sxrc_class <- hw_wf_class %>%
+  arrange(desc(class), trade, reorder(gender, desc(count)), reorder(race, desc(count))) %>%
+  select(trade:count, percent, ratio, actual, potent, perc_pot) %>%
+  mutate(perc_pot = percent(perc_pot, accuracy = 0.01),
+         percent = percent(percent, accuracy = 0.01),
+         actual = number(actual, accuracy = 0.1),
+         actual = as.character(actual),
+         actual = str_replace(actual, pattern = ".0$", ""),
+         actual = paste0("1:", actual)) %>%
+  rename(Trade = trade,
+         Class = class,
+         Gender = gender,
+         Race = race,
+         Workers = count,
+         "Workers (%)" = percent,
+         "Allowed Trade Ratio" = ratio,
+         "Actual Trade Ratio" = actual,
+         "Potential Trade Apprentices" = potent,
+         "Apprentice Potential (%)" = perc_pot)
+
+index <- which(tbl_hw_sxrc_class$`Apprentice Potential (%)` == "NA%")
+tbl_hw_sxrc_class$`Apprentice Potential (%)`[index] <- NA
+
+index <- which(tbl_hw_sxrc_class$`Actual Trade Ratio` == "1:NA")
+tbl_hw_sxrc_class$`Actual Trade Ratio`[index] <- NA
+
+write_csv(tbl_hw_sxrc_class, "hw_sxrc_class_tbl.csv")
+
+# Viz: Workhours by Classification and Race
+
+viz_hw_sxrc_hrs_class <- ggplot(hw_hr_class, aes(x = class, y = count, fill = race)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(x = "Class",
+       y = "Hours",
+       fill = "Status",
+       title = "Hours by minority status and class",
+       subtitle = "I-690",
+       caption = "Source: NYS Department of Transportation")
+
+ggsave(plot = viz_hw_sxrc_hrs_class, 
+       filename = "hw_sxrc_hrs_class_bar.jpg",
+       bg = "transparent")
+
+# Table: Classification by Trades
+
+tbl_hw_wf_class <- hw_wf_class %>%
+  group_by(trade, class) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total) %>%
+  select(-total) %>%
+  arrange(desc(class), trade) %>%
+  mutate(percent = percent(percent, accuracy = 0.01)) %>%
+  rename(Trade = trade,
+         Class = class,
+         Workers = count,
+         "Workers (%)" = percent)
+
+tmp <- tbl_hw_sxrc_class %>% 
+  select(Trade, Class, `Allowed Trade Ratio`:`Apprentice Potential (%)`) %>%
+  unique()
+
+tbl_hw_wf_class <- left_join(tbl_hw_wf_class, tmp, by = c("Trade", "Class")) %>%
+  arrange(Trade, desc(Class))
+
+write_csv(tbl_hw_wf_class, "hw_wf_class_tbl.csv")
+
+# Viz: Apprenticeship Potential (Prep)
+
+tmp <- hw_wf_class %>%
+  select(trade, ratio, actual, potent, perc_pot, denom) %>%
+  unique()
+
+hw_wf_class2 <- hw_wf_class %>%
+  group_by(trade, class) %>%
+  summarize(count = sum(count)) %>%
+  ungroup()
+
+tmp <- tmp %>%
+  mutate(class = "Potential") %>%
+  select(trade, class, potent) %>%
+  rename(count = potent)
+
+missing <- data_frame(trade = c("Laborer Unskilled", 
+                                "Welders and Cutters", 
+                                "Asbestos Workers"),
+                      class = "Actual",
+                      count = 0)
+
+hw_wf_class2 <- hw_wf_class2 %>%
+  filter(class != "Journeyman",
+         !is.na(count)) %>%
+  mutate(class = "Actual")
+
+hw_wf_class2 <- bind_rows(hw_wf_class2, missing) %>%
+  arrange(trade)
+
+tmp <- tmp %>%
+  filter(!is.na(count)) %>%
+  arrange(trade)
+
+tmp <- bind_cols(hw_wf_class2, tmp) %>%
+  mutate(lost = count1 - count) %>%
+  select(trade, class, count, trade1, class1, lost)
+
+actual <- tmp %>%
+  select(trade:count)
+
+potential <- tmp %>%
+  select(trade1:lost) %>%
+  rename(trade = trade1,
+         class = class1,
+         count = lost)
+
+hw_wf_poten <- bind_rows(actual, potential)
+
+viz_hw_wf_poten <- ggplot(hw_wf_poten, 
+                          aes(x = reorder(trade, count), y = count, fill = class)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(labels = comma, limits = c(0, 50)) +
+  labs(x = "Trade",
+       y = "Workers",
+       fill = "Status",
+       title = "Actual v. potential hired apprentices by trade",
+       subtitle = "I-690",
+       caption = "Source: NYS Department of Transportation")
+
+ggsave(plot = viz_hw_wf_poten, 
+       filename = "hw_wf_poten_bar.jpg",
+       bg = "transparent")
+
+# Actual v. Potential Apprenticeship Includign Race
+
+# Here, we want to show proportionality by trade on two levels:
+
+# 1) Proportionality of Minority vs. White workers
+# 2) Proportionality of Actual v. Potential Apprentices
+
 
 
 
