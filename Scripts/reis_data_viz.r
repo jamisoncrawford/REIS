@@ -1084,7 +1084,238 @@ grid.arrange(con1, con_2, ncol = 2)
 dev.off()
 
 
+### SECTION: "LAKEVIEW"
 
+# Table: Worker Demographics
+
+tbl_lv_dem <- all_sxrc %>%
+  filter(project == "Lakeview") %>%
+  select(-total, -project) %>%
+  mutate(percent = percent(percent, accuracy = 0.01)) %>% 
+  arrange(desc(sex), reorder(race, desc(count))) %>%
+  rename(Gender = sex,
+         Race = race,
+         Total = count,
+         "Workforce (%)" = percent)
+
+write_csv(tbl_lv_dem, "lv_dem_tbl.csv")
+
+# Viz: Workers by Race & Gender
+
+lv_dem <- all_sxrc %>%
+  filter(project == "Lakeview") %>%
+  select(-total, -project)
+
+viz_lv_dem <- ggplot(lv_dem, aes(x = reorder(race, count), y = count, fill = sex)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Workforce race and gender",
+       subtitle = "Lakeview Amphitheater",
+       x = "Race",
+       y = "Total",
+       fill = "Gender",
+       caption = "Source: Onondaga County")
+
+ggsave(plot = viz_lv_dem,
+       filename = "lv_dem_bar.jpg", 
+       bg = "transparent")
+
+# Viz: Workers by Race & Contractor
+
+lv_rc_con <- lvhc %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
+  filter(project == "Lakeview",
+         !is.na(sex),
+         !is.na(race)) %>%
+  select(-project) %>%
+  group_by(name, race) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total) %>%
+  arrange(desc(percent)) %>%
+  select(-total) %>%
+  mutate(name = factor(name,
+                       levels = c("AM Electric",
+                                  "Rommel Fence",
+                                  "Postler & Jaeckle",
+                                  "Atlas Fence",
+                                  "Davis Ulmer",
+                                  "Eugene Sackett",
+                                  "Herbert Darling",
+                                  "Murnane Construction",
+                                  "Seneca Steel",
+                                  "Northeast",
+                                  "Burn Bros",
+                                  "EJ Construction",
+                                  "John Lowery",
+                                  "O'Connell Electric")))
+
+viz_lv_con <- ggplot(lv_rc_con, aes(x = reorder(name, name), y = count, fill = race)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Contractors by race",
+       subtitle = "Lakeview Amphitheater",
+       x = "Company",
+       y = "Workers",
+       fill = "Race",
+       caption = "Source: Onondaga County")
+
+ggsave(plot = viz_lv_con,
+       filename = "lv_con_bar.jpg",
+       bg = "transparent")  
+
+# Table: Wages by Race & Gender
+
+lv_sxrc_grs <- lvhc %>%
+  filter(project == "Lakeview",
+         !is.na(sex),
+         !is.na(race)) %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(count = sum(gross)) %>%
+  ungroup() %>%
+  group_by(sex, race) %>%
+  summarize(workers = n(),
+            workers = sum(workers, na.rm = TRUE),
+            gross = sum(count, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(wrk_perc = workers / sum(workers),
+         grs_perc = gross / sum(gross)) %>%
+  select(sex:workers, wrk_perc, gross, grs_perc) %>%
+  arrange(desc(sex), desc(gross))
+
+tbl_lv_sxrc_grs <- lv_sxrc_grs %>%
+  mutate(wrk_perc = percent(wrk_perc, accuracy = 0.01),
+         gross = dollar(gross),
+         grs_perc = percent(grs_perc, accuracy = 0.01)) %>%
+  rename(Gender = sex,
+         Race = race,
+         Workers = workers,
+         "Workforce (%)" = wrk_perc,
+         "Total Gross" = gross,
+         "Workforce Gross (%)" = grs_perc)
+
+write_csv(tbl_lv_sxrc_grs, "lv_sxrc_grs_tbl.csv")
+
+# Table: Location by County, Workers, Records, Gross, and Hours
+
+data("counties")
+data("zip_codes")
+
+county <- counties %>%
+  mutate(fips = paste0(state_fips, county_fips),
+         county_name = str_replace(county_name, " County$", ""))
+
+lv_uniq_wrk_stats <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(records = n(),
+            gross = sum(gross, na.rm = TRUE),
+            hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(zip = as.character(zip)) %>%
+  left_join(zip_codes, by = "zip") %>%
+  mutate(fips = as.character(fips)) %>%
+  left_join(county, by = c("fips", "state")) %>%
+  select(project:longitude, county_name)
+
+lv_county_stats <- lv_uniq_wrk_stats %>%
+  group_by(county_name, state) %>%
+  summarize(workers = n(),
+            records = sum(records, na.rm = TRUE),
+            gross = sum(gross, na.rm = TRUE),
+            hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  rename(county = county_name) %>%
+  arrange(desc(gross)) %>%
+  mutate(wrk_prc = workers / sum(workers, na.rm = TRUE),
+         rec_prc = records / sum(records, na.rm = TRUE),
+         grs_prc = gross / sum(gross, na.rm = TRUE),
+         hrs_prc = hours / sum(hours, na.rm = TRUE))
+
+index <- which(is.na(lv_county_stats$county))
+lv_county_stats[index, "county"] <- "-"   
+lv_county_stats[index, "state"] <- "-"
+
+tbl_lv_county_stats <- lv_county_stats %>%
+  mutate(records = number(records, big.mark = ","),
+         gross = dollar(gross),
+         hours = number(hours, big.mark = ","),
+         wrk_prc = percent(wrk_prc, accuracy = 0.01),
+         rec_prc = percent(rec_prc, accuracy = 0.01),
+         grs_prc = percent(grs_prc, accuracy = 0.01),
+         hrs_prc = percent(hrs_prc, accuracy = 0.01)) %>%
+  select(county:workers, wrk_prc, records, rec_prc, hours, hrs_prc, gross, grs_prc) %>%
+  rename(County = county,
+         State = state,
+         Workers = workers,
+         "Workforce (%)" = wrk_prc,
+         Periods = records,
+         "Workforce Periods (%)" = rec_prc,
+         Hours = hours,
+         "Workforce Hours (%)" = hrs_prc,
+         Gross = gross,
+         "Workforce Gross (%)" = grs_prc)
+
+write_csv(tbl_lv_county_stats, "lv_county_stats_tbl.csv")
+
+# Viz: Map of Worker Density
+
+names(county)[1] <- "county"
+
+county_density <- left_join(lv_county_stats, county, by = c("county", "state")) %>%
+  mutate(fips = paste0(state_fips, county_fips)) %>%
+  select(-fips_class, -CSA, -CBSA, -population) %>%
+  filter(!is.na(state_fips)) %>%
+  rename(GEOID = fips)
+
+detach("package:noncensus", unload = TRUE)
+
+ny_counties <- counties(state = "ny", class = "sf")
+
+sf_lv_county_stats <- left_join(ny_counties, county_density)
+
+library(tmap)
+
+index <- which(is.na(sf_lv_county_stats$workers))
+sf_lv_county_stats[index, "workers"] <- NA
+sf_lv_county_stats <- sf_lv_county_stats %>% rename(Workers = workers)
+
+map_lv_counties <- tm_shape(sf_lv_county_stats) +
+  tm_borders(col = "lightgrey") +
+  tm_fill(col = "Workers", colorNA = "grey99", palette = "Blues", textNA = "No Data", style = "jenks") +
+  tm_layout(main.title = "Worker origin by county",
+            main.title.size = 1.25,
+            title.position = c("left", "top"),
+            main.title.position = c("left", "top"),
+            frame = FALSE,
+            legend.position = c("left", "top"),
+            legend.text.size = 0.5,
+            legend.title.size = 0.75) +
+  tm_credits(text = "Sources:\nOnondaga County,\nUS Census Bureau",
+             align = "left",
+             position = c("left", "bottom"), size = 0.5)
+
+tmap_save(map_lv_counties, "lv_county_density_map.jpg")
+
+# Viz: Number of Workers by County
+
+index <- which(lv_county_stats$county == "-")
+lv_county_stats <- lv_county_stats[-index, ]
+
+viz_lv_wf_orig <- ggplot(lv_county_stats, aes(x = reorder(county, workers), y = workers)) +
+         geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Worker origin by county",
+       subtitle = "Lakeview Amphitheater",
+       x = "County",
+       y = "Total Workers",
+       caption = "Source: Onondaga County")
+
+ggsave(plot = viz_lv_wf_orig,
+       filename = "lv_wf_orig_bar.jpg",
+       bg = "transparent")
 
 
 
