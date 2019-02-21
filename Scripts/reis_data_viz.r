@@ -1283,8 +1283,8 @@ sf_lv_county_stats[index, "workers"] <- NA
 sf_lv_county_stats <- sf_lv_county_stats %>% rename(Workers = workers)
 
 map_lv_counties <- tm_shape(sf_lv_county_stats) +
-  tm_borders(col = "lightgrey") +
-  tm_fill(col = "Workers", colorNA = "grey99", palette = "Blues", textNA = "No Data", style = "jenks") +
+  tm_borders(col = "grey65") +
+  tm_fill(col = "Workers", colorNA = "grey100", palette = "Blues", textNA = "No Data", style = "jenks") +
   tm_layout(main.title = "Worker origin by county",
             main.title.size = 1.25,
             title.position = c("left", "top"),
@@ -1293,11 +1293,11 @@ map_lv_counties <- tm_shape(sf_lv_county_stats) +
             legend.position = c("left", "top"),
             legend.text.size = 0.5,
             legend.title.size = 0.75) +
-  tm_credits(text = "Sources:\nOnondaga County,\nUS Census Bureau",
+  tm_credits(text = "Sources:\nOnondaga County,\nRecords Disclosing ZIP\nUS Census Bureau",
              align = "left",
              position = c("left", "bottom"), size = 0.5)
 
-tmap_save(map_lv_counties, "lv_county_density_map.jpg")
+tmap_save(map_lv_counties, "lv_county_density_map.jpg", bg = "transparent")
 
 # Viz: Number of Workers by County
 
@@ -1317,6 +1317,564 @@ ggsave(plot = viz_lv_wf_orig,
        filename = "lv_wf_orig_bar.jpg",
        bg = "transparent")
 
+# Table: Workers Within & Without Syracuse by Race, Lakeview
+
+lv_in_syr <- lv_uniq_wrk_stats %>%
+  filter(project == "Lakeview") %>%
+  mutate(within = NA)
+
+zips <- c("13204",
+          "13290",
+          "13208",
+          "13203",
+          "13206",
+          "13202",
+          "13207",
+          "13205",
+          "13210",
+          "13224")
+
+for (i in seq_along(lv_in_syr$within)){
+  if (!is.na(lv_in_syr$zip[i]) & lv_in_syr$zip[i] %in% zips){
+    lv_in_syr$within[i] <- "Within" 
+  } else {
+    lv_in_syr$within[i] <- "Outside"
+  }
+}
+
+lv_in_syr <- lv_in_syr %>%
+  select(name:race, records, hours, gross, within) %>%
+  group_by(within, race) %>%
+  summarize(workers = n(),
+            recs = sum(records, na.rm = TRUE),
+            hours = sum(hours, na.rm = TRUE),
+            gross = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(desc(within), desc(workers))
+
+tbl_lv_in_syr <- lv_in_syr %>%
+  mutate(wrk_prc = workers / sum(workers, na.rm = TRUE),
+         rec_prc = recs / sum(recs, na.rm = TRUE),
+         hrs_prc = hours / sum(hours, na.rm = TRUE),
+         grs_prc = gross / sum(gross, na.rm = TRUE)) %>%
+  select(within:workers, wrk_prc, recs, rec_prc, hours, hrs_prc, gross, grs_prc) %>%
+  mutate(wrk_prc = percent(wrk_prc, accuracy = 0.01),
+         rec_prc = percent(rec_prc, accuracy = 0.01),
+         hrs_prc = percent(hrs_prc, accuracy = 0.01),
+         grs_prc = percent(grs_prc, accuracy = 0.01),
+         recs = number(recs, big.mark = ","),
+         hours = number(hours, big.mark = ","),
+         gross = dollar(gross)) %>%
+  rename("Syracuse City Limits" = within,
+         Race = race,
+         Workers = workers,
+         "Workforce (%)" = wrk_prc,
+         "Pay Periods" = recs,
+         "Workforce Periods (%)" = rec_prc,
+         Hours = hours,
+         "Workforce Hourage (%)" = hrs_prc,
+         Gross = gross,
+         "Workforce Gross (%)" = grs_prc)
+
+index <- which(is.na(tbl_lv_in_syr$Race))
+tbl_lv_in_syr[index, "Race"] <- "-"
+
+write_csv(tbl_lv_in_syr, "lv_in_syr_tbl.csv")
+
+# Viz: Workers Within & Without Syracuse by Race
+
+index <- which(is.na(lv_in_syr$race))
+lv_in_syr <- lv_in_syr[-index, ]
+
+viz_lv_in_syr <- ggplot(lv_in_syr, 
+       aes(x = reorder(race, workers), 
+           y = workers, 
+           fill = factor(within, levels = c("Within", "Outside")))) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Workers within Syracuse by race",
+       subtitle = "Lakeview Amphetheater",
+       x = "Race",
+       y = "Workers",
+       fill = "Location",
+       caption = "Source: Onondaga County")
+
+ggsave(plot = viz_lv_in_syr,
+       filename = "lv_in_syr_bar.jpg",
+       bg = "transparent")
 
 
+### Hancock International Airport
 
+# Table: Worker Demographics
+
+hc_sxrc <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
+  group_by(sex, race) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count, na.rm = TRUE),
+         perc = count / total) %>%
+  arrange(desc(count)) %>%
+  select(-total)
+
+tbl_hc_sxrc <- hc_sxrc %>%
+  mutate(perc = percent(perc, accuracy = 0.01)) %>%
+  rename(Gender = sex,
+         Race = race,
+         Workers = count,
+         "Workforce (%)" = perc)
+
+write_csv(tbl_hc_sxrc, "hc_sxrc_tbl.csv")
+
+# Viz: Workers by Race
+
+index <- which(is.na(hc_sxrc$sex))
+hc_sxrc_narm <- hc_sxrc[-index, ]
+
+viz_hc_sxrc_narm <- ggplot(hc_sxrc_narm, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Unique workers by race",
+       subtitle = "Hancock Airport",
+       x = "Race",
+       y = "Workers",
+       caption = "Source: Syracuse Regional Airport Authority; Records Disclosing Race")
+
+ggsave(plot = viz_hc_sxrc_narm, 
+       filename = "hc_sxrc_narm_bar.jpg",
+       bg = "transparent")
+
+# Table: Unique Workers by Race & Company
+
+hc_rc_con <- lvhc %>%
+  filter(project == "Hancock") %>%
+  select(project:name, zip:ssn, sex:race) %>%
+  unique() %>%
+  group_by(name, race) %>%
+  summarize(workers = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(workers, na.rm = TRUE),
+         perc = workers / total) %>%
+  select(-total) %>%
+  arrange(reorder(name, desc(workers)), desc(workers))
+
+tbl_hc_rc_con <- hc_rc_con %>%
+  filter(!is.na(race)) %>%
+  mutate(total = sum(workers),
+         perc = workers / total,
+         perc = percent(perc, na.rm = TRUE)) %>%
+  select(-total) %>%
+  rename(Company = name,
+         Race = race,
+         Workers = workers,
+         "Workforce (%)" = perc)
+
+write_csv(tbl_hc_rc_con, "hc_rc_con_tbl.csv")
+
+# Viz: Unique Workers by Race & Company
+
+viz_hc_rc_con <- hc_rc_con %>%
+  filter(!is.na(race)) %>%
+  mutate(total = sum(workers),
+         perc = workers / total) %>%
+  select(-total)
+
+bar_hc_rc_con <- ggplot(viz_hc_rc_con, aes(x = factor(name, levels = c("Longhouse",
+                                                      "Patricia Electric",
+                                                      "Stone Bridge",
+                                                      "Schalk and Son",
+                                                      "Quality Structures")), 
+                          y = workers, fill = race)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Unique workers by company and race",
+       subtitle = "Hancock Airport",
+       x = "Company",
+       y = "Workers",
+       fill = "Race",
+       caption = "Source: Syracuse Regional Airport Authority; Records Disclosing Race")
+
+ggsave(plot = bar_hc_rc_con,
+       filename = "hc_rc_con_bar.jpg",
+       bg = "transparent")
+
+# Table: Worker Hours by Race
+
+hc_rc_hrs <- lvhc %>%
+  filter(project == "Hancock") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  summarize(hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(!is.na(race)) %>%
+  mutate(total = sum(hours, na.rm = TRUE),
+         perc = hours / total) %>%
+  arrange(desc(hours))
+
+tbl_hc_rc_hrs <- hc_rc_hrs %>%
+  mutate(hours = number(hours, big.mark = ","),
+         perc = percent(perc, accuracy = 0.01)) %>%
+  select(-total) %>%
+  rename(Race = race,
+         Hours = hours,
+         "Workforce Hourage (%)" = perc)
+
+write_csv(tbl_hc_rc_hrs, "hc_rc_hrs_tbl.csv")
+
+# Viz: Worker Hours by Race
+
+viz_hc_rc_hrs <- ggplot(hc_rc_hrs, aes(x = reorder(race, hours), y = hours)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(label = comma) +
+  labs(title = "Total hours by race",
+       subtitle = "Hancock Airport",
+       x = "Race",
+       y = "Hours",
+       caption = "Source: Syracuse Regional Airport Authority; Records Diclosing Race")
+
+ggsave(plot = viz_hc_rc_hrs,
+       filename = "hc_rc_hrs_bars.jpg",
+       bg = "transparent")
+
+# Table: Worker Wages by Race, Numbers & Percentages, Hancock
+
+lv_grs <- lvhc %>%
+  filter(project == "Hancock") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(gross = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  summarize(gross = sum(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(total = sum(gross, na.rm = TRUE),
+         perc = gross / total) %>%
+  arrange(desc(gross)) %>%
+  select(-total)
+
+lv_grs_narm <- lv_grs %>%
+  filter(!is.na(race)) %>%
+  mutate(total = sum(gross),
+         perc = gross / total) %>%
+  select(-total)
+
+tbl_lv_grs <- lv_grs_narm %>%
+  mutate(total = sum(gross, na.rm = TRUE),
+         perc = percent(perc, accuracy = 0.01)) %>%
+  select(-total) %>%
+  rename(Race = race,
+         Gross = gross,
+         "Workforce Gross (%)" = perc)
+
+write_csv(tbl_lv_grs, "hc_rc_grs_tbl.csv")
+
+# Viz: Gross by race
+
+lv_grs_narm <- lv_grs %>%
+  filter(!is.na(race))
+
+viz_lv_grs <- ggplot(lv_grs_narm, aes(x = reorder(race, gross), y = gross)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_y_continuous(label = dollar) +
+  labs(title = "Total gross by race",
+       subtitle = "Hancock Airport",
+       x = "Race",
+       y = "Gross",
+       caption = "Source: Syracuse Regional Airport Authority; Records Disclosing Race")
+
+ggsave(plot = viz_lv_grs, 
+       filename = "hc_grs_bar.jpg",
+       bg = "transparent")
+
+# Viz: Distribution of Records by Gross & Race
+
+lv_rc_grs_dist <- lvhc %>%
+  filter(project == "Hancock",
+         !is.na(race),
+         !is.na(sex))
+
+lv_rc_grs_dist <- ggplot(lv_rc_grs_dist, aes(x = factor(race, 
+                                      levels = c("Multiracial",
+                                                 "Native",
+                                                 "Black",
+                                                 "Hispanic",
+                                                 "White")), y = gross)) +
+  geom_boxplot(alpha = 0,
+               col = "grey65") +
+  geom_jitter(data = lv_rc_grs_dist, 
+              aes(x = reorder(race, gross), y = gross),
+              width = 0.2, height = 0, alpha = 0.4, col = "tomato") +
+  coord_flip() +
+  scale_y_continuous(label = dollar) +
+  labs(title = "Distribution of unique gross payments by race",
+       subtitle = "Hancock Airport",
+       x = "Race",
+       y = "Gross",
+       caption = "Source: Syracuse Regional Airport Authority; Records Disclosing Race")
+
+ggsave(plot = lv_rc_grs_dist,
+       filename = "hc_rc_grs_dist.jpg",
+       bg = "transparent")
+
+# Viz: Distribution of Records by Hours & Race
+
+lv_rc_hrs_dist <- ggplot(lv_rc_grs_dist, aes(x = factor(race, 
+                                      levels = c("Multiracial",
+                                                 "Native",
+                                                 "Hispanic",
+                                                 "White",
+                                                 "Black")), y = hours)) +
+  geom_boxplot(alpha = 0,
+               col = "grey65") +
+  geom_jitter(data = lv_rc_grs_dist, 
+              aes(x = reorder(race, hours), y = hours),
+              width = 0.2, height = 0, alpha = 0.2, col = "darkorchid1") +
+  coord_flip() +
+  scale_y_continuous(label = comma) +
+  labs(title = "Distribution of unique work period hours by race",
+       subtitle = "Hancock Airport",
+       x = "Race",
+       y = "Hours",
+       caption = "Source: Syracuse Regional Airport Authority; Records Disclosing Race")
+
+ggsave(plot = lv_rc_hrs_dist,
+       filename = "hc_rc_hrs_dist.jpg",
+       bg = "transparent")
+
+# Table: Workforce County Stats
+
+library(noncensus)
+library(tigris)
+
+data(zip_codes)
+data(counties)
+
+counties <- counties %>%
+  mutate(fips = paste0(state_fips, county_fips),
+         fips = as.character(fips))
+
+hc_stats <- lvhc %>%
+  filter(project == "Hancock") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(records = n(),
+            hours = sum(hours),
+            gross = sum(gross)) %>%
+  ungroup() %>%
+  mutate(zip = as.character(zip)) %>%
+  left_join(zip_codes, by = "zip") %>%
+  mutate(fips = as.character(fips)) %>%
+  left_join(counties, by = c("fips", "state")) %>%
+  select(-project, -name, -latitude, -longitude, 
+         -state_fips, -county_fips, - population, 
+         -CSA, -CBSA, -fips_class, -city) %>%
+  rename(county = county_name) %>%
+  mutate(county = str_replace(county, " County$", ""))
+
+tbl_hc_stats <- hc_stats %>%
+  group_by(state, county) %>%
+  summarize(workers = n(),
+            records = sum(records),
+            hours = sum(hours),
+            gross = sum(gross)) %>%
+  ungroup() %>%
+  arrange(desc(gross)) %>%
+  mutate(wrk_prc = workers / sum(workers),
+         rec_prc = records / sum(records),
+         hrs_prc = hours / sum(hours),
+         grs_prc = gross / sum(gross),
+         wrk_prc = percent(wrk_prc, accuracy = 0.01),
+         rec_prc = percent(rec_prc, accuracy = 0.01),
+         hrs_prc = percent(hrs_prc, accuracy = 0.01),
+         grs_prc = percent(grs_prc, accuracy = 0.01),
+         hours = number(hours, big.mark = ","),
+         gross = dollar(gross)) %>%
+  select(county, state, workers, wrk_prc, records, 
+         rec_prc, hours, hrs_prc, gross, grs_prc) %>%
+  rename(County = county,
+         State = state,
+         Workers = workers,
+         "Workforce (%)" = wrk_prc,
+         Periods = records,
+         "Workforce Periods (%)" = rec_prc,
+         Hours = hours,
+         "Workforce Hourage (%)" = hrs_prc,
+         Gross = gross,
+         "Workforce Gross (%)" = grs_prc)
+
+index <- which(is.na(tbl_hc_stats$County))
+tbl_hc_stats[index, "County"] <- "-"
+tbl_hc_stats[index, "State"] <- "-"
+  
+write_csv(tbl_hc_stats, "hc_county_stats_tbl.jpg")
+
+# Viz: Number of Workers by County
+
+hc_county_stats <- hc_stats %>%
+  group_by(state, county) %>%
+  summarize(workers = n()) %>%
+  ungroup() %>%
+  filter(!is.na(county))
+
+viz_hc_county <- ggplot(hc_county_stats, aes(x = reorder(county, workers), y = workers, fill = state)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Workers by county of origin",
+       subtitle = "Hancock Airport",
+       x = "County",
+       y = "Workers",
+       fill = "State",
+       caption = "Source: Syracuse Regional Airport Authority; Records Containing ZIP")
+
+ggsave(plot = viz_hc_county,
+       filename = "hc_county_bar.jpg",
+       bg = "transparent")
+
+# Map: Worker Density by County, Lakeview
+
+library(tigris)
+county <- counties(state = c("ny", "pa"), class = "sf")
+
+hc_county_map <- hc_county_stats %>%
+  mutate(county_name = paste(county, "County")) %>%
+  left_join(counties, by = c("county_name", "state")) %>%
+  rename(GEOID = fips)
+
+sf_hc_county <- county %>%
+  left_join(hc_county_map, by = "GEOID") %>%
+  rename(Workers = workers)
+
+hc_wrk_map <- tm_shape(sf_hc_county) +
+  tm_borders(col = "grey65") +
+  tm_fill("Workers", colorNA = "grey100", palette = "Blues", textNA = "No Data", style = "jenks") +
+  tm_layout(main.title = "Worker origin by county",
+            main.title.size = 1.25,
+            title.position = c("left", "top"),
+            main.title.position = c("left", "top"),
+            frame = FALSE,
+            legend.position = c("left", "top"),
+            legend.text.size = 0.5,
+            legend.title.size = 0.75) +
+  tm_credits(text = "Sources:\nSyracuse Regional Airport Authority\nRecords Disclosing ZIP\nUS Census Bureau",
+             align = "right",
+             position = c("right", "bottom"), size = 0.5)
+
+tmap_save(tm = hc_wrk_map, 
+          filename = "hc_wrk_map.jpg",
+          bg = "transparent")
+
+# Map: Gross by County, Lakeview
+
+hc_county_gross <- hc_stats %>%
+  group_by(state, county, fips) %>%
+  summarize(gross = sum(gross)) %>%
+  ungroup() %>%
+  filter(!is.na(county)) %>%
+  rename(GEOID = fips)
+
+hc_gross_map <- county %>%
+  left_join(hc_county_gross, by = "GEOID") %>%
+  rename(Gross = gross)
+
+hc_gross_map <- tm_shape(hc_gross_map) +
+  tm_borders(col = "grey65") +
+  tm_fill("Gross", colorNA = "grey100", palette = "Blues", textNA = "No Data", style = "kmeans") +
+  tm_layout(main.title = "Gross earnings by county",
+            main.title.size = 1.25,
+            title.position = c("left", "top"),
+            main.title.position = c("left", "top"),
+            frame = FALSE,
+            legend.position = c("left", "top"),
+            legend.text.size = 0.5,
+            legend.title.size = 0.75) +
+  tm_credits(text = "Sources:\nSyracuse Regional Airport Authority\nRecords Disclosing ZIP\nUS Census Bureau",
+             align = "right",
+             position = c("right", "bottom"), size = 0.5)
+
+tmap_save(tm = hc_gross_map, 
+          filename = "hc_gross_map.jpg", 
+          bg = "transparent")
+
+# Workers Within & Without Syracuse by Race
+
+zips <- c("13204",
+          "13290",
+          "13208",
+          "13203",
+          "13206",
+          "13202",
+          "13207",
+          "13205",
+          "13210",
+          "13224")
+
+hc_in_city <- lvhc %>%
+  filter(project == "Hancock") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(records = n(),
+            hours = sum(hours),
+            gross = sum(gross)) %>%
+  ungroup() %>%
+  mutate(zip = as.character(zip),
+         within = NA)
+
+for (i in seq_along(hc_in_city$within)){
+  if (!is.na(hc_in_city$zip[i]) & hc_in_city$zip[i] %in% zips){
+    hc_in_city$within[i] <- "Within"
+  } else {
+    hc_in_city$within[i] <- "Outside"
+  }
+}
+
+hc_in_city_stats <- hc_in_city %>%
+  group_by(within, race) %>%
+  summarize(workers = n(),
+            records = sum(records),
+            hours = sum(hours),
+            gross = sum(gross)) %>%
+  ungroup() %>%
+  arrange(desc(within), desc(workers)) %>%
+  mutate(wrk_prc = workers / sum(workers),
+         rec_prc = records / sum(records),
+         hrs_prc = hours / sum(hours),
+         grs_prc = gross / sum(gross)) %>%
+  select(within:workers, wrk_prc, records, rec_prc, hours, hrs_prc, gross, grs_prc)
+
+tbl_hc_in_city <- hc_in_city_stats %>%
+  mutate(hours = number(hours, big.mark = ","),
+         gross = dollar(gross, big.mark = ","),
+         wrk_prc = percent(wrk_prc, accuracy = 0.01),
+         rec_prc = percent(rec_prc, accuracy = 0.01),
+         hrs_prc = percent(hrs_prc, accuracy = 0.01),
+         grs_prc = percent(grs_prc, accuracy = 0.01))
+
+names(tbl_hc_in_city) <- names(tbl_lv_in_syr)
+index <- which(is.na(tbl_hc_in_city$Race))
+tbl_hc_in_city[index, "Race"] <- "-"
+
+write_csv(tbl_hc_in_city, "hc_in_city_tbl.csv")
+
+# Viz: Workers in City, 
+
+index <- which(is.na(hc_in_city_stats$race))
+hc_in_city_stats <- hc_in_city_stats[-index, ]
+
+viz_hc_city <- ggplot(hc_in_city_stats, aes(x = reorder(race, workers), y = workers, 
+                             fill = factor(within, levels = c("Within", "Outside")))) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Workers within Syracuse by race",
+       subtitle = "Hancock Airport",
+       x = "Race",
+       y = "Workers",
+       fill = "Location",
+       caption = "Source: Syracuse Regional Airport Authority; Records Disclosing ZIP, Race")
+
+ggsave(plot = viz_hc_city,
+       filename = "hc_in_city_bar.jpg",
+       bg = "transparent")
