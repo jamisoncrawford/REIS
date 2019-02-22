@@ -1711,7 +1711,7 @@ index <- which(is.na(tbl_hc_stats$County))
 tbl_hc_stats[index, "County"] <- "-"
 tbl_hc_stats[index, "State"] <- "-"
   
-write_csv(tbl_hc_stats, "hc_county_stats_tbl.jpg")
+write_csv(tbl_hc_stats, "hc_county_stats_tbl.csv")
 
 # Viz: Number of Workers by County
 
@@ -1877,4 +1877,249 @@ viz_hc_city <- ggplot(hc_in_city_stats, aes(x = reorder(race, workers), y = work
 
 ggsave(plot = viz_hc_city,
        filename = "hc_in_city_bar.jpg",
+       bg = "transparent")
+
+
+### Recommended Visualizations & Tables
+
+# Hancock: Unique Records & Gross Distribution by Race
+
+hc_rc_gr_sum <- lv_rc_grs_dist %>%
+  group_by(race) %>%
+  summarize("1st Quartile" = quantile(gross, na.rm = TRUE)[2], 
+            Mean = mean(gross),
+            Median = median(gross),
+            "3rd Quartile" = quantile(gross, na.rm = TRUE)[4],
+            Maximum = max(gross)) %>%
+  mutate(`1st Quartile` = dollar(`1st Quartile`, accuracy = 1),
+         `3rd Quartile` = dollar(`3rd Quartile`, accuracy = 1),
+         Mean = dollar(Mean, accuracy = 1),
+         Median = dollar(Median, accuracy = 1),
+         Maximum = dollar(Maximum, accuracy = 1)) %>%
+  rename(Race = race)
+
+write_csv(hc_rc_gr_sum, "hc_rc_gr_sum_tbl.csv")
+
+# Hancock: Unique Records & Hour Distribution by Race
+
+tbl_hc_rc_hrs_dist <- lv_rc_grs_dist %>%
+  group_by(race) %>%
+  summarize("1st Quartile" = quantile(hours, na.rm = TRUE)[2], 
+            Mean = mean(hours),
+            Median = median(hours),
+            "3rd Quartile" = quantile(hours, na.rm = TRUE)[4],
+            Maximum = max(hours)) %>%
+  ungroup() %>%
+  arrange(desc(Median)) %>%
+  mutate(`1st Quartile` = number(`1st Quartile`, accuracy = 1),
+         `3rd Quartile` = number(`3rd Quartile`, accuracy = 1),
+         Mean = number(Mean, accuracy = 1),
+         Median = number(Median, accuracy = 1),
+         Maximum = number(Maximum, accuracy = 1)) %>%
+  rename(Race = race)
+
+write_csv(tbl_hc_rc_hrs_dist, "hc_rc_hrs_sum_tbl.csv")
+
+# Lakeview: Hours Distribution by Unique Record
+
+lv_dist <- lvhc %>%
+  filter(project == "Lakeview",
+         !is.na(race)) %>%
+  select(project:race)
+
+viz_lv_rc_hrs_dist <- ggplot(lv_dist, aes(x = factor(race,
+                                                     levels = c("White",
+                                                                    "Black",
+                                                                    "Hispanic",
+                                                                    "Asian",
+                                                                    "Native")), y = hours)) +
+  geom_boxplot(alpha = 0,
+               col = "grey65") +
+  geom_jitter(data = lv_dist, 
+              aes(x = reorder(race, hours), y = hours),
+              width = 0.2, height = 0, alpha = 0.4, col = "tomato") +
+  coord_flip() +
+  labs(title = "Distribution of weekly hours by race",
+       subtitle = "Lakeview Amphitheater",
+       x = "Race",
+       y = "Hours",
+       caption = "Source: Onondaga County; Records Disclosing Race")
+
+ggsave(plot = viz_lv_rc_hrs_dist, 
+       filename = "lv_rc_hrs_dist.jpg", 
+       bg = "transparent")
+
+# Lakeview: Gross Distribution by Unique Record
+
+viz_lv_rc_grs_dist <- ggplot(lv_dist, aes(x = factor(race, 
+                               levels = c("Black",
+                                          "White",
+                                          "Asian",
+                                          "Hispanic",
+                                          "Native")), y = gross)) +
+  geom_boxplot(alpha = 0,
+               col = "grey65") +
+  geom_jitter(data = lv_dist, 
+              aes(x = reorder(race, gross), y = gross),
+              width = 0.2, height = 0, alpha = 0.4, col = "tomato") +
+  coord_flip() +
+  scale_y_continuous(label = dollar) +
+  labs(title = "Distribution of weekly gross by race",
+       subtitle = "Lakeview Amphitheater",
+       x = "Race",
+       y = "Gross",
+       caption = "Source: Onondaga County; Records Disclosing Race")
+
+ggsave(plot = viz_lv_rc_grs_dist, 
+       filename = "lv_rc_grs_dist.jpg", 
+       bg = "transparent")
+
+# Lakeview: Distribution of Unique Record Hours by Race, Table
+
+lv_rc_grs_sum <- lvhc %>%
+  filter(project == "Lakeview",
+         !is.na(race)) %>%
+  group_by(race) %>%
+  summarize("1st Quartile" = quantile(gross, na.rm = TRUE)[2], 
+            Mean = mean(gross, na.rm = TRUE),
+            Median = median(gross, na.rm = TRUE),
+            "3rd Quartile" = quantile(gross, na.rm = TRUE)[4],
+            Maximum = max(gross, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(desc(Median)) %>%
+  mutate(`1st Quartile` = dollar(`1st Quartile`, accuracy = 1),
+         `3rd Quartile` = dollar(`3rd Quartile`, accuracy = 1),
+         Mean = dollar(Mean, accuracy = 1),
+         Median = dollar(Median, accuracy = 1),
+         Maximum = dollar(Maximum, accuracy = 1)) %>%
+  rename(Race = race)
+
+write_csv(lv_rc_grs_sum, "lv_rc_grs_sum_tbl.csv")
+
+# Lakeview: Distribution of Unique Record Hours by Race, Table
+
+lv_rc_hrs_sum <- lvhc %>%
+  filter(project == "Lakeview",
+         !is.na(race)) %>%
+  group_by(race) %>%
+  summarize("1st Quartile" = quantile(hours, na.rm = TRUE)[2], 
+            Mean = mean(hours, na.rm = TRUE),
+            Median = median(hours, na.rm = TRUE),
+            "3rd Quartile" = quantile(hours, na.rm = TRUE)[4],
+            Maximum = max(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(desc(Median)) %>%
+  mutate(`1st Quartile` = number(`1st Quartile`, accuracy = 1),
+         `3rd Quartile` = number(`3rd Quartile`, accuracy = 1),
+         Mean = number(Mean, accuracy = 1),
+         Median = number(Median, accuracy = 1),
+         Maximum = number(Maximum, accuracy = 1)) %>%
+  rename(Race = race)
+
+write_csv(lv_rc_hrs_sum, "lv_rc_hrs_sum_tbl.csv")
+
+# All: Distribution of Total Gross by Unique Worker
+
+url <- "https://raw.githubusercontent.com/jamisoncrawford/reis/master/Datasets/690_workforce_summary.csv"
+
+hw_all <- read_csv(url) %>%
+  select(project, name, zip, ssn, sex, race, gross, hours)
+
+lv_all <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(gross = sum(gross, na.rm = TRUE),
+            hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(zip = as.character(zip))
+  
+hc_all <- lvhc %>%
+  filter(project == "Hancock") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(gross = sum(gross, na.rm = TRUE),
+            hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(zip = as.character(zip))
+
+all_wrk_agg <- bind_rows(hw_all, lv_all, hc_all)
+
+index <- which(is.na(all_wrk_agg$race))
+all_wrk_agg <- all_wrk_agg[-index, ]
+
+all_grs_dist <- ggplot(all_wrk_agg, aes(x = factor(race, 
+                                   levels = rev(c("Hispanic",
+                                              "Black",
+                                              "Asian",
+                                              "White",
+                                              "Native",
+                                              "Multiracial"))), 
+                        y = gross)) +
+  geom_boxplot(alpha = 0,
+               col = "grey65") +
+  geom_jitter(data = all_wrk_agg, 
+              aes(x = factor(race, 
+                             levels = rev(c("Hispanic",
+                                            "Black",
+                                            "Asian",
+                                            "White",
+                                            "Native",
+                                            "Multiracial"))), y = gross),
+              width = 0.2, height = 0, alpha = 0.4, col = "tomato") +
+  coord_flip() +
+  ylim(c(0, 150000)) +
+  scale_y_continuous(limits = c(0, 150000), breaks = c(0, 25000, 50000, 75000, 100000, 125000, 150000), labels = c("$ 0", "25", "50", "75", "100", "125", "150 K")) +
+  labs(title = "Distribution of gross worker earnings by race",
+       subtitle = "Scale: $0 - 150K",
+       x = "Race",
+       y = "Gross",
+       caption = "")
+
+all_grs_dist_zoom <- ggplot(all_wrk_agg, aes(x = factor(race, 
+                                   levels = rev(c("Hispanic",
+                                                  "Black",
+                                                  "Asian",
+                                                  "White",
+                                                  "Native",
+                                                  "Multiracial"))), 
+                        y = gross)) +
+  geom_boxplot(alpha = 0,
+               col = "grey65") +
+  geom_jitter(data = all_wrk_agg, 
+              aes(x = factor(race, 
+                             levels = rev(c("Hispanic",
+                                            "Black",
+                                            "Asian",
+                                            "White",
+                                            "Native",
+                                            "Multiracial"))), y = gross),
+              width = 0.2, height = 0, alpha = 0.4, col = "tomato") +
+  coord_flip(ylim = c(0, 25000)) +
+  scale_y_continuous(breaks = c(0, 5000, 10000, 15000, 20000, 25000),
+                     labels = c("$ 0", "5", "10", "15", "20", "25 K")) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(title = "",
+       subtitle = "Scale: $0 - 25K",
+       y = "",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT; Records Disclosing Race")
+
+png("all_grs_dist_spec.jpg", width = 700, height = 350, bg = "transparent")      # Note: Requires graphics device
+grid.arrange(all_grs_dist, all_grs_dist_zoom, ncol=2)
+dev.off()
+
+# Distribution of Total Gross by Unique Worker by Project
+
+proj_grs_dist <- all_grs_dist + 
+  facet_grid(factor(project, levels = c("I-690", "Lakeview", "Hancock")) ~ . ) + 
+  aes(x = factor(race, levels = c("Multiracial", "Asian", "Hispanic", "Native", "Black", "White"))) +
+  geom_boxplot(fill = "transparent", col = "grey75", outlier.alpha = 0) + 
+  geom_jitter(col = "tomato", alpha = 0.4, height = 0, width = 0.1) +
+  labs(subtitle = "All Projects",
+       x = "Race",
+       y = "Total Worker Earnings",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT; Records Disclosing Race")
+
+ggsave(plot = proj_grs_dist,
+       filename = "proj_grs_dist.jpg",
        bg = "transparent")
