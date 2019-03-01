@@ -1,12 +1,12 @@
 Gender,Race,Workers,Workforce (%),Total Gross,Workforce Gross (%)
 Male,White,381,66.73%,"$2,880,711",70.79%
+-,-,118,20.67%,"$485,246",11.93%
 Male,Indigenous,21,3.68%,"$226,112",5.56%
 Male,Black,18,3.15%,"$150,945",3.71%
-Male,Hispanic,6,1.05%,"$73,043",1.80%
-Male,Asian,2,0.35%,"$12,057",0.30%
 Female,White,17,2.98%,"$200,473",4.93%
+Male,Hispanic,6,1.05%,"$73,043",1.80%
 Female,Black,3,0.53%,"$21,561",0.53%
+-,White,3,0.53%,"$3,424",0.08%
+Male,Asian,2,0.35%,"$12,057",0.30%
 Female,Hispanic,1,0.18%,"$14,651",0.36%
-NA,NA,118,20.67%,"$485,246",11.93%
-NA,White,3,0.53%,"$3,424",0.08%
-NA,Hispanic,1,0.18%,$918,0.02%
+-,Hispanic,1,0.18%,$918,0.02%
