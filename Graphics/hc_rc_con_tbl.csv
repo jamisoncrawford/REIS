@@ -1,13 +1,17 @@
-Company,Race,Workers,Workforce (%)
-Quality Structures,White,76,54.7%
-Quality Structures,Black,6,4.3%
-Quality Structures,Multiracial,3,2.2%
-Quality Structures,Indigenous,1,0.7%
-Schalk and Son,White,21,15.1%
-Schalk and Son,Black,3,2.2%
-Patricia Electric,White,9,6.5%
-Stone Bridge,White,9,6.5%
-Stone Bridge,Indigenous,3,2.2%
-Stone Bridge,Hispanic,1,0.7%
-Longhouse,White,6,4.3%
-Longhouse,Black,1,0.7%
+﻿Company,Race,Workers,Company (%),Workforce (%)
+Environmental,-,33,100.0%,16.2%
+Danforth,-,23,100.0%,11.3%
+Quality Structures,White,76,88.4%,37.3%
+Quality Structures,Black,6,7.0%,2.9%
+Quality Structures,Multiracial,3,3.5%,1.5%
+Quality Structures,Indigenous,1,1.2%,0.5%
+Schalk and Son,White,21,87.5%,10.3%
+Schalk and Son,Black,3,12.5%,1.5%
+Patricia Electric,White,9,100.0%,4.4%
+Niagara Erecting,-,8,100.0%,3.9%
+Stone Bridge,White,9,69.2%,4.4%
+Stone Bridge,Indigenous,3,23.1%,1.5%
+Stone Bridge,Hispanic,1,7.7%,0.5%
+Longhouse,White,6,85.7%,2.9%
+Longhouse,Black,1,14.3%,0.5%
+M&S Fire Protection,-,1,100.0%,0.5%
