@@ -55,10 +55,10 @@ loadfonts(device="win")
 
 theme_set(theme_minimal() + theme(plot.title = element_text(family = "Century Schoolbook", 
                                                             face = "bold", color = "grey10",
-                                                            size = 12),
+                                                            size = 14),
                                   plot.subtitle = element_text(family = "Century Schoolbook", 
                                                                color = "grey40",
-                                                               size = 10),
+                                                               size = 12),
                                   plot.caption = element_text(family = "Century Schoolbook", 
                                                               color = "grey40",
                                                               size = 6.5,
@@ -69,7 +69,7 @@ theme_set(theme_minimal() + theme(plot.title = element_text(family = "Century Sc
                                   axis.text = element_text(family = "Century Schoolbook", 
                                                            color = "grey10"),
                                   axis.title.x = element_text(vjust = -0.5,
-                                                              size = 10),
+                                                              size = 12),
                                   legend.title = element_text(family = "Century Schoolbook", 
                                                               color = "grey10",
                                                               size = 10), 
@@ -530,7 +530,7 @@ viz_hw_sxrc_hrs_trade <- ggplot(hw_sxrc_hrs_trade, aes(x = race, y = count, fill
   coord_flip() +
   geom_bar(stat = "identity", width = 0.75) +
   scale_x_discrete(limits = c("Hispanic", "Indigenous", "Black", "White")) +
-  scale_y_continuous(limits = c(0, 150000),
+  scale_y_continuous(limits = c(0, 155000),
                      breaks = c(0, 50000, 100000, 150000),
                      labels = c("0", "50", "100", "150 K")) +
   labs(title = "Fig. 19: Total hours by gender and race",
@@ -940,12 +940,16 @@ write_excel_csv(tbl_hw_sxrc_class, "hw_sxrc_class_tbl.csv")
 
 # Viz: Workhours by Classification and Race
 
-viz_hw_sxrc_hrs_class <- ggplot(hw_hr_class, aes(x = factor(class, levels = c("Apprentice", "Journeyman")), y = count, fill = race)) +
-  geom_bar(stat = "identity", position = "dodge", width = 0.75) +
+hw_hr_class1 <- hw_hr_class %>%
+  group_by(class, race) %>%
+  summarize(count = sum(count))
+
+viz_hw_sxrc_hrs_class <- ggplot(hw_hr_class1, aes(x = factor(class, levels = c("Apprentice", "Journeyman")), y = count, fill = race)) +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
-  scale_y_continuous(limits = c(0, 65000),
-                     breaks = c(0, 20000, 40000, 60000),
-                     labels = c("0", "20", "40", "60 K")) +
+  scale_y_continuous(limits = c(0, 166000),
+                     breaks = c(0, 40000, 80000, 120000, 160000),
+                     labels = c("0", "40", "80", "120", "160 K")) +
   labs(x = NULL,
        y = "Hours (K)",
        fill = "Status",
@@ -966,7 +970,7 @@ ggsave(plot = viz_hw_sxrc_hrs_class,
        height = 2.5)
 
 ggsave(plot = viz_hw_sxrc_hrs_class, 
-       filename = "hw_sxrc_hrs_class_bar30.jpg",
+       filename = "hw_sxrc_hrs_class_bar_30.jpg",
        bg = "transparent",
        width = 6,
        height = 3)
@@ -1359,6 +1363,7 @@ all_sxrc2 <- all_sxrc %>%
          !is.na(sex))
 
 all_sxrc3 <- all_sxrc2 %>%
+  filter(project != "Expo Center") %>%
   group_by(sex, race) %>%
   summarize(count = sum(count)) %>%
   ungroup() %>%
@@ -1386,11 +1391,11 @@ viz_wf_sxrc <- ggplot(all_sxrc3, aes(x = factor(race,
                      breaks = c(0, 0.5, 1),
                      labels = c("0", "50", "100 %")) +
   labs(title = "Fig. 24: Worker proportions by race, gender",
-       subtitle = "All projects",
+       subtitle = "I-690, Lakeview, Hancock",
        x = NULL,
        y = NULL,
        fill = "Gender",
-       caption = "Sources: Records disclosing race, gender\nSyracuse Airport Authority, Onondaga County, NYS DOT, NYS OGS")
+       caption = "Sources: Records disclosing race, gender\nSyracuse Airport Authority, Onondaga County, NYS DOT")
 
 ggsave(plot = viz_wf_sxrc, 
        filename = "wf_sxrc_bar_20.jpg",
@@ -1739,6 +1744,8 @@ county_density <- left_join(lv_county_stats, county, by = c("county", "state")) 
 
 detach("package:noncensus", unload = TRUE)
 
+library(tigris)
+
 ny_counties <- counties(state = "ny", class = "sf")
 
 sf_lv_county_stats <- left_join(ny_counties, county_density)
@@ -2055,7 +2062,7 @@ bar_hc_rc_con <- ggplot(viz_hc_rc_con, aes(x = factor(name, levels = c("Longhous
        x = NULL,
        y = "Workers",
        fill = "Race",
-       caption = "Source: Syracuse Regional Airport Authority; Records disclosing race")
+       caption = "Source: Records disclosing race\nSyracuse Regional Airport Authority")
 
 ggsave(plot = bar_hc_rc_con,
        filename = "hc_rc_con_bar_25.jpg",
@@ -2110,7 +2117,7 @@ viz_hc_rc_hrs <- ggplot(hc_rc_hrs, aes(x = reorder(race, hours), y = hours)) +
   labs(title = "Fig. 3: Total hours by race",
        subtitle = "Hancock Airport",
        x = NULL,
-       y = "Hours",
+       y = "Hours (K)",
        caption = "Source: Records diclosing race\nSyracuse Regional Airport Authority")
 
 ggsave(plot = viz_hc_rc_hrs,
