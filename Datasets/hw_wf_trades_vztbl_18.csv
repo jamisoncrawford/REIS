@@ -1,0 +1,43 @@
+Trade,Gender,Race,Count,Total
+Equipment Operator,Male,White,88,92
+Laborers Semiskilled,Male,White,84,109
+Iron Workers,Male,White,56,70
+Carpenters,Male,White,24,25
+Electricians,Male,White,22,22
+Cement Masons,Male,White,22,23
+Piledriver,Male,White,18,19
+Laborers Unskilled,Male,White,8,9
+Foreman,Male,White,6,8
+Truck Driver,Male,White,6,6
+Asbestos Workers,Male,White,4,4
+Supervisor,Male,White,3,4
+Surveyors,Male,White,3,3
+Welders & Cutters,Male,White,3,4
+Laborers Semiskilled,Female,White,3,4
+Equipment Operator,Female,White,2,2
+Mechanic,Male,White,1,1
+Other,Male,White,1,1
+Clerical,Female,White,1,1
+Carpenters,Female,White,1,1
+Iron Workers,Female,White,0,1
+Laborers Semiskilled,Male,Minority,25,109
+Iron Workers,Male,Minority,14,70
+Equipment Operator,Male,Minority,4,92
+Foreman,Male,Minority,2,8
+Supervisor,Male,Minority,1,4
+Carpenters,Male,Minority,1,25
+Laborers Unskilled,Male,Minority,1,9
+Cement Masons,Male,Minority,1,23
+Piledriver,Male,Minority,1,19
+Welders & Cutters,Male,Minority,1,4
+Iron Workers,Female,Minority,1,1
+Laborers Semiskilled,Female,Minority,1,4
+Mechanic,Male,Minority,0,1
+Truck Driver,Male,Minority,0,6
+Electricians,Male,Minority,0,22
+Other,Male,Minority,0,1
+Surveyors,Male,Minority,0,3
+Asbestos Workers,Male,Minority,0,4
+Clerical,Female,Minority,0,1
+Carpenters,Female,Minority,0,1
+Equipment Operator,Female,Minority,0,2

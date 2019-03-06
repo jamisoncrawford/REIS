@@ -1,0 +1,37 @@
+trade,sex,count,race,percent
+Laborers Semiskilled,Male,64646,White,0.37285300665582355
+Laborers Semiskilled,Male,10488,Black,0.060490708378032325
+Laborers Semiskilled,Male,3598,Hispanic,0.020751865822288357
+Laborers Semiskilled,Male,32,Indigenous,1.84563564845255e-4
+Equipment Operator,Male,32730,White,0.18877392116828737
+Equipment Operator,Male,11,Black,6.34437254155564e-5
+Equipment Operator,Male,2651,Indigenous,0.015289937825149093
+Carpenters,Male,24301,White,0.14015872466576693
+Carpenters,Male,724,Black,0.004175750654623894
+Electricians,Male,5479,White,0.031600742868348505
+Surveyors,Male,2585,White,0.014909275472655754
+Cement Masons,Male,3341,White,0.019269589692124903
+Cement Masons,Male,437,Hispanic,0.0025204461824180134
+Iron Workers,Male,5040,White,0.02906876146312766
+Iron Workers,Male,392,Black,0.0022609036693543734
+Iron Workers,Male,678,Indigenous,0.00391044053015884
+Piledriver,Male,2258,White,0.013023266544393305
+Piledriver,Male,87,Black,5.01782191923037e-4
+Laborers Unskilled,Male,613,White,0.0035355457890669157
+Laborers Unskilled,Male,18,Black,1.0381700522545593e-4
+Asbestos Workers,Male,226,White,0.0013034801767196134
+Truck Driver,Male,200,White,0.0011535222802828437
+Foreman,Male,289,White,0.001666839695008709
+Foreman,Male,27,Indigenous,1.557255078381839e-4
+Welders & Cutters,Male,153,White,8.824445444163754e-4
+Welders & Cutters,Male,89,Black,5.133174147258654e-4
+Supervisor,Male,179,White,0.001032402440853145
+Supervisor,Male,10,Indigenous,5.7676114014142184e-5
+Mechanic,Male,61,White,3.5182429548626733e-4
+Other,Male,27,White,1.557255078381839e-4
+Laborers Semiskilled,Female,5274,White,0.030418382531058587
+Laborers Semiskilled,Female,2087,Indigenous,0.012037004994751474
+Equipment Operator,Female,4424,White,0.025515912839856502
+Carpenters,Female,192,White,0.00110738138907153
+Iron Workers,Female,24,Indigenous,1.3842267363394124e-4
+Clerical,Female,11,White,6.34437254155564e-5
