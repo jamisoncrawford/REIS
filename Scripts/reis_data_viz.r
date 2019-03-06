@@ -54,24 +54,28 @@ fonttable()[76, ]
 loadfonts(device="win")
 
 theme_set(theme_minimal() + theme(plot.title = element_text(family = "Century Schoolbook", 
-                                                            face = "bold", color = "grey10"),
+                                                            face = "bold", color = "grey10",
+                                                            size = 12),
                                   plot.subtitle = element_text(family = "Century Schoolbook", 
-                                                               color = "grey40"),
+                                                               color = "grey40",
+                                                               size = 10),
                                   plot.caption = element_text(family = "Century Schoolbook", 
                                                               color = "grey40",
-                                                              size = 7,
-                                                              vjust = -0.3),
+                                                              size = 6.5,
+                                                              vjust = -0.6,
+                                                              lineheight = 1.2),
                                   axis.title = element_text(family = "Century Schoolbook", 
                                                             color = "grey40"),
                                   axis.text = element_text(family = "Century Schoolbook", 
                                                            color = "grey10"),
-                                  axis.title.x = element_text(vjust = -0.3),
+                                  axis.title.x = element_text(vjust = -0.5,
+                                                              size = 10),
                                   legend.title = element_text(family = "Century Schoolbook", 
                                                               color = "grey10",
-                                                              size = 11), 
+                                                              size = 10), 
                                   legend.text = element_text(family = "Century Schoolbook", 
                                                              color = "grey20",
-                                                             size = 9),
+                                                             size = 8),
                                   strip.text = element_text(family = "Century Schoolbook", 
                                                             color = "grey10")))
 
@@ -101,15 +105,29 @@ bar_expo_rc_hrs <- ggplot(viz_expo_rc_hrs, aes(x = reorder(Race, Percent), y = C
   scale_y_continuous(limits = c(0, 142500),
                      breaks = c(0,20000, 40000, 60000, 80000, 100000, 120000, 140000),
                      labels = c("0", "20", "40", "60", "80", "100", "120", "140 K")) +
-  labs(title = "Total hours worked by race",
+  labs(title = "Fig. 13: Total hours worked by race",
        subtitle = "Expo Center",
        x = NULL, 
-       y = "Hours (Thousands)", 
-       caption = "Source: NYSOGS")
+       y = "Hours (K)", 
+       caption = "Source: NYS OGS")
 
 ggsave(plot = bar_expo_rc_hrs, 
-       filename = "expo_rc_hrs_bar.jpg",
-       bg = "transparent")
+       filename = "expo_rc_hrs_bar_25.jpg",
+       bg = "transparent",
+       height = 2.5,
+       width = 6)
+
+ggsave(plot = bar_expo_rc_hrs, 
+       filename = "expo_rc_hrs_bar_30.jpg",
+       bg = "transparent",
+       height = 3,
+       width = 6)
+
+ggsave(plot = bar_expo_rc_hrs, 
+       filename = "expo_rc_hrs_bar_35.jpg",
+       bg = "transparent",
+       height = 3.5,
+       width = 6)
 
 ## Table: Hours Worked by Race, Expo
 
@@ -146,15 +164,29 @@ bar_exp_sxrc_hrs <- ggplot(viz_exp_sxrc_hrs, aes(x = reorder(Race, Percent), y =
   scale_y_continuous(limits = c(0, 150000),
                      breaks = c(0, 50000, 100000, 150000),
                      labels = c("0", "50", "100", "150 K")) +
-  labs(title = "Total hours worked by gender and race",
+  labs(title = "Fig. 14: Hours worked by gender, race",
        subtitle = "Expo Center",
        x = NULL, 
-       y = "Hours (Thousands)", 
-       caption = "Source: NYSOGS")
+       y = "Hours (K)", 
+       caption = "Source: NYS OGS")
 
 ggsave(plot = bar_exp_sxrc_hrs, 
-       filename = "expo_sxrc_hrs_bar.jpg",
-       bg = "transparent")
+       filename = "expo_sxrc_hrs_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = bar_exp_sxrc_hrs, 
+       filename = "expo_sxrc_hrs_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = bar_exp_sxrc_hrs, 
+       filename = "expo_sxrc_hrs_bar_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 ## Table: Hours Worked by Race & Sex, Expo
 
@@ -199,15 +231,29 @@ bar_expo_rc_grs <- ggplot(viz_expo_rc_grs, aes(x = reorder(Race, Percent), y = C
   scale_y_continuous(limits = c(0, 4400000),
                      breaks = c(0, 1000000, 2000000, 3000000, 4000000),
                      labels = c("$ 0", "1", "2", "3", "4 M")) +
-  labs(title = "Total gross income by race",
+  labs(title = "Fig. 15: Total gross by race",
        subtitle = "Expo Center",
        x = NULL, 
-       y = "Gross (Millions)", 
-       caption = "Source: NYSOGS")
+       y = "Gross (M)", 
+       caption = "Source: NYS OGS")
 
 ggsave(plot = bar_expo_rc_grs, 
-       filename = "expo_rc_grs_bar.jpg",
-       bg = "transparent")
+       filename = "expo_rc_grs_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = bar_expo_rc_grs, 
+       filename = "expo_rc_grs_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = bar_expo_rc_grs, 
+       filename = "expo_rc_grs_bar_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 ## Visual: Gross Wages by Sex and Race, Expo
 
@@ -226,12 +272,12 @@ bar_expo_sxrc_grs <- ggplot(viz_expo_sxrc_grs, aes(x = reorder(Race, Percent),
   scale_y_continuous(limits = c(0, 4500000),
                      breaks = c(0, 1000000, 2000000, 3000000, 4000000),
                      labels = c("$ 0", "1", "2", "3", "4 M")) +
-  labs(title = "Total gross income by gender and race",
+  labs(title = "Total gross by gender and race",
        subtitle = "Expo Center",
        x = NULL, 
-       y = "Gross (Millions)", 
+       y = "Gross (M)", 
        fill = "Gender",
-       caption = "Source: NYSOGS")
+       caption = "Source: NYS OGS")
 
 ggsave(plot = bar_expo_sxrc_grs, 
        filename = "expo_sxrc_grs_bar.jpg",
@@ -271,36 +317,50 @@ tmp_expo_rc_hrs <- viz_expo_rc_hrs %>%
 tmp_expo_rc_viz <- bind_rows(tmp_expo_rc_hrs, tmp_expo_rc_grs)
 
 tmp_expo_rc <- ggplot(tmp_expo_rc_viz, aes(x = Race, y = Percent, fill = reorder(Indicator, Percent))) +
-  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar(stat = "identity", position = "dodge", width = 0.75) +
   coord_flip() +
   scale_y_continuous(limits = c(0, 1),
                      breaks = c(0, 0.25, 0.5, 0.75, 1),
                      labels = c("0 %", "", "50 %", "", "100 %")) +
-  labs(title = "Proportion of hours v. gross earnings by race",
+  labs(title = "",
        subtitle = "Scale: 100 %",
        x = NULL,
        y = NULL,
        fill = "Proportion",
-       caption = "") + 
-  theme(legend.position = "none")
+       caption = "Source: NYS OGS") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
 
-tmp_expo_rc2 <- tmp_expo_rc +
+tmp_expo_rc2 <- ggplot(tmp_expo_rc_viz, aes(x = Race, y = Percent, fill = reorder(Indicator, Percent))) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.75) +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = c(0, 0.25, 0.5, 0.75, 1),
+                     labels = c("0 %", "", "50 %", "", "100 %")) +
+  labs(title = "",
+       subtitle = "Scale: 100 %",
+       x = NULL,
+       y = NULL,
+       fill = "Proportion",
+       caption = "Source: NYS OGS") +
   coord_flip(ylim = c(0, 0.05)) +
   scale_y_continuous(breaks = c(0, 0.025, 0.05),
                      labels = c("0 %", "2.5 %", "5 %")) +
   theme(legend.position = "right") +
-  labs(title = "",
+  scale_fill_manual(values = c(adjustcolor(hue_pal()(2)[1], alpha.f = 1), 
+                               adjustcolor(hue_pal()(2)[2], alpha.f = 1)),
+                    breaks = c("Hours", "Gross")) +
+  labs(title = "Fig. 16: Percent of hours and gross by race",
        subtitle = "Scale: 5 %",
-       caption = "Source: NYSOGS") +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
+       caption = "") +
+  theme(legend.position = "none",
+        axis.text.y = element_text(family = "Century Schoolbook",
+                                   hjust = 1))
 
-png("expo_rc_grshrs_spec.jpg", width = 900, height = 350, bg = "transparent")      # Note: Requires graphics device
-grid.arrange(tmp_expo_rc, tmp_expo_rc2, ncol=2)
-dev.off()
-
-grs_hrs_spec <- arrangeGrob(tmp_expo_rc, tmp_expo_rc2, ncol = 2)
-ggsave(file="expo_rc_grshrs_spec.jpg", grs_hrs_spec, bg = "transparent", width = 10)
+grs_hrs_spec <- arrangeGrob(tmp_expo_rc2, tmp_expo_rc, ncol = 2)
+ggsave(file="expo_rc_grshrs_spec_20.jpg", grs_hrs_spec, bg = "transparent", height = 2, width = 6)
+ggsave(file="expo_rc_grshrs_spec_25.jpg", grs_hrs_spec, bg = "transparent", height = 2.5, width = 6)
+ggsave(file="expo_rc_grshrs_spec_30.jpg", grs_hrs_spec, bg = "transparent", height = 3, width = 6)
 
 ## I-690 VISUALIZATIONS
 
@@ -312,19 +372,33 @@ hw_sx_hrs <- all_hours_sex %>%
 
 viz_hw_sx_hrs <- ggplot(hw_sx_hrs, aes(x = sex, y = count)) +
   coord_flip() +
-  geom_bar(stat = "identity", fill = "tomato") +
+  geom_bar(stat = "identity", fill = "tomato", width = 0.5) +
   scale_y_continuous(limits = c(0, 165000),
                      breaks = c(0, 20000, 40000, 60000, 80000, 100000, 120000, 140000, 160000),
                      labels = c("0", "", "40", "", "80", "", "120", "", "160 K")) +
-  labs(title = "Total hours by gender",
+  labs(title = "Fig. 17: Total hours by gender",
        subtitle = "I-690",
        x = NULL, 
-       y = "Hours (Thousands)",
-       caption = "Source: NYSDOT")
+       y = "Hours (K)",
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_sx_hrs, 
-       filename = "hw_sx_hrs_bar.jpg",
-       bg = "transparent")
+       filename = "hw_sx_hrs_bar_20.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2)
+
+ggsave(plot = viz_hw_sx_hrs, 
+       filename = "hw_sx_hrs_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_hw_sx_hrs, 
+       filename = "hw_sx_hrs_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
 
 # Table: Hours by Gender
 
@@ -346,7 +420,7 @@ hw_rc_wf <- all_races %>%
   filter(project == "I-690") %>%
   arrange(reorder(race, desc(percent)))
 
-viz_hw_rc_wf <- ggplot(hw_rc_wf, aes(x = reorder(race, percent), y = count)) +
+viz_hw_rc_wf <- ggplot(hw_rc_wf, aes(x = reorder(race, count), y = count)) +
   coord_flip() +
   geom_bar(stat = "identity", fill = "tomato") +
   scale_y_continuous(labels = comma) +
@@ -354,7 +428,7 @@ viz_hw_rc_wf <- ggplot(hw_rc_wf, aes(x = reorder(race, percent), y = count)) +
        subtitle = "I-690",
        x = NULL, 
        y = "Workers",
-       caption = "Source: NYSDOT")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_rc_wf, 
        filename = "hw_rc_wf_bar.jpg",
@@ -454,21 +528,35 @@ hw_sxrc_hrs_trade[index, "race"] <- "Indigenous"
 
 viz_hw_sxrc_hrs_trade <- ggplot(hw_sxrc_hrs_trade, aes(x = race, y = count, fill = sex)) +
   coord_flip() +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 0.75) +
   scale_x_discrete(limits = c("Hispanic", "Indigenous", "Black", "White")) +
   scale_y_continuous(limits = c(0, 150000),
                      breaks = c(0, 50000, 100000, 150000),
                      labels = c("0", "50", "100", "150 K")) +
-  labs(title = "Total hours by gender and race",
+  labs(title = "Fig. 19: Total hours by gender and race",
        subtitle = "I-690",
        x = NULL, 
-       y = "Hours (Thousands)",
+       y = "Hours (K)",
        fill = "Gender",
-       caption = "Source: NYSDOT; Records disclosing race, gender")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_sxrc_hrs_trade, 
-       filename = "hw_sxrc_hrs_bar.jpg",
-       bg = "transparent")
+       filename = "hw_sxrc_hrs_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_hw_sxrc_hrs_trade, 
+       filename = "hw_sxrc_hrs_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = viz_hw_sxrc_hrs_trade, 
+       filename = "hw_sxrc_hrs_bar_35.jpg_",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 # Viz: Hours by Race & Trade
 
@@ -481,7 +569,7 @@ viz_hw_sxrc_hrs_trade <- ggplot(hw_sxrc_hrs_trade, aes(x = reorder(trade, desc(c
   scale_y_continuous(limits = c(0, 90000),
                      breaks = c(0, 30000, 60000, 90000),
                      labels = c("0 Hrs", "30", "60", "90 K")) +
-  labs(title = "10 trades with most hours by race",
+  labs(title = "Fig. 20: Trade hours by race",
        subtitle = "All workers",
        x = NULL, 
        y = NULL,
@@ -502,22 +590,27 @@ viz_hw_sxrc_hrs_trade_min <- ggplot(hw_sxrc_hrs_trade_min, aes(x = reorder(trade
                               "Laborers Semiskilled")) +
   scale_y_continuous(limits = c(0, 20000),
                      breaks = c(0, 5000, 10000, 15000, 20000),
-                     labels = c("0", "5", "10", "15", "20 K")) +
+                     labels = c("0 Hrs", "5", "10", "15", "20 K")) +
   labs(title = "",
        subtitle = "Minority workers only",
        x = "", 
        y = NULL,
        fill = "Race",
-       caption = "Source: NYSDOT\n99.45% of all hours\nRecords disclosing race") +
+       caption = "Source: NYS DOT\n99.45% of all hours\nRecords disclosing race") +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank())
 
-png("hw_rc_hrs_trades_spec.jpg", width = 800, height = 400, bg = "transparent")      # Note: Requires graphics device
-grid.arrange(viz_hw_sxrc_hrs_trade, viz_hw_sxrc_hrs_trade_min, ncol=2)
-dev.off()
+trades_spec <- arrangeGrob(viz_hw_sxrc_hrs_trade, viz_hw_sxrc_hrs_trade_min, ncol = 2)
+ggsave(file="hw_rc_hrs_trades_spec_25.jpg", trades_spec, bg = "transparent", width = 6, height = 2.5)
 
 trades_spec <- arrangeGrob(viz_hw_sxrc_hrs_trade, viz_hw_sxrc_hrs_trade_min, ncol = 2)
-ggsave(file="hw_rc_hrs_trades_spec.jpg", trades_spec, bg = "transparent", width = 10)
+ggsave(file="hw_rc_hrs_trades_spec_30.jpg", trades_spec, bg = "transparent", width = 6, height = 3)
+
+trades_spec <- arrangeGrob(viz_hw_sxrc_hrs_trade, viz_hw_sxrc_hrs_trade_min, ncol = 2)
+ggsave(file="hw_rc_hrs_trades_spec_35.jpg", trades_spec, bg = "transparent", width = 6, height = 3.5)
+
+trades_spec <- arrangeGrob(viz_hw_sxrc_hrs_trade, viz_hw_sxrc_hrs_trade_min, ncol = 2)
+ggsave(file="hw_rc_hrs_trades_spec_40.jpg", trades_spec, bg = "transparent", width = 6, height = 4)
 
 # Preparation: I-690 Workers by Race, Sex, Trade
 
@@ -566,19 +659,33 @@ trades <- c("Clerical", "Mechanic", "Other", "Surveyors", "Asbestos Workers", "S
 
 viz_hw_wf_trades <- ggplot(hw_wf_trades, aes(x = reorder(Trade, Count), y = Count, fill = Race)) +
   coord_flip() +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 0.75) +
   scale_y_continuous(labels = comma, breaks = c(0, 25, 50, 75, 100)) +
   scale_x_discrete(limits = trades) +
-  labs(title = "Total workers by trade, minority status",
+  labs(title = "Fig. 18: Workers by trade, minority status",
        subtitle = "I-690",
        x = NULL, 
        y = "Workers",
        fill = "Status",
-       caption = "Source: NYSDOT")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_wf_trades, 
-       filename = "hw_wf_trades_bar.jpg",
-       bg = "transparent")
+       filename = "hw_wf_trades_bar_40.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 4)
+
+ggsave(plot = viz_hw_wf_trades, 
+       filename = "hw_wf_trades_bar_45.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 4.5)
+
+ggsave(plot = viz_hw_wf_trades, 
+       filename = "hw_wf_trades_bar_50.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 5)
 
 # Table: Total Workers, Minority Workers, Proportion by Trade
 
@@ -784,7 +891,7 @@ viz_hw_sxrc_class <- ggplot(hw_wf_class, aes(x = class, y = count, fill = gender
        fill = "Gender",
        title = "Class by gender and minority status",
        subtitle = "I-690",
-       caption = "Source: NYSDOT")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_sxrc_class, 
        filename = "hw_sxrc_class_bar.jpg",
@@ -818,26 +925,51 @@ tbl_hw_sxrc_class$`Apprentice Potential (%)`[index] <- NA
 index <- which(tbl_hw_sxrc_class$`Actual Trade Ratio` == "1:NA")
 tbl_hw_sxrc_class$`Actual Trade Ratio`[index] <- NA
 
+for (i in 1:nrow(tbl_hw_sxrc_class)){
+  for (j in 7:10){
+    if (is.na(tbl_hw_sxrc_class[i, j])){
+      tbl_hw_sxrc_class[i, j] <- "-"
+    }
+  }
+}
+
+tbl_hw_sxrc_class %>%
+  arrange(Trade, desc(Workers))
+
 write_excel_csv(tbl_hw_sxrc_class, "hw_sxrc_class_tbl.csv")
 
 # Viz: Workhours by Classification and Race
 
 viz_hw_sxrc_hrs_class <- ggplot(hw_hr_class, aes(x = factor(class, levels = c("Apprentice", "Journeyman")), y = count, fill = race)) +
-  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar(stat = "identity", position = "dodge", width = 0.75) +
   coord_flip() +
   scale_y_continuous(limits = c(0, 65000),
                      breaks = c(0, 20000, 40000, 60000),
                      labels = c("0", "20", "40", "60 K")) +
-  labs(x = "Class",
-       y = "Hours (Thousands)",
+  labs(x = NULL,
+       y = "Hours (K)",
        fill = "Status",
-       title = "Hours by minority status and class",
+       title = "Fig. 21: Hours by minority status, class",
        subtitle = "I-690",
-       caption = "Source: NYSDOT")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_sxrc_hrs_class, 
-       filename = "hw_sxrc_hrs_class_bar.jpg",
-       bg = "transparent")
+       filename = "hw_sxrc_hrs_class_bar_20.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2)
+
+ggsave(plot = viz_hw_sxrc_hrs_class, 
+       filename = "hw_sxrc_hrs_class_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_hw_sxrc_hrs_class, 
+       filename = "hw_sxrc_hrs_class_bar30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
 
 # Table: Classification by Trades
 
@@ -924,7 +1056,7 @@ hw_wf_poten <- bind_rows(hw_wf_poten, exceed)
 viz_hw_wf_poten <- ggplot(hw_wf_poten, 
        aes(x = reorder(trade, count), y = count, 
            fill = factor(class, levels = c("Potential", "Exceeding", "Actual")))) +
-  geom_bar(stat = "identity", alpha = 0.8) +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
   scale_y_continuous(labels = comma) +
   labs(x = NULL,
@@ -932,40 +1064,72 @@ viz_hw_wf_poten <- ggplot(hw_wf_poten,
        fill = "Status",
        title = "Potential and actual apprenticeships by trade",
        subtitle = "I-690",
-       caption = "Source: NYSDOT")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_hw_wf_poten, 
-       filename = "hw_wf_poten_bar.jpg",
-       width = 5.5,
-       bg = "transparent")
+       filename = "hw_wf_poten_bar_30.jpg",
+       width = 6,
+       bg = "transparent",
+       height = 3)
+
+ggsave(plot = viz_hw_wf_poten, 
+       filename = "hw_wf_poten_bar_35.jpg",
+       width = 6,
+       bg = "transparent",
+       height = 3.5)
+
+ggsave(plot = viz_hw_wf_poten, 
+       filename = "hw_wf_poten_bar_40.jpg",
+       width = 6,
+       bg = "transparent",
+       height = 4)
 
 # Actual v. Potential Apprenticeship Including Race
 
-pt <- hw_wf_class %>%
-  select(trade, potent) %>%
-  unique() %>%
-  filter(!is.na(potent))
+t <- hw_wf_class %>%
+  select(trade, class, race, count, potent) %>%
+  filter(class == "Apprentice") %>%
+  rename(actual = count) %>%
+  group_by(trade) %>%
+  summarize(total = sum(actual)) %>%
+  full_join(missing %>% rename(total = count) %>% select(-class)) %>%
+  rename(actual = total) %>%
+  mutate(class = "Apprentice",
+         race = "Potential") %>%
+  left_join(hw_wf_class %>% select(trade, potent) %>% filter(!is.na(potent)) %>% unique()) %>%
+  select(trade, class, race, actual, potent) %>%
+  mutate(lost = potent - actual,
+         lost = replace(lost, lost == -5, 0),
+         actual = lost) %>%
+  select(-lost)
+  
+g <- hw_wf_class %>%
+  select(trade, class, race, count, potent) %>%
+  filter(class == "Apprentice") %>%
+  rename(actual = count) %>%
+  left_join(t) %>%
+  bind_rows(t)
 
-ptbr <- bind_rows(hw_wf_potent, missing) %>%
+ptbr <- bind_rows(hw_wf_poten, missing) %>%
   left_join(pt) %>%
-  select(-perc, -inverse) %>%
-  mutate(Potential = potent - total,
-         Potential = replace(Potential, trade == "Ironworkers", 0)) %>%
+  rename(cap = potent) %>%
+  mutate(miss = cap - count,
+         miss = replace(miss, miss == -5, 0)) %>%
   gather(key = race, value = count, Minority, White, Potential) %>%
   mutate(count = replace(count, is.na(count), 0))
 
 ptbr[28:30, "count"] <- ptbr[28:30, "potent"]
   
-viz_class_potential <- ggplot(ptbr, aes(x = reorder(trade, potent), y = count, 
-                 fill = factor(race, levels = c("Potential", "Minority", "White")))) +
-  geom_bar(stat = "identity", alpha = 0.8) +
+viz_class_potential <- ggplot(g, aes(x = reorder(trade, potent), y = actual, 
+                                     fill = factor(race, levels = c("Potential", "Minority", "White")))) +
+  geom_bar(stat = "identity", alpha = 1) +
   coord_flip() +
   theme(axis.title.y = element_blank()) +
   labs(title = "Potential apprenticeships by minority status",
        subtitle = "I-690",
        fill = "Status",
        y = "Workers",
-       caption = "Source: NYSDOT")
+       caption = "Source: NYS DOT")
 
 ggsave(plot = viz_class_potential, 
        filename = "class_potential_bar.jpg",
@@ -1018,33 +1182,58 @@ all_races[index, "race"] <- "Indigenous"
 
 # Viz: Workforce by Race: Hancock, Lakeview, I-690
 
-all_races_viz_tmp <- all_races %>%
+lv_tmp <- lvhc %>%
+  filter(project == "Lakeview") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(records = n()) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total,
+         project = "Lakeview")
+
+hc_tmp <- lvhc %>%
+  filter(project == "Hancock") %>%
+  group_by(project, name, zip, ssn, sex, race) %>%
+  summarize(records = n()) %>%
+  ungroup() %>%
+  group_by(race) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total,
+         project = "Hancock")
+
+hw_tmp <- all_sxrc2 %>%
+  filter(project == "I-690") %>%
+  group_by(race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total,
+         project = "I-690")
+
+ex_tmp <- all_sxrc %>%
+  filter(project == "Expo Center") %>%
+  group_by(race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total,
+         project = "Expo Center")
+
+races_by_proj <- bind_rows(hc_tmp, lv_tmp, hw_tmp, ex_tmp) %>%
+  mutate(wf_total = sum(count),
+         wf_perc = count / wf_total)
+
+all_races_viz_tmp <- races_by_proj %>%
+  filter(!is.na(race)) %>%
   filter(project != "Expo Center")
 
-viz_wf_race_1 <- ggplot(all_races_viz_tmp, aes(x = reorder(project, count), y = count, fill = reorder(race, desc(count)))) +
-  geom_bar(stat = "identity", alpha = 0.8) +
-  coord_flip() +
-  scale_y_continuous(labels = comma) +
-  labs(title = "Workforce composition by race",
-       subtitle = "All projects",
-       x = "Project",
-       y = "Total Workers",
-       fill = "Race",
-       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYSDOT; Records disclosing race")
-
-viz_wf_race_2 <- ggplot(all_races_viz_tmp, aes(x = reorder(race, count), y = count)) +
-  geom_bar(stat = "identity", fill = "tomato") +
-  coord_flip() +
-  scale_y_continuous(labels = comma) +
-  labs(title = "Workforce composition by race",
-       subtitle = "All projects",
-       x = NULL,
-       y = "Total Workers",
-       fill = "Race",
-       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYSDOT; Records disclosing race")
-
-viz_wf_race_3 <- ggplot(all_races_viz_tmp, aes(x = reorder(race, count), y = count)) +
-  geom_bar(stat = "identity", fill = "tomato") +
+viz_wf_race_1 <- ggplot(all_races_viz_tmp, aes(x = reorder(project, total), y = count, fill = reorder(race, desc(count)))) +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
   scale_y_continuous(labels = comma) +
   labs(title = "Workforce composition by race",
@@ -1052,20 +1241,72 @@ viz_wf_race_3 <- ggplot(all_races_viz_tmp, aes(x = reorder(race, count), y = cou
        x = NULL,
        y = "Workers",
        fill = "Race",
-       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYSDOT; Records disclosing race") +
+       caption = "Sources: Records disclosing race\nSyracuse Airport Authority, Onondaga County, NYS DOT")
+
+viz_wf_race_2 <- ggplot(all_races_viz_tmp, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity", fill = "tomato") +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Fig. 22: Workforce composition by race",
+       subtitle = "All projects",
+       x = NULL,
+       y = "Total Workers",
+       fill = "Race",
+       caption = "Sources: Records disclosing race\nSyracuse Airport Authority, Onondaga County, NYS DOT")
+
+viz_wf_race_3 <- ggplot(all_races_viz_tmp, aes(x = reorder(race, count), y = count)) +
+  geom_bar(stat = "identity", fill = "tomato") +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Fig. 23: Workforce composition by race",
+       subtitle = "All projects",
+       x = NULL,
+       y = "Workers",
+       fill = "Race",
+       caption = "Sources: Records disclosing race\nSyracuse Airport Authority, Onondaga County, NYS DOT") +
   facet_wrap(~ factor(project, levels = c("Lakeview", "I-690", "Hancock")), nrow = 3)
 
 ggsave(plot = viz_wf_race_1, 
        filename = "wf_race_bar_1.jpg",
-       bg = "transparent")
+       bg = "transparent",
+       width = 6,
+       height = 4)
 
 ggsave(plot = viz_wf_race_2, 
-       filename = "wf_race_bar_2.jpg",
-       bg = "transparent")
+       filename = "wf_race_bar_2_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_wf_race_2, 
+       filename = "wf_race_bar_2_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = viz_wf_race_2, 
+       filename = "wf_race_bar_2_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 ggsave(plot = viz_wf_race_3, 
-       filename = "wf_race_bar_3.jpg",
-       bg = "transparent", height = 5)
+       filename = "wf_race_bar_3_45.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 4.5)
+
+ggsave(plot = viz_wf_race_3, 
+       filename = "wf_race_bar_3_50.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 5)
+
+ggsave(plot = viz_wf_race_3, 
+       filename = "wf_race_bar_3_55.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 5.5)
 
 # Viz: Percentage of Workers Who Identify Race & Gender
 
@@ -1113,7 +1354,18 @@ all_sxrc[index, "race"] <- "Indigenous"
 all_sxrc <- all_sxrc %>%
   mutate(new_prc = count / sum(count))
 
-viz_wf_sxrc <- ggplot(all_sxrc, aes(x = factor(race, 
+all_sxrc2 <- all_sxrc %>%
+  filter(!is.na(race),
+         !is.na(sex))
+
+all_sxrc3 <- all_sxrc2 %>%
+  group_by(sex, race) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(total = sum(count),
+         percent = count / total)
+
+viz_wf_sxrc <- ggplot(all_sxrc3, aes(x = factor(race, 
                                levels = c("Multiracial",
                                           "Asian",
                                           "Hispanic",
@@ -1126,23 +1378,43 @@ viz_wf_sxrc <- ggplot(all_sxrc, aes(x = factor(race,
                                           "Indigenous",
                                           "Black",
                                           "White")), 
-                     y = new_prc, 
+                     y = percent, 
                      fill = sex)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
   scale_y_continuous(limits = c(0, 1),
                      breaks = c(0, 0.5, 1),
                      labels = c("0", "50", "100 %")) +
-  labs(title = "Workforce proportions by gender and race",
+  labs(title = "Fig. 24: Worker proportions by race, gender",
        subtitle = "All projects",
        x = NULL,
        y = NULL,
        fill = "Gender",
-       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYSOGS, NYSDOT; Records disclosing race, gender")
+       caption = "Sources: Records disclosing race, gender\nSyracuse Airport Authority, Onondaga County, NYS DOT, NYS OGS")
 
 ggsave(plot = viz_wf_sxrc, 
-       filename = "wf_sxrc_bar.jpg",
-       bg = "transparent")
+       filename = "wf_sxrc_bar_20.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2)
+
+ggsave(plot = viz_wf_sxrc, 
+       filename = "wf_sxrc_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_wf_sxrc, 
+       filename = "wf_sxrc_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = viz_wf_sxrc, 
+       filename = "wf_sxrc_bar_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 # Viz: Workhours and Wages, Hancock, Lakeview, I-690, Expo by Race
 
@@ -1183,18 +1455,18 @@ index <- which(conclusion$race == "Native")
 conclusion[index, "race"] <- "Indigenous"
 
 con1 <- ggplot(gross_conclusion, aes(x = reorder(race, count), y = count)) +
-  geom_bar(stat = "identity", fill = "tomato") +
+  geom_bar(stat = "identity", fill = "tomato", width = 0.75) +
   coord_flip() +
   scale_y_continuous(label = dollar) +
   theme(plot.subtitle = element_text(color = "grey10")) +
-  labs(title = "All projects",
+  labs(title = "Fig. 25: All projects",
        subtitle = "Total gross",
        x = NULL,
        y = NULL,
-       caption = "")
+       caption = "\n")
 
 con_2 <- ggplot(hours_conclusion, aes(x = reorder(race, count), y = count)) +
-  geom_bar(stat = "identity", fill = "tomato") +
+  geom_bar(stat = "identity", fill = "tomato", width = 0.75) +
   coord_flip() +
   scale_y_continuous(label = comma) +
   theme(axis.text.y = element_blank(),
@@ -1204,14 +1476,16 @@ con_2 <- ggplot(hours_conclusion, aes(x = reorder(race, count), y = count)) +
        subtitle = "Total hours",
        x = NULL,
        y = NULL,
-       caption = "Source: Syracuse Airport Authority, Onondaga County, NYSOGS, NYSDOT; Records disclosing race")
-
-png("conclusion_hrs_grs_spec.jpg", width = 700, height = 350, bg = "transparent")      # Note: Requires graphics device
-grid.arrange(con1, con_2, ncol = 2)
-dev.off()
+       caption = "Sources: Records disclosing race\nSyracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT")
 
 grs_hrs_spec <- arrangeGrob(con1, con_2, ncol = 2)
-ggsave(file="conclusion_hrs_grs_spec.jpg", grs_hrs_spec, bg = "transparent", width = 10)
+ggsave(file="conclusion_hrs_grs_spec_20.jpg", grs_hrs_spec, bg = "transparent", width = 10, height = 2)
+ggsave(file="conclusion_hrs_grs_spec_25.jpg", grs_hrs_spec, bg = "transparent", width = 10, height = 2.5)
+ggsave(file="conclusion_hrs_grs_spec_30.jpg", grs_hrs_spec, bg = "transparent", width = 10, height = 3)
+ggsave(file="conclusion_hrs_grs_spec_35.jpg", grs_hrs_spec, bg = "transparent", width = 10, height = 3.5)
+ggsave(file="conclusion_hrs_grs_spec_40.jpg", grs_hrs_spec, bg = "transparent", width = 10, height = 4)
+
+dev.off()
 
 ### SECTION: "LAKEVIEW"
 
@@ -1257,9 +1531,9 @@ lv_dem_viz <- lv_dem %>%
          !is.na(sex))
 
 viz_lv_dem <- ggplot(lv_dem_viz, aes(x = reorder(race, count), y = count, fill = sex)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
-  labs(title = "Workforce race and gender",
+  labs(title = "Fig. 8: Workforce race and gender",
        subtitle = "Lakeview Amphitheater",
        x = NULL,
        y = "Workers",
@@ -1267,8 +1541,28 @@ viz_lv_dem <- ggplot(lv_dem_viz, aes(x = reorder(race, count), y = count, fill =
        caption = "Source: Onondaga County")
 
 ggsave(plot = viz_lv_dem,
-       filename = "lv_dem_bar.jpg", 
-       bg = "transparent")
+       filename = "lv_dem_bar_20.jpg", 
+       bg = "transparent",
+       width = 6,
+       height = 2)
+
+ggsave(plot = viz_lv_dem,
+       filename = "lv_dem_bar_25.jpg", 
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_lv_dem,
+       filename = "lv_dem_bar_30.jpg", 
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = viz_lv_dem,
+       filename = "lv_dem_bar_35.jpg", 
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 # Viz: Workers by Race & Contractor
 
@@ -1300,14 +1594,15 @@ lv_rc_con <- lvhc %>%
                                   "Northeast",
                                   "Burn Bros",
                                   "EJ Construction",
+                                  "Quality Structures",
                                   "John Lowery",
                                   "O'Connell Electric"))) %>%
   filter(!is.na(name))
 
 viz_lv_con <- ggplot(lv_rc_con, aes(x = reorder(name, name), y = count, fill = race)) +
-  geom_bar(stat = "identity", alpha = 0.8) +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
-  labs(title = "Workers by company and race",
+  labs(title = "Fig. 9: Workers by company and race",
        subtitle = "Lakeview Amphitheater",
        x = NULL,
        y = "Workers",
@@ -1315,9 +1610,22 @@ viz_lv_con <- ggplot(lv_rc_con, aes(x = reorder(name, name), y = count, fill = r
        caption = "Source: Onondaga County")
 
 ggsave(plot = viz_lv_con,
-       filename = "lv_con_bar.jpg",
+       filename = "lv_con_bar_35.jpg",
        bg = "transparent",
-       width = 8)  
+       width = 6,
+       height = 3.5)  
+
+ggsave(plot = viz_lv_con,
+       filename = "lv_con_bar_40.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 4)
+
+ggsave(plot = viz_lv_con,
+       filename = "lv_con_bar_45.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 4.5)
 
 # Table: Wages by Race & Gender
 
@@ -1444,7 +1752,7 @@ sf_lv_county_stats <- sf_lv_county_stats %>% rename(Workers = workers)
 map_lv_counties <- tm_shape(sf_lv_county_stats) +
   tm_borders(col = "grey65") +
   tm_fill(col = "Workers", colorNA = "grey100", palette = "Blues", textNA = "No Data", style = "jenks") +
-  tm_layout(main.title = "Workers by county",
+  tm_layout(main.title = "Fig. 11: Workers by county",
             main.title.size = 1.25,
             main.title.color = "grey10",
             title.position = c("left", "top"),
@@ -1459,7 +1767,11 @@ map_lv_counties <- tm_shape(sf_lv_county_stats) +
              align = "left",
              position = c("left", "bottom"), size = 0.5)
 
-tmap_save(map_lv_counties, "lv_county_density_map.jpg", bg = "transparent")
+tmap_save(map_lv_counties, "lv_county_density_map_35.jpg", bg = "transparent", width = 6, height = 3.5)
+tmap_save(map_lv_counties, "lv_county_density_map_40.jpg", bg = "transparent", width = 6, height = 4)
+tmap_save(map_lv_counties, "lv_county_density_map_45.jpg", bg = "transparent", width = 6, height = 4.5)
+tmap_save(map_lv_counties, "lv_county_density_map_50.jpg", bg = "transparent", width = 6, height = 5)
+tmap_save(map_lv_counties, "lv_county_density_map_55.jpg", bg = "transparent", width = 6, height = 5.5)
 
 # Viz: Number of Workers by County
 
@@ -1469,16 +1781,29 @@ lv_county_stats <- lv_county_stats[-index, ]
 viz_lv_wf_orig <- ggplot(lv_county_stats, aes(x = reorder(county, workers), y = workers)) +
          geom_bar(stat = "identity", fill = "tomato") +
   coord_flip() +
-  labs(title = "Workers by county",
+  labs(title = "Fig. 10: Workers by county",
        subtitle = "Lakeview Amphitheater",
        x = NULL,
        y = "Workers",
        caption = "Source: Onondaga County; Records disclosing ZIP")
 
 ggsave(plot = viz_lv_wf_orig,
-       filename = "lv_wf_orig_bar.jpg",
+       filename = "lv_wf_orig_bar_50.jpg",
        bg = "transparent",
-       height = 5.25)
+       width = 6,
+       height = 5)
+
+ggsave(plot = viz_lv_wf_orig,
+       filename = "lv_wf_orig_bar_55.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 5.5)
+
+ggsave(plot = viz_lv_wf_orig,
+       filename = "lv_wf_orig_bar_60.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 6)
 
 # Table: Workers Within & Without Syracuse by Race, Lakeview
 
@@ -1553,9 +1878,9 @@ viz_lv_in_syr <- ggplot(lv_in_syr,
        aes(x = reorder(race, workers), 
            y = workers, 
            fill = factor(within, levels = c("Within", "Outside")))) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
-  labs(title = "Workers within Syracuse by race",
+  labs(title = "Fig. 12: Workers in Syracuse by race",
        subtitle = "Lakeview Amphetheater",
        x = NULL,
        y = "Workers",
@@ -1563,9 +1888,22 @@ viz_lv_in_syr <- ggplot(lv_in_syr,
        caption = "Source: Onondaga County")
 
 ggsave(plot = viz_lv_in_syr,
-       filename = "lv_in_syr_bar.jpg",
-       bg = "transparent")
+       filename = "lv_in_syr_bar_20.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2)
 
+ggsave(plot = viz_lv_in_syr,
+       filename = "lv_in_syr_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_lv_in_syr,
+       filename = "lv_in_syr_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
 
 ### Hancock International Airport
 
@@ -1628,15 +1966,29 @@ hc_sxrc_narm <- hc_sxrc[-index, ]
 viz_hc_sxrc_narm <- ggplot(hc_sxrc_narm, aes(x = reorder(race, count), y = count)) +
   geom_bar(stat = "identity", fill = "tomato") +
   coord_flip() +
-  labs(title = "Unique workers by race",
+  labs(title = "Fig. 1: Unique workers by race",
        subtitle = "Hancock Airport",
        x = NULL,
        y = "Workers",
-       caption = "Source: Syracuse Regional Airport Authority; Records disclosing race")
+       caption = "Source: Records disclosing race\nSyracuse Regional Airport Authority")
 
 ggsave(plot = viz_hc_sxrc_narm, 
-       filename = "hc_sxrc_narm_bar.jpg",
-       bg = "transparent")
+       filename = "hc_sxrc_narm_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_hc_sxrc_narm, 
+       filename = "hc_sxrc_narm_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = viz_hc_sxrc_narm, 
+       filename = "hc_sxrc_narm_bar_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 # Table: Unique Workers by Race & Company
 
@@ -1696,9 +2048,9 @@ bar_hc_rc_con <- ggplot(viz_hc_rc_con, aes(x = factor(name, levels = c("Longhous
                                                       "Schalk and Son",
                                                       "Quality Structures")), 
                           y = workers, fill = race)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", width = 0.75) +
   coord_flip() +
-  labs(title = "Workers by company and race",
+  labs(title = "Fig. 2: Workers by company and race",
        subtitle = "Hancock Airport",
        x = NULL,
        y = "Workers",
@@ -1706,10 +2058,22 @@ bar_hc_rc_con <- ggplot(viz_hc_rc_con, aes(x = factor(name, levels = c("Longhous
        caption = "Source: Syracuse Regional Airport Authority; Records disclosing race")
 
 ggsave(plot = bar_hc_rc_con,
-       filename = "hc_rc_con_bar.jpg",
+       filename = "hc_rc_con_bar_25.jpg",
        bg = "transparent",
-       width = 7,
-       height = 5)
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = bar_hc_rc_con,
+       filename = "hc_rc_con_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = bar_hc_rc_con,
+       filename = "hc_rc_con_bar_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 # Table: Worker Hours by Race
 
@@ -1743,15 +2107,29 @@ viz_hc_rc_hrs <- ggplot(hc_rc_hrs, aes(x = reorder(race, hours), y = hours)) +
   coord_flip() +
   scale_y_continuous(breaks = c(0, 5000, 10000, 15000, 20000, 25000),
                      labels = c("0", "5", "10", "15", "20", "25 K")) +
-  labs(title = "Total hours by race",
+  labs(title = "Fig. 3: Total hours by race",
        subtitle = "Hancock Airport",
        x = NULL,
-       y = "Hours (Thousands)",
-       caption = "Source: Syracuse Regional Airport Authority; Records Diclosing Race")
+       y = "Hours",
+       caption = "Source: Records diclosing race\nSyracuse Regional Airport Authority")
 
 ggsave(plot = viz_hc_rc_hrs,
-       filename = "hc_rc_hrs_bars.jpg",
-       bg = "transparent")
+       filename = "hc_rc_hrs_bars_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_hc_rc_hrs,
+       filename = "hc_rc_hrs_bars_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
+
+ggsave(plot = viz_hc_rc_hrs,
+       filename = "hc_rc_hrs_bars_35.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3.5)
 
 # Table: Worker Wages by Race, Numbers & Percentages, Hancock
 
@@ -1776,7 +2154,8 @@ lv_grs_narm <- lv_grs %>%
 
 tbl_lv_grs <- lv_grs_narm %>%
   mutate(total = sum(gross, na.rm = TRUE),
-         perc = percent(perc, accuracy = 0.01)) %>%
+         perc = percent(perc, accuracy = 0.01),
+         gross = dollar(gross, big.mark = ",")) %>%
   select(-total) %>%
   rename(Race = race,
          Gross = gross,
@@ -1790,19 +2169,33 @@ lv_grs_narm <- lv_grs %>%
   filter(!is.na(race))
 
 viz_lv_grs <- ggplot(lv_grs_narm, aes(x = reorder(race, gross), y = gross)) +
-  geom_bar(stat = "identity", fill = "tomato") +
+  geom_bar(stat = "identity", fill = "tomato", width = .75) +
   coord_flip() +
   scale_y_continuous(breaks = c(0, 200000, 400000, 600000, 800000),
                      labels = c("$ 0", "200", "400", "600", "800 K")) +
-  labs(title = "Total gross by race",
+  labs(title = "Fig. 4: Total gross by race",
        subtitle = "Hancock Airport",
        x = NULL,
-       y = "Gross (Thousands)",
-       caption = "Source: Syracuse Regional Airport Authority; Records disclosing race")
+       y = "Gross (K)",
+       caption = "Source: Records disclosing race\nSyracuse Regional Airport Authority")
 
 ggsave(plot = viz_lv_grs, 
-       filename = "hc_grs_bar.jpg",
-       bg = "transparent")
+       filename = "hc_grs_bar_20.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2)
+
+ggsave(plot = viz_lv_grs, 
+       filename = "hc_grs_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_lv_grs, 
+       filename = "hc_grs_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
 
 # Viz: Distribution of Records by Gross & Race
 
@@ -1833,7 +2226,7 @@ viz_lv_rc_grs_dist <- ggplot(lv_rc_grs_dist, aes(x = factor(race,
   labs(title = "Distribution of gross payments by race",
        subtitle = "Hancock Airport",
        x = NULL,
-       y = "Gross (Thousands)",
+       y = "Gross (K)",
        caption = "Source: Syracuse Regional Airport Authority; Records disclosing race")
 
 ggsave(plot = viz_lv_rc_grs_dist,
@@ -1944,7 +2337,7 @@ hc_county_stats <- hc_stats %>%
 viz_hc_county <- ggplot(hc_county_stats, aes(x = reorder(county, workers), y = workers, fill = state)) +
   geom_bar(stat = "identity") +
   coord_flip() +
-  labs(title = "Workers by county, state",
+  labs(title = "Fig. 5: Workers by county, state",
        subtitle = "Hancock Airport",
        x = NULL,
        y = "Workers",
@@ -1952,10 +2345,28 @@ viz_hc_county <- ggplot(hc_county_stats, aes(x = reorder(county, workers), y = w
        caption = "Source: Syracuse Regional Airport Authority; Records disclosing ZIP")
 
 ggsave(plot = viz_hc_county,
-       filename = "hc_county_bar.jpg",
+       filename = "hc_county_bar_45.jpg",
+       bg = "transparent",
+       height = 4.5,
+       width = 6)
+
+ggsave(plot = viz_hc_county,
+       filename = "hc_county_bar_50.jpg",
        bg = "transparent",
        height = 5,
-       width = 5)
+       width = 6)
+
+ggsave(plot = viz_hc_county,
+       filename = "hc_county_bar_55.jpg",
+       bg = "transparent",
+       height = 5.5,
+       width = 6)
+
+ggsave(plot = viz_hc_county,
+       filename = "hc_county_bar_60.jpg",
+       bg = "transparent",
+       height = 6,
+       width = 6)
 
 # Map: Worker Density by County, Lakeview
 
@@ -1974,7 +2385,7 @@ sf_hc_county <- county %>%
 hc_wrk_map <- tm_shape(sf_hc_county) +
   tm_borders(col = "grey65") +
   tm_fill("Workers", colorNA = "grey100", palette = "Blues", textNA = "No Data", style = "jenks") +
-  tm_layout(main.title = "Worker density by county",
+  tm_layout(main.title = "Fig. 6: Worker density by county",
             main.title.size = 1.25,
             fontfamily = "Century Schoolbook",
             title.position = c("left", "top"),
@@ -1990,8 +2401,34 @@ hc_wrk_map <- tm_shape(sf_hc_county) +
              position = c("right", "bottom"), size = 0.5)
 
 tmap_save(tm = hc_wrk_map, 
-          filename = "hc_wrk_map.jpg",
-          bg = "transparent")
+          filename = "hc_wrk_map_25.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 2.5)
+
+tmap_save(tm = hc_wrk_map, 
+          filename = "hc_wrk_map_30.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 3)
+
+tmap_save(tm = hc_wrk_map, 
+          filename = "hc_wrk_map_35.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 3.5)
+
+tmap_save(tm = hc_wrk_map, 
+          filename = "hc_wrk_map_40.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 4)
+
+tmap_save(tm = hc_wrk_map, 
+          filename = "hc_wrk_map_45.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 4.5)
 
 # Map: Gross by County, Lakeview
 
@@ -2025,8 +2462,34 @@ hc_gross_map <- tm_shape(hc_gross_map) +
              position = c("right", "bottom"), size = 0.5)
 
 tmap_save(tm = hc_gross_map, 
-          filename = "hc_gross_map.jpg", 
-          bg = "transparent")
+          filename = "hc_gross_map_25.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 2.5)
+
+tmap_save(tm = hc_gross_map, 
+          filename = "hc_gross_map_30.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 3)
+
+tmap_save(tm = hc_gross_map, 
+          filename = "hc_gross_map_35.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 3.5)
+
+tmap_save(tm = hc_gross_map, 
+          filename = "hc_gross_map_40.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 4)
+
+tmap_save(tm = hc_gross_map, 
+          filename = "hc_gross_map_45.jpg",
+          bg = "transparent",
+          width = 6,
+          height = 4.5)
 
 # Workers Within & Without Syracuse by Race
 
@@ -2071,7 +2534,8 @@ hc_in_city_stats <- hc_in_city %>%
          rec_prc = records / sum(records),
          hrs_prc = hours / sum(hours),
          grs_prc = gross / sum(gross)) %>%
-  select(within:workers, wrk_prc, records, rec_prc, hours, hrs_prc, gross, grs_prc)
+  select(within:workers, wrk_prc, records, rec_prc, hours, hrs_prc, gross, grs_prc) %>%
+  arrange(desc(within), desc(workers))
 
 tbl_hc_in_city <- hc_in_city_stats %>%
   mutate(hours = number(hours, big.mark = ","),
@@ -2096,17 +2560,30 @@ viz_hc_city <- ggplot(hc_in_city_stats, aes(x = reorder(race, workers), y = work
                              fill = factor(within, levels = c("Within", "Outside")))) +
   geom_bar(stat = "identity") +
   coord_flip() +
-  labs(title = "Workers within Syracuse by race",
+  labs(title = "Fig. 7: Workers within Syracuse by race",
        subtitle = "Hancock Airport",
        x = NULL,
        y = "Workers",
        fill = "Syracuse",
-       caption = "Source: Syracuse Regional Airport Authority; Records disclosing ZIP, race")
+       caption = "Source: Records disclosing ZIP, race\nSyracuse Regional Airport Authority")
 
 ggsave(plot = viz_hc_city,
-       filename = "hc_in_city_bar.jpg",
-       bg = "transparent")
+       filename = "hc_in_city_bar_20.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2)
 
+ggsave(plot = viz_hc_city,
+       filename = "hc_in_city_bar_25.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 2.5)
+
+ggsave(plot = viz_hc_city,
+       filename = "hc_in_city_bar_30.jpg",
+       bg = "transparent",
+       width = 6,
+       height = 3)
 
 ### Recommended Visualizations & Tables
 
@@ -2176,8 +2653,8 @@ viz_lv_rc_hrs_dist <- ggplot(lv_dist, aes(x = factor(race,
 ggsave(plot = viz_lv_rc_hrs_dist, 
        filename = "lv_rc_hrs_dist.jpg", 
        bg = "transparent",
-       length = 5,
-       widht = 6)
+       height = 5,
+       width = 6)
 
 # Lakeview: Gross Distribution by Unique Record
 
@@ -2198,7 +2675,7 @@ viz_lv_rc_grs_dist <- ggplot(lv_dist, aes(x = factor(race,
   labs(title = "Distribution of gross by race",
        subtitle = "Lakeview Amphitheater",
        x = NULL,
-       y = "Gross (Thousands)",
+       y = "Gross (K)",
        caption = "Source: Onondaga County; Records disclosing race")
 
 ggsave(plot = viz_lv_rc_grs_dist, 
@@ -2338,7 +2815,7 @@ all_grs_dist_zoom <- ggplot(all_wrk_agg, aes(x = factor(race,
   labs(title = "",
        subtitle = "Scale: $ 0 - 25 K",
        y = "",
-       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYSOGS, NYSDOT; Records disclosing race")
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT; Records disclosing race")
 
 png("all_grs_dist_spec.jpg", width = 1000, height = 600, bg = "transparent")      # Note: Requires graphics device
 grid.arrange(all_grs_dist, all_grs_dist_zoom, ncol=2)
@@ -2357,9 +2834,35 @@ proj_grs_dist <- all_grs_dist +
   labs(title = "Distribution of total gross by race, project",
        subtitle = "All projects",
        x = NULL,
-       y = "Gross (Thousands)",
-       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYSOGS, NYSDOT; Records disclosing race")
+       y = "Gross (K)",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS OGS, NYS DOT; Records disclosing race")
 
 ggsave(plot = proj_grs_dist,
        filename = "proj_grs_dist.jpg",
        bg = "transparent")
+
+# Proportion of Total Workforce by Race, Project
+
+g <- all_races_viz_tmp %>%
+  ungroup()
+
+wf_rc_prop <- ggplot(g, aes(x = factor(project, levels = c("Hancock", "Lakeview", "I-690")), 
+                              y = percent, fill = factor(race, levels = c("White", "Multiracial", 
+                                                                          "Indigenous", "Hispanic", 
+                                                                          "Black", "Asian")))) +
+  geom_bar(stat = "identity", 
+           position = "fill") +
+  coord_flip() +
+  scale_y_continuous(labels = c("0 %", "", "50 %", "", "100 %"),
+                     breaks = c(0, 0.25, 0.5, 0.75, 1)) +
+  labs(title = "Workforce race proportions",
+       subtitle = "All projects",
+       x = NULL,
+       y = "Workforce",
+       fill = "Race",
+       caption = "Sources: Syracuse Airport Authority, Onondaga County, NYS DOT\nRecords disclosing race")
+
+ggsave(filename = "all_wf_rc_prop.jpg",
+       plot = wf_rc_prop,
+       width = 6,
+       height = 4)
