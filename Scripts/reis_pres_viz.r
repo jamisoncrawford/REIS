@@ -225,6 +225,26 @@ ggsave(plot = fig13,
        height = 6,
        width = 10)
 
+# FIG. 14
+
+fig14 <- ggplot(viz_exp_sxrc_hrs, aes(x = reorder(Race, Percent), y = Count, fill = Gender)) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(limits = c(0, 150000),
+                     breaks = c(0, 50000, 100000, 150000),
+                     labels = c("0", "50", "100", "150 K")) +
+  labs(title = "Hours worked by gender, race",
+       subtitle = "Expo Center",
+       x = NULL, 
+       y = "Hours (K)", 
+       caption = "Source: NYS OGS")
+
+ggsave(plot = fig14, 
+       filename = "fig14.jpg",
+       bg = "transparent",
+       width = 10,
+       height = 6)
+
 # FIG. 15
 
 fig15 <- ggplot(viz_expo_rc_grs, aes(x = reorder(Race, Percent), y = Count)) +
