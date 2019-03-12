@@ -298,7 +298,7 @@ fig16b <- ggplot(tmp_expo_rc_viz, aes(x = Race, y = Percent, fill = reorder(Indi
        caption = "Source: NYS OGS") +
   coord_flip(ylim = c(0, 0.05)) +
   scale_y_continuous(breaks = c(0, 0.025, 0.05),
-                     labels = c("0", "2.5 %", "5 %")) +
+                     labels = c("0", "2.5", "5 %")) +
   theme(legend.position = "right") +
   scale_fill_manual(values = c(adjustcolor(hue_pal()(2)[1], alpha.f = 1), 
                                adjustcolor(hue_pal()(2)[2], alpha.f = 1)),
