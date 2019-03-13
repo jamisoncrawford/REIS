@@ -1588,6 +1588,7 @@ lv_rc_con <- lvhc %>%
   select(-total) %>%
   mutate(name = factor(name,
                        levels = c("AM Electric",
+                                  "Evan Corporation",
                                   "Rommel Fence",
                                   "Postler & Jaeckle",
                                   "Atlas Fence",
@@ -1688,11 +1689,26 @@ lv_uniq_wrk_stats <- lvhc %>%
   ungroup() %>%
   mutate(zip = as.character(zip)) %>%
   left_join(zip_codes, by = "zip") %>%
-  mutate(fips = as.character(fips)) %>%
-  left_join(county, by = c("fips", "state")) %>%
+  mutate(fips = as.character(fips),
+         GEOID = fips) %>%
+  left_join(county) %>%
   select(project:longitude, county_name)
 
 lv_county_stats <- lv_uniq_wrk_stats %>%
+  group_by(county_name, state) %>%
+  summarize(workers = n(),
+            records = sum(records, na.rm = TRUE),
+            gross = sum(gross, na.rm = TRUE),
+            hours = sum(hours, na.rm = TRUE)) %>%
+  ungroup() %>%
+  rename(county = county_name) %>%
+  arrange(desc(gross)) %>%
+  mutate(wrk_prc = workers / sum(workers, na.rm = TRUE),
+         rec_prc = records / sum(records, na.rm = TRUE),
+         grs_prc = gross / sum(gross, na.rm = TRUE),
+         hrs_prc = hours / sum(hours, na.rm = TRUE))
+
+lv_uniq <- lv_uniq_wrk_stats %>%
   group_by(county_name, state) %>%
   summarize(workers = n(),
             records = sum(records, na.rm = TRUE),
@@ -1785,8 +1801,15 @@ tmap_save(map_lv_counties, "lv_county_density_map_55.jpg", bg = "transparent", w
 index <- which(lv_county_stats$county == "-")
 lv_county_stats <- lv_county_stats[-index, ]
 
-viz_lv_wf_orig <- ggplot(lv_county_stats, aes(x = reorder(county, workers), y = workers)) +
-         geom_bar(stat = "identity", fill = "tomato") +
+lv_uniq_wrk_stats2 <- lv_uniq_wrk_stats %>%
+  filter(!is.na(county_name)) %>%
+  group_by(county_name) %>%
+  summarize(count = n()) %>%
+  ungroup() %>%
+  arrange(reorder(county_name, desc(count)))
+
+viz_lv_wf_orig <- ggplot(lv_uniq_wrk_stats2, aes(x = reorder(county_name, count), y = count)) +
+         geom_bar(stat = "identity", fill = "tomato", width = 0.75 ) +
   coord_flip() +
   labs(title = "Fig. 10: Workers by county",
        subtitle = "Lakeview Amphitheater",
@@ -1832,7 +1855,7 @@ zips <- c("13204",
 for (i in seq_along(lv_in_syr$within)){
   if (!is.na(lv_in_syr$zip[i]) & lv_in_syr$zip[i] %in% zips){
     lv_in_syr$within[i] <- "Within" 
-  } else {
+  } else if (!is.na(lv_in_syr$zip[i])){
     lv_in_syr$within[i] <- "Outside"
   }
 }
@@ -1873,12 +1896,16 @@ tbl_lv_in_syr <- lv_in_syr %>%
 
 index <- which(is.na(tbl_lv_in_syr$Race))
 tbl_lv_in_syr[index, "Race"] <- "-"
+index <- which(is.na(tbl_lv_in_syr$`Syracuse City Limits`))
+tbl_lv_in_syr[index, "Syracuse City Limits"] <- "-"
 
 write_excel_csv(tbl_lv_in_syr, "lv_in_syr_tbl.csv")
 
 # Viz: Workers Within & Without Syracuse by Race
 
 index <- which(is.na(lv_in_syr$race))
+lv_in_syr <- lv_in_syr[-index, ]
+index <- which(is.na(lv_in_syr$within))
 lv_in_syr <- lv_in_syr[-index, ]
 
 viz_lv_in_syr <- ggplot(lv_in_syr, 
